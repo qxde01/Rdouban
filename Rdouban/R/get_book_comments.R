@@ -6,7 +6,7 @@ get_book_comments<-function(bookid,n=50,...){
   
   titlenode <- getNodeSet(pagetree, '//title')
   titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的评论| ',' ',titleinfo)
+  titleinfo<-gsub('\n|的评论| ',' ',titleinfo,fixed = T)
   titleinfo<-unlist(strsplit(titleinfo,' '))
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
@@ -16,7 +16,6 @@ get_book_comments<-function(bookid,n=50,...){
   .get_comment<-function(pagetree,...){
     ##评论的url及作者的主页url
     cmtnode <- getNodeSet(pagetree, '//a[@title]')
-    
     cmturl<-sapply(cmtnode,function(x) xmlGetAttr(x, "href"))
     
     authorurl<-cmturl[grep('/people/',cmturl)]
@@ -36,7 +35,7 @@ get_book_comments<-function(bookid,n=50,...){
       
       ratingnode <- getNodeSet(cmttree, '//span[@property="v:rating"]')
       rating<-sapply(ratingnode, xmlValue)
-        
+      
       usefulnode <- getNodeSet(cmttree, '//span[@class="useful"]')
       usefulinfo<-sapply(usefulnode, xmlValue)
       useful<-as.integer(gsub('[^0-9]','',usefulinfo))
@@ -76,5 +75,4 @@ get_book_comments<-function(bookid,n=50,...){
        comments_amount=comments_amount,
        comment_info=as.data.frame(comment_info))
 }
-
 
