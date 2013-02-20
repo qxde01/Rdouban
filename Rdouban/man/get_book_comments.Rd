@@ -1,6 +1,5 @@
 \name{get_book_comments}
 \alias{get_book_comments}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 获取豆瓣图书的评论文章.
 }
@@ -10,7 +9,7 @@
 \usage{
 get_book_comments(bookid,n=50,...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{bookid}{ 豆瓣书籍的id号,一串数字,如20326626}
   \item{n}{获取评论的数量，默认n=50}
@@ -30,9 +29,7 @@ get_book_comments(bookid,n=50,...)
   \code{author_url}作者主页, 
   \code{commen_turl}该评论文章的主页}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 <\email{qxde01@@gmail.com}>
 }
