@@ -6,7 +6,7 @@ get_book_comments<-function(bookid,n=50,...){
   
   titlenode <- getNodeSet(pagetree, '//title')
   titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的评论| ',' ',titleinfo,fixed = T)
+  titleinfo<-gsub('\n|的评论| ',' ',titleinfo,fixed = F)
   titleinfo<-unlist(strsplit(titleinfo,' '))
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
@@ -29,13 +29,16 @@ get_book_comments<-function(bookid,n=50,...){
       titlenode <- getNodeSet(cmttree, '//title')
       title<-sapply(titlenode, xmlValue)
       title<-gsub('\n| ','',title)
-      ## 评论作者的昵称、评分及网友的对他的评价（有用和无用的数量）
+      ## 评论作者的昵称
       authornode <- getNodeSet(cmttree, '//span[@property="v:reviewer"]')
       author<-sapply(authornode, xmlValue)
-      
+      ##作者评分
       ratingnode <- getNodeSet(cmttree, '//span[@property="v:rating"]')
       rating<-sapply(ratingnode, xmlValue)
-      
+      ##评论发表时间
+      timenode <- getNodeSet(cmttree, '//span[@property="v:dtreviewed"]')
+      time<-sapply(timenode, xmlValue)
+      ##网友的评价(有用和无用的数量)
       usefulnode <- getNodeSet(cmttree, '//span[@class="useful"]')
       usefulinfo<-sapply(usefulnode, xmlValue)
       useful<-as.integer(gsub('[^0-9]','',usefulinfo))
@@ -47,8 +50,9 @@ get_book_comments<-function(bookid,n=50,...){
       commentnode <- getNodeSet(cmttree, '//span[@property="v:description"]')
       comment<-sapply(commentnode, xmlValue)
       
-      cmt0<-c(titles=title,comments=comment,authors=author,rating=rating,
-              useful=useful,unuseful=unuseful,author_url=authorurl[i],commen_turl=commenturl[i])
+      cmt0<-c(titles=title,comments=comment,time=time,authors=author,rating=rating,
+              useful=useful,unuseful=unuseful,authors_url=authorurl[i],
+              comments_url=commenturl[i])
       cmt<-rbind(cmt,cmt0)
     }
     row.names(cmt)<-NULL
@@ -73,6 +77,6 @@ get_book_comments<-function(bookid,n=50,...){
   row.names(comment_info)<-NULL
   list(book_title=book_title,
        comments_amount=comments_amount,
-       comment_info=as.data.frame(comment_info))
+       comment_info=as.data.frame(comment_info,stringsAsFactors=F))
 }
 
