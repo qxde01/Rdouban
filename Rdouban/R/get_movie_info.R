@@ -68,4 +68,4 @@ get_movie_info<-function(movieid,...){
        audience=audience)
   
 }
-get_movie_info(movieid=10527209)
+## get_movie_info(movieid=10527209)
