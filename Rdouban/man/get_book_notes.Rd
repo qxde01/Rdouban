@@ -17,8 +17,8 @@ get_book_notes(bookid,n=50, ...)
 
 \value{
   一个列表(list), 包括:
-  \item{book_title}{书籍名称} 
-  \item{notes_amount}{笔记文章总数}
+  \item{book_title}{一个字符串，书籍名称} 
+  \item{notes_amount}{一个整数，笔记文章总数}
   \item{notes_info}{一个data.frame,包含8列:
     \code{titles}评论文章名称,    
     \code{notes}读书笔记内容,
@@ -39,7 +39,6 @@ get_book_notes(bookid,n=50, ...)
 \code{\link{get_book_comments}}
 }
 \examples{
-
 \dontrun{get_book_notes(bookid='2120492',n=50)}
 }
 
