@@ -1,6 +1,6 @@
 
 get_book_notes<-function(bookid,n=50,...){
-
+  
   strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation')
   pagetree <- htmlParse(getURL(strurl))
   titlenode <- getNodeSet(pagetree, '//title')
@@ -68,4 +68,3 @@ get_book_notes<-function(bookid,n=50,...){
        notes_amount=notes_amount,
        notes_info=as.data.frame(notes_info,stringsAsFactors=F))
 }
-

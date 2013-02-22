@@ -79,4 +79,3 @@ get_book_comments<-function(bookid,n=50,...){
        comments_amount=comments_amount,
        comment_info=as.data.frame(comment_info,stringsAsFactors=F))
 }
-

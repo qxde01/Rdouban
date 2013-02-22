@@ -4,8 +4,7 @@
 
 get_book_info<-function(bookid,...){
   strurl=paste0('http://book.douban.com/subject/',bookid,'/')
-  pagetree<-getURL(strurl)
-  pagetree <- htmlParse(pagetree)
+  pagetree <- htmlParse(getURL(strurl))
   
   ## author ISBN ...
   booknode <- getNodeSet(pagetree, '//div[@id="info"]')
@@ -15,7 +14,7 @@ get_book_info<-function(bookid,...){
   ## rating
   votenode <- getNodeSet(pagetree, '//div[@id="interest_sectl"]')
   voteinfo<-sapply(votenode, xmlValue)
-  voteinfo<-gsub('\n|','',voteinfo)
+  voteinfo<-gsub('\n','',voteinfo)
   voteinfo<-unlist(strsplit(voteinfo,' '))
   voteinfo<-voteinfo[nchar(voteinfo)>0]
   voteinfo[2]<-gsub('[^0-9]','',voteinfo[2])
@@ -26,36 +25,42 @@ get_book_info<-function(bookid,...){
   contentnode <- getNodeSet(pagetree, '//div[@class="intro"]')
   contentinfo<-sapply(contentnode, xmlValue)
   if(length(contentinfo)>2)
-    contentinfo<-contentinfo[-grep('...(全部展开)',contentinfo)]
+    contentinfo<-contentinfo[-grep('...\\(展开全部\\)',contentinfo)]
   contentinfo<-gsub('\n| ','',contentinfo)
   clen=length(contentinfo)
   content_intro<-contentinfo[1]
   author_intro<-contentinfo[2]
   
   ##labels
-  labelnode <- getNodeSet(pagetree, '//div[@id="db-tags-section"]')
-  labelinfo<-sapply(labelnode, xmlValue)
-  labelinfo<-gsub(' ','',labelinfo)
-  write(labelinfo,'labelinfo.txt')
-  labelinfo<-readLines('labelinfo.txt');file.remove('labelinfo.txt')
-  labelinfo<-unlist(strsplit(gsub('<[^><]*>|\n','',labelinfo),'\\(|\\)'))
-  label_all_number<-as.integer(gsub('[^0-9]','',labelinfo[2]))
-  labelinfo<-labelinfo[c(-1,-2,-3)]
+  labels_amount <- gsub('[^0-9]','',sapply(
+    getNodeSet(pagetree, '//div[@id="db-tags-section"]//h2'),xmlValue))
+  labelinfo<-sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//div'), xmlValue)
   
-  label_name<-labelinfo[-grep('[0-9]',labelinfo)]
-  label_freq<-as.integer(labelinfo[grep('[0-9]',labelinfo)])
+  labelinfo<-iconv(labelinfo,from='UTF-8',to='GB18030')
+  labelinfo<-gsub("\x810\x842| ",'',labelinfo)
+  labelinfo<-unlist(strsplit(labelinfo,' |\\(|\\)'))
+  labels_name<-labelinfo[seq(1,length(labelinfo),2)]
+  labels_freq<-labelinfo[seq(2,length(labelinfo),2)]
   ## reader info
-  readnode <- getNodeSet(pagetree, '//p[@class="pl"]//a[@href]')
-  readinfo<-sapply(readnode, xmlValue)
-  readinfo<-readinfo[3:5]
-  readerinfo<-as.integer(gsub('[^0-9]','',readinfo))
+  readnode <- getNodeSet(pagetree, '//div[@class="indent"]//p[@class="pl"]//a')
+  readerinfo<-as.integer(gsub('[^0-9]','',sapply(readnode, xmlValue)))
   names(readerinfo)<-c('doings','collections','wishes')
+  ##书评、笔记的数量
+  comments_amount<-sapply(getNodeSet(pagetree, '//div[@id="reviews"]//h2'), xmlValue)
+  comments_amount<-gsub('[^0-9]','',comments_amount)
+  notes_amount<-sapply(getNodeSet(pagetree, '//div[@class="hd"]'), xmlValue)
+  notes_amount<-gsub('[^0-9]','',notes_amount)
+  if(length(comments_amount)==0)comments_amount<-NA
+  if(length(notes_amount)==0)notes_amount<-NA
+  comments_notes_amount<-as.integer(c(comments_amount,notes_amount))
+  names(comments_notes_amount)<-c('comments_amount','notes_amount')
   
-  list(book_info=bookinfo,
+  list(book_base_info=bookinfo,
        votes_info=voteinfo,
        content_intro=content_intro,
        author_intro=author_intro,
-       label_all_number=label_all_number,
-       labels=data.frame(label_name,label_freq),
+       labels_amount=as.integer(labels_amount),
+       labels=data.frame(labels_name,labels_freq=as.integer(labels_freq),stringsAsFactors=F),
+       comments_notes_amount=comments_notes_amount,
        reader_info=readerinfo)
 }
