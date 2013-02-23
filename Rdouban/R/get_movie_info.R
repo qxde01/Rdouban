@@ -17,13 +17,13 @@ get_movie_info<-function(movieid,...){
   voteinfo<-as.numeric(gsub('%','',voteinfo))
   names(voteinfo)<-c('score','votes','stars5','stars4','stars3','stars2','stars1')
   voteinfo[3:7]<-voteinfo[3:7]/100
-  ##电影简介
+  ##the introduction of movie
   intronode <- getNodeSet(pagetree, '//span[@class="all hidden"]')
-   if(length(intronode)==0)
-     intronode <- getNodeSet(pagetree, '//span[@property="v:summary"]')
+  if(length(intronode)==0)
+    intronode <- getNodeSet(pagetree, '//span[@property="v:summary"]')
   introinfo<-sapply(intronode, xmlValue)
-   
-   ## 常用标签 
+  
+  ## 常用标签 
   labels_amount <- sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//h2'), xmlValue)
   labels_amount<-as.integer(gsub('[^0-9]','',labels_amount))
   labelinfo<-sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//div'), xmlValue)

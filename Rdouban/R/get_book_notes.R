@@ -8,7 +8,7 @@ get_book_notes<-function(bookid,n=50,...){
   titleinfo<-gsub('\n|的笔记| |\\(|\\)','',titleinfo,fixed = F)
   book_title<-gsub('[0-9]','',titleinfo)
   notes_amount<-as.integer(gsub('[^0-9]','',titleinfo))
-  cat('总共',notes_amount,'篇读书笔记...\n')
+  cat('There are',notes_amount,'notes...\n')
   
   .get_note<-function(pagetree,...){
     notenode <- getNodeSet(pagetree, '//a[@href]')
@@ -21,18 +21,18 @@ get_book_notes<-function(bookid,n=50,...){
     
     nt<-c()
     for(i in 1:m){
-      cat('正在获取 ',note_url[i],' 的内容...\n')
+      cat('Getting ',note_url[i],' ...\n')
       notetree <- htmlParse(getURL(note_url[i]))
-      ## 读书笔记的名称
+      ##  the title of note
       titlenode <- getNodeSet(notetree, '//title')
       note_title<-gsub('\n| ','',sapply(titlenode, xmlValue))
-      ## 读书笔记发表的时间
+      ## the time of note realsed
       timenode <- getNodeSet(notetree, '//span[@class="pubtime"]')
       note_time<-sapply(timenode, xmlValue)
-      ## 作者昵称
+      ## the nickname of author
       authornode <- getNodeSet(notetree, '//h6//a')[1]
       author<-sapply(authornode, xmlValue)
-      ##作者评分
+      ##the rating of author
       ratingnode <- getNodeSet(notetree, '//div[@class="mod profile clearfix"]//span[@class]')
       rating<-sapply(ratingnode,function(x) xmlGetAttr(x, "class"))[2]
       rating<-gsub('[^0-9]','',rating)
@@ -49,13 +49,11 @@ get_book_notes<-function(bookid,n=50,...){
     nt
   }
   
-  if(n>notes_amount) n=notes_amount
-  pages=ceiling(n/10)
-  
+  pages=ceiling(min(n,notes_amount)/10)
   notes_info<-.get_note(pagetree)
   if(pages>1){
     for(pg in 2:pages){
-      cat('正在获取第',(pg-1)*10+1,'～',pg*10,'篇读书笔记...\n')
+      cat('Getting',(pg-1)*10+1,'--',pg*10,'notes...\n')
       strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation?sort=rank&start=',(pg-1)*10)
       pagetree <- htmlParse(getURL(strurl))
       

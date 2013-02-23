@@ -11,7 +11,7 @@ get_book_comments<-function(bookid,n=50,...){
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
   comments_amount<-as.integer(gsub('[^0-9]','',titleinfo[2]))
-  cat('总共',comments_amount,'篇评论...\n')
+  cat('There are',comments_amount,'comments...\n')
   
   .get_comment<-function(pagetree,...){
     ##评论的url及作者的主页url
@@ -23,22 +23,22 @@ get_book_comments<-function(bookid,n=50,...){
     m=length(commenturl)
     cmt<-c()
     for(i in 1:m){
-      cat('正在获取 ',commenturl[i],' 的内容...\n')
+      cat('Getting ',commenturl[i],' ...\n')
       cmttree <- htmlParse(getURL(commenturl[i]))
-      ## 评论的名称
+      ## the title of comment
       titlenode <- getNodeSet(cmttree, '//title')
       title<-sapply(titlenode, xmlValue)
       title<-gsub('\n| ','',title)
       ## 评论作者的昵称
       authornode <- getNodeSet(cmttree, '//span[@property="v:reviewer"]')
       author<-sapply(authornode, xmlValue)
-      ##作者评分
+      ## rating of author
       ratingnode <- getNodeSet(cmttree, '//span[@property="v:rating"]')
       rating<-sapply(ratingnode, xmlValue)
       ##评论发表时间
       timenode <- getNodeSet(cmttree, '//span[@property="v:dtreviewed"]')
       time<-sapply(timenode, xmlValue)
-      ##网友的评价(有用和无用的数量)
+      ## a judge by ther douban users :amount of usful and unuseful
       usefulnode <- getNodeSet(cmttree, '//span[@class="useful"]')
       usefulinfo<-sapply(usefulnode, xmlValue)
       useful<-as.integer(gsub('[^0-9]','',usefulinfo))
@@ -58,15 +58,13 @@ get_book_comments<-function(bookid,n=50,...){
     row.names(cmt)<-NULL
     cmt
   }
-  
-  if(n>comments_amount) n=comments_amount
-  pages=ceiling(n/25)
-  
+
+  pages=ceiling(min(n,comments_amount)/25)
   comment_info<-.get_comment(pagetree)
   
   if(pages>1){
     for(pg in 2:pages){
-      cat('正在获取第',(pg-1)*25+1,'～',pg*25,'篇评论...\n')
+      cat('Getting',(pg-1)*25+1,'--',pg*25,'comments...\n')
       strurl=paste0('http://book.douban.com/subject/',bookid,'/reviews?score=&start=',(pg-1)*25)
       pagetree <- htmlParse(getURL(strurl))
       #pagetree <- htmlParse(strurl)
@@ -79,3 +77,5 @@ get_book_comments<-function(bookid,n=50,...){
        comments_amount=comments_amount,
        comment_info=as.data.frame(comment_info,stringsAsFactors=F))
 }
+
+

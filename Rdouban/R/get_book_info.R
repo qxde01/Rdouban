@@ -1,7 +1,4 @@
 
-## get douban book infomation
-## 
-
 get_book_info<-function(bookid,...){
   strurl=paste0('http://book.douban.com/subject/',bookid,'/')
   pagetree <- htmlParse(getURL(strurl))
