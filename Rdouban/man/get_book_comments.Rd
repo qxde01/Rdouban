@@ -13,7 +13,7 @@
 \value{一个列表list, 包括:
   \item{book_title}{一个字符串,书籍名称} \item{comments_amount}{一个整数,评论文章总数}\item{comment_info}{一个data.frame,包含8列:\code{titles}评论文章名称,\code{comments}评论文章内容,\code{time}评论发表时间,\code{authors}作者昵称, \code{rating}作者评分,\code{useful}该评论被赞为有用的数量,\code{unuseful}该评论被批评为无用的数量,\code{author_url}作者主页, \code{comments_url}该评论文章的主页}
 }
-\note{若实际短评数小于n，则获取的是实际数，若实际数，则获取到的数量是\code{ceiling(n/20)*20}.}
+\note{若实际评论数小于n，则获取的是实际数，若实际数，则获取到的数量是\code{ceiling(n/25)*25}.}
 
 \author{qxde01<\email{qxde01@@gmail.com}>
 }
