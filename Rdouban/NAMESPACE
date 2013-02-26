@@ -3,4 +3,6 @@ export(get_book_info,
 	get_book_notes,
   get_movie_info,
   get_movie_comments,
-  get_movie_reviews)
+  get_movie_reviews,
+  get_movie_discussions,
+  get_music_info)
