@@ -2,29 +2,32 @@
 \name{get_music_info}
 \alias{get_music_info}
 
-\title{è·å–è±†ç“£éŸ³ä¹çš„ä¸“è¾‘ä¿¡æ¯
+\title{»ñÈ¡¶¹°êÒôÀÖµÄ×¨¼­ĞÅÏ¢
 }
 \description{
-è·å–è±†ç“£éŸ³ä¹çš„ä¸“è¾‘ä¿¡æ¯,åŒ…æ‹¬æ­Œæ‰‹ã€ä¸“è¾‘åç§°ç­‰ã€‚
+»ñÈ¡¶¹°êÒôÀÖµÄ×¨¼­ĞÅÏ¢,°üÀ¨¸èÊÖ¡¢×¨¼­Ãû³ÆµÈ¡£
 }
 \usage{get_music_info(musicid,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{musicid}{è±†ç“£éŸ³ä¹ä¸“è¾‘IDå· }
+  \item{musicid}{¶¹°êÒôÀÖ×¨¼­IDºÅ }
 
 }
 
 \value{
-  \item{title}{éŸ³ä¹ä¸“è¾‘åç§° }
-  \item{base_info}{ ä¸“è¾‘åŸºæœ¬ä¿¡æ¯ï¼ŒåŒ…æ‹¬æ­Œæ‰‹ã€å‡ºç‰ˆç¤¾ã€å‘è¡Œæ—¶é—´ç­‰ }
-  \item{track}{ ä¸“è¾‘æ‰€åŒ…æ‹¬çš„æ­Œæ›²åç§°}
-  \item{music_intro}{ä¸“è¾‘ç®€ä»‹ }
-  \item{labels_amount}{ å¬ä¼—æ‰€ç”¨æ ‡ç­¾æ€»æ•° }
-  \item{labels }{å¸¸è§æ ‡ç­¾ï¼Œä¸€ä¸ªåŒ…å«2åˆ—çš„data.frame:æ ‡ç­¾åç§°\code{labels_name}åŠå¯¹åº”çš„æ ‡ç­¾é¢‘ç‡\code{labels_freq}}
-  \item{rating}{è¯„åˆ†ä¿¡æ¯,\code{score}ä¸ºæ€»è¯„åˆ†,\code{votes_amount}ä¸ºè¯„åˆ†å¬ä¼—æ€»æ•°,\code{starx}ä¸ºå¯¹åº”çš„è¯„åˆ†å¬ä¼—æ‰€å æ€»è¯„åˆ†çš„æ¯”ä¾‹ }
-  \item{audience}{å¬ä¼—ä¿¡æ¯, \code{comments_amount}ä¸ºå‘è¡¨è¯„è®ºçš„å¬ä¼—æ•°,\code{doings}æŒ‡æ­£åœ¨å¬çš„å¬ä¼—æ•°é‡,\code{collections}æŒ‡å·²å¬è¿‡çš„å¬ä¼—æ•°é‡,\code{wishes}æŒ‡æƒ³å¬çš„ç”¨æˆ·æ•°é‡}}
-  
+  \item{title}{ÒôÀÖ×¨¼­Ãû³Æ }
+  \item{base_info}{ ×¨¼­»ù±¾ĞÅÏ¢£¬°üÀ¨¸èÊÖ¡¢³ö°æÉç¡¢·¢ĞĞÊ±¼äµÈ }
+  \item{track}{ ×¨¼­Ëù°üÀ¨µÄ¸èÇúÃû³Æ}
+  \item{music_intro}{×¨¼­¼ò½é }
+  \item{labels_amount}{ ÌıÖÚËùÓÃ±êÇ©×ÜÊı }
+  \item{labels }{³£¼û±êÇ©£¬Ò»¸ö°üº¬2ÁĞµÄdata.frame:±êÇ©Ãû³Æ\code{labels_name}¼°¶ÔÓ¦µÄ±êÇ©ÆµÂÊ\code{labels_freq}}
+  \item{rating}{ÆÀ·ÖĞÅÏ¢,\code{score}Îª×ÜÆÀ·Ö,\code{votes_amount}ÎªÆÀ·ÖÌıÖÚ×ÜÊı,\code{starx}Îª¶ÔÓ¦µÄÆÀ·ÖÌıÖÚËùÕ¼×ÜÆÀ·ÖµÄ±ÈÀı }
+  \item{audience}{ÌıÖÚĞÅÏ¢,
+   \code{comments_amount}Îª·¢±íÆÀÂÛµÄÌıÖÚÊı,
+   \code{doings}Ö¸ÕıÔÚÌıµÄÌıÖÚÊıÁ¿,\
+   code{collections}Ö¸ÒÑÌı¹ıµÄÌıÖÚÊıÁ¿,
+   \code{wishes}Ö¸ÏëÌıµÄÓÃ»§ÊıÁ¿}
 }
 \references{
 %% ~put references to the literature/web site here ~

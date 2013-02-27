@@ -8,12 +8,11 @@
 \usage{
 get_movie_discussions(movieid,n=100,verbose=TRUE,...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{movieid}{豆瓣电影或电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
   \item{n}{获取话题的数量,默认n=100.}
   \item{verbose}{当\code{verbose=True}时,显示函数的执行过程信息,\code{verbose=False}时不显示,默认为\code{True}.}
-}
 }
 
 \value{一个data.frame,共7列:
