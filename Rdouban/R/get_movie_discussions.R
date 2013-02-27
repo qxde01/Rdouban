@@ -7,7 +7,7 @@ get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
                            sapply(getNodeSet(pagetree, '//span[@class="count"]'),xmlValue))
   if (length(discussions_amount)==0)
     stop('There is no discussions about this movie(or TV).')
-  cat('There is a tatal of ',discussions_amount,'discussions...\n')
+  cat('There is a total of ',discussions_amount,'discussions...\n')
   
   .get_discussion<-function(pagetree){
     #title<-gsub('\n','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
@@ -42,7 +42,7 @@ get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
   
   if(pages>1){
     for(pg in 2:pages){
-      if(verbose==TRUE) {cat('Getting',(pg-1)*20+1,'--',pg*20,'discussions...\n')}
+      if(verbose==TRUE) {cat(' Getting',(pg-1)*20+1,'--',pg*20,'discussions...\n')}
       
       strurl=paste0('http://movie.douban.com/subject/',movieid,
                     '/discussion/?start=',(pg-1)*20,'&sort=vote/')

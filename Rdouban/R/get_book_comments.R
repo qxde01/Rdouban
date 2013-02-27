@@ -11,7 +11,7 @@ get_book_comments<-function(bookid,n=50,...){
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
   comments_amount<-as.integer(gsub('[^0-9]','',titleinfo[2]))
-  cat('There are',comments_amount,'comments...\n')
+  cat('There is a tatol of',comments_amount,'comments...\n')
   
   .get_comment<-function(pagetree,...){
     ##评论的url及作者的主页url
@@ -64,7 +64,7 @@ get_book_comments<-function(bookid,n=50,...){
   
   if(pages>1){
     for(pg in 2:pages){
-      cat('Getting',(pg-1)*25+1,'--',pg*25,'comments...\n')
+      cat(' Getting',(pg-1)*25+1,'--',pg*25,'comments...\n')
       strurl=paste0('http://book.douban.com/subject/',bookid,'/reviews?score=&start=',(pg-1)*25)
       pagetree <- htmlParse(getURL(strurl))
       #pagetree <- htmlParse(strurl)

@@ -28,7 +28,7 @@ get_movie_comments<-function(movieid,n=100,...){
   
   if(pages>1){
     for(pg in 2:pages){
-      cat('Getting',(pg-1)*20+1,'--',pg*20,'comments...\n')
+      cat(' Getting',(pg-1)*20+1,'--',pg*20,'comments...\n')
       strurl=paste0('http://movie.douban.com/subject/',movieid,'/comments?start=',(pg-1)*20+1,'&limit=20&sort=new_score')
       pagetree <- htmlParse(getURL(strurl))
       short_comments0<-.get_comment(pagetree)
