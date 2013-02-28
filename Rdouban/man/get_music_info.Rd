@@ -7,7 +7,7 @@
 \description{
 获取豆瓣音乐的专辑信息,包括歌手、专辑名称等。
 }
-\usage{get_music_info(musicid,...)
+\usage{get_music_info(musicid)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

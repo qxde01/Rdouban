@@ -38,7 +38,7 @@
 
 \examples{
  ## http://music.douban.com/subject/3843530/reviews
- \dontrun{get_music_comments(musicid=3843530,n=50,verbosr=T)}
+ \dontrun{get_music_comments(musicid=3843530,n=50,verbose=T)}
 }
 
 \keyword{music}

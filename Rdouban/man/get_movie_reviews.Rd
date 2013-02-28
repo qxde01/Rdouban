@@ -6,12 +6,12 @@
 }
 \description{获取豆瓣电影和电视剧的长篇影评.
 }
-\usage{get_movie_reviews(movieid=5308265,n=50,...)
+\usage{get_movie_reviews(movieid,n=100,...)
 }
 
 \arguments{
   \item{movieid}{豆瓣电影和电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
-  \item{n}{获取长篇影评的数量,默认n=50.}
+  \item{n}{获取长篇影评的数量,默认n=100.}
 }
 
 \value{

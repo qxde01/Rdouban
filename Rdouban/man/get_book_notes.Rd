@@ -4,10 +4,10 @@
 
 \title{获取豆瓣图书的读书笔记}
 \description{获取豆瓣图书的读书笔记.}
-\usage{get_book_notes(bookid,n=50, ...)}
+\usage{get_book_notes(bookid,n=100)}
 \arguments{
   \item{bookid}{豆瓣书籍的id号,一串数字,如20326626}
-  \item{n}{获取读书笔记的篇数,默认n=50}
+  \item{n}{获取读书笔记的篇数,默认n=100}
 }
 
 \value{ 一个列表(list), 包括:
@@ -22,7 +22,8 @@
 \seealso{\code{\link{get_book_comments}}
 }
 \examples{
-\dontrun{get_book_notes(bookid='2120492',n=50)}
+## http://book.douban.com/subject/1291204/annotation
+\dontrun{get_book_notes(bookid='1291204',n=50)}
 }
 
 \keyword{note}

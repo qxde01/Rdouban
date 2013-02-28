@@ -1,9 +1,9 @@
 \encoding{UTF-8}
 \name{get_movie_discussions}
 \alias{get_movie_discussions}
-\title{获取豆瓣关于某个电影讨论话题
+\title{获取关于某个豆瓣电影的话题讨论内容
 }
-\description{获取豆瓣关于某个电影讨论话题.
+\description{获取关于某个豆瓣电影的话题讨论内容.
 }
 \usage{
 get_movie_discussions(movieid,n=100,verbose=TRUE,...)
@@ -38,7 +38,7 @@ qxde01<\email{qxde01@@gmail.com}>
 }
 \examples{
 ## http://movie.douban.com/subject/5308265/discussion/
-\dontrun{get_movie_disussions(movieid=5308265,n=100)}
+\dontrun{get_movie_discussions(movieid=5308265,n=100)}
 }
 
-\keyword{disussion}
+\keyword{discussion}

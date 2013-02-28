@@ -7,7 +7,7 @@
 
 \description{获取豆瓣电影和电视剧的短评.}
 
-\usage{get_movie_comments(movieid,n=100,...)}
+\usage{get_movie_comments(movieid,n=100)}
 
 \arguments{
   \item{movieid}{豆瓣电影和电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
