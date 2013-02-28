@@ -1,5 +1,5 @@
 
-get_book_notes<-function(bookid,n=50,...){
+get_book_notes<-function(bookid,n=100,...){
   
   strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation')
   pagetree <- htmlParse(getURL(strurl))

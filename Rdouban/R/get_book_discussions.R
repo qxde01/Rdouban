@@ -1,7 +1,7 @@
-#http://movie.douban.com/subject/5308265/discussion/
-##x<-get_movie_discussions(movieid=5308265,n=40,verbose=F)
-get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
-  strurl=paste0('http://movie.douban.com/subject/',movieid,'/discussion/')
+##http://book.douban.com/subject/1291204/discussion/
+##bookid=1291204
+get_book_discussions<-function(bookid,n=100,verbose=TRUE){
+  strurl=paste0('http://book.douban.com/subject/',bookid,'/discussion/')
   pagetree <- htmlParse(getURL(strurl))
   discussions_amount<-gsub('[^0-9]','',
                            sapply(getNodeSet(pagetree, '//span[@class="count"]'),xmlValue))
@@ -9,7 +9,7 @@ get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
     stop('There is no discussions about this movie(or TV).')
   cat('There is a total of ',discussions_amount,'discussions...\n')
   
-  .get_discussion<-function(pagetree){
+  .get_discussion<-function(pagetree,verbose){
     #title<-gsub('\n','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
     urlsnode<-getNodeSet(pagetree, '//table[@class="olt"]//td/a')
     urls<-unique(sapply(urlsnode,function(x) xmlGetAttr(x, "href")))
@@ -37,17 +37,17 @@ get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
     disc
   }
   
-  discussions_info<-.get_discussion(pagetree)
+  discussions_info<-.get_discussion(pagetree,verbose=verbose)
   pages<-ceiling(min(n,as.integer(discussions_amount))/20)
   
   if(pages>1){
     for(pg in 2:pages){
       if(verbose==TRUE) {cat(' Getting',(pg-1)*20+1,'--',pg*20,'discussions...\n')}
       
-      strurl=paste0('http://movie.douban.com/subject/',movieid,
+      strurl=paste0('http://book.douban.com/subject/',bookid,
                     '/discussion/?start=',(pg-1)*20,'&sort=vote/')
       pagetree <- htmlParse(getURL(strurl))
-      discussions_info0<-.get_discussion(pagetree)
+      discussions_info0<-.get_discussion(pagetree,verbose=verbose)
       discussions_info<-rbind(discussions_info,discussions_info0)
     }
   }
@@ -60,5 +60,6 @@ get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
                                unuseful=as.integer(discussions_info[,'unuseful']),
                                discussion_url=discussions_info[,'discussion_url'],
                                stringsAsFactors =F)
- discussions_info
+  discussions_info
 }
+b<-get_book_discussions(bookid=1291204,n=40,verbose=F)

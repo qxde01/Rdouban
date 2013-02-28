@@ -8,7 +8,7 @@ get_music_comments<-function(musicid,n=100,verbose=TRUE,...){
   pagetree <- htmlParse(getURL(strurl))
   
   title0<-sapply(getNodeSet(pagetree, '//head//title'),xmlValue)
-  title<-gsub('[0-9\\(\\) ]|的评论','',title0)
+  title<-gsub('[0-9\\(\\) ]','',title0)
   comments_amount<-as.integer(gsub('[^0-9]','',title0))
   
   if (length(comments_amount)==0)
@@ -16,9 +16,11 @@ get_music_comments<-function(musicid,n=100,verbose=TRUE,...){
   cat('There is a total of ',comments_amount,'comments...\n')
   
   rating<-sapply(getNodeSet(pagetree, '//div[@class="aside"]//ul'),xmlValue)
-  rating<-gsub('[^0-9]|[1-5]星',' ',rating)
-  rating<-unlist(strsplit(rating,' '))
-  rating<-as.integer(rating[nchar(rating)>0])
+	rating<-gsub('[^0-9 ]',' ',rating)
+	rating<-unlist(strsplit(rating,' '))
+	rating<-rating[nchar(rating)>0]
+	rating[-6]<-substr(rating[-6],1,nchar(rating[-6])-1)
+	rating<-as.integer(rating)
   names(rating)<-c('votes_amount','stars5','stars4','stars3','stars2','stars1')
   
   .get_comment<-function(pagetree,verbose,...){

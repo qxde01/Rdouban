@@ -12,7 +12,7 @@ get_movie_reviews<-function(movieid,n=100,...){
   rating<-as.integer(gsub('[0-5]星|[ -]','',rating))
   names(rating)<-c('stars5','stars4','stars3','stars2','stars1')
     
-  cat('There are',reviews_amount,'reviews...\n')
+  cat('There is a total of',reviews_amount,'reviews...\n')
   .get_review<-function(pagetree){
     urlsnode<-getNodeSet(pagetree, '//div[@class="ctsh"]//a')
     urls<-unique(sapply(urlsnode,function(x) xmlGetAttr(x, "href")))
@@ -47,7 +47,7 @@ get_movie_reviews<-function(movieid,n=100,...){
   reviews_info<-.get_review(pagetree)
   if(pages>1){
     for(pg in 2:pages){
-      cat('正在获取',(pg-1)*20+1,'--',pg*20,'reviews...\n')
+      cat(' Getting',(pg-1)*20+1,'--',pg*20,'reviews...\n')
       strurl=paste0('http://movie.douban.com/subject/',movieid,
                     '/reviews?start=',(pg-1)*20,'&filter=&limit=20')
       pagetree <- htmlParse(getURL(strurl))

@@ -1,6 +1,6 @@
 
 
-get_book_comments<-function(bookid,n=50,...){
+get_book_comments<-function(bookid,n=100,...){
   strurl=paste0('http://book.douban.com/subject/',bookid,'/reviews')
   pagetree <- htmlParse(getURL(strurl))
   
@@ -23,12 +23,12 @@ get_book_comments<-function(bookid,n=50,...){
     m=length(commenturl)
     cmt<-c()
     for(i in 1:m){
-      cat('Getting ',commenturl[i],' ...\n')
+      cat(' Getting ',commenturl[i],' ...\n')
       cmttree <- htmlParse(getURL(commenturl[i]))
       ## the title of comment
       titlenode <- getNodeSet(cmttree, '//title')
       title<-sapply(titlenode, xmlValue)
-      title<-gsub('\n| ','',title)
+      title<-gsub('[\n ]|\\([^\\(\\)]*\\)','',title)
       ## 评论作者的昵称
       authornode <- getNodeSet(cmttree, '//span[@property="v:reviewer"]')
       author<-sapply(authornode, xmlValue)

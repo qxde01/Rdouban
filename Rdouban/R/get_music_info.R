@@ -1,11 +1,11 @@
 ##http://music.douban.com/subject/3843530/
 ##musicid=3843530
-library(XML)
-library(RCurl)
+#library(XML)
+#library(RCurl)
 get_music_info<-function(musicid,...){
   strurl=paste0('http://music.douban.com/subject/',musicid,'/')
   pagetree <- htmlParse(getURL(strurl))
-  title<-gsub('[\n ]|\\(è±†ç“£\\)','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
+  title<-gsub('[\n ]|\\(¶¹°ê|\\)','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
   base_info<-gsub('[\n]','',sapply(getNodeSet(pagetree, '//div[@id="info"]'),xmlValue))
   base_info<-gsub('\x810\x842|   ',' ',iconv(base_info,from='UTF-8',to='GB18030'))
   
@@ -20,13 +20,14 @@ get_music_info<-function(musicid,...){
   labels<-gsub('[\n ]','',sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]'),xmlValue))
   labels<-iconv(labels,from='UTF-8',to='GB18030')
   labels<-gsub('\x810\x842','',labels)
-  labels<-gsub('Â·Â·','',unlist(strsplit(labels,'\\(|\\)'))[-1])
+  labels<-gsub('¡¤¡¤','',unlist(strsplit(labels,'\\(|\\)'))[-1])
   labels_amount<-as.integer(gsub('[^0-9]','',labels[1]))
   labels_name<-labels[-1][seq(1,length(labels[-1]),2)]
   labels_freq<-as.integer(labels[-1][seq(2,length(labels[-1]),2)])
   
   rating<-gsub('[\n ]','',sapply(getNodeSet(pagetree, '//div[@id="interest_sectl"]'),xmlValue))
-  rating<-gsub('[\\(%]|äººè¯„ä»·\\)',' ',rating)
+  
+  rating<-gsub('\\([^\\(\\)]*\\)|%',' ',rating)
   rating<-unlist(strsplit(rating,' '))
   rating<-as.numeric(rating)
   rating[3:7]<-rating[3:7]/100
@@ -43,7 +44,9 @@ get_music_info<-function(musicid,...){
        track=track,
        music_intro=music_intro,
        labels_amount=labels_amount,
-       labels=data.frame(labels_name=labels_name,labels_freq=labels_freq,stringsAsFactors=F),
+       labels=data.frame(labels_name=labels_name,
+                         labels_freq=labels_freq,
+                         stringsAsFactors=F),
        rating=rating,
        audience=audience)
 }
