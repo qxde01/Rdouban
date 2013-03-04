@@ -62,4 +62,4 @@ get_book_discussions<-function(bookid,n=100,verbose=TRUE){
                                stringsAsFactors =F)
   discussions_info
 }
-b<-get_book_discussions(bookid=1291204,n=40,verbose=F)
+# b<-get_book_discussions(bookid=1291204,n=40,verbose=F)
