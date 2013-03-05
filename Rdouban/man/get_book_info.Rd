@@ -11,7 +11,7 @@
 
 \value{一个列表list,包括:
   \item{book_base_info}{书籍的基本信息,如作者、出版社等} 
-  \item{votes_info}{长度为7的向量,用户评分信息,\code{score}为总分,\code{votes}指参与的评分人数,\code{starsx}指对应评分用户的所占的比例}
+  \item{rating}{长度为7的向量,用户评分信息,\code{score}为总分,\code{votes}指参与的评分人数,\code{starsx}指对应评分用户的所占的比例}
  \item{content_intro}{书籍内容简介}
  \item{author_intro}{作者简介}
 \item{label_amount}{用户常用标签数量}
@@ -29,3 +29,4 @@
 \dontrun{get_book_info(bookid='1291204')}
 }
 \keyword{book}
+\keyword{douban}
