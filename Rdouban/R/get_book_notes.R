@@ -1,5 +1,5 @@
 
-get_book_notes<-function(bookid,n=100,...){
+get_book_notes<-function(bookid,n=100,verbose=TRUE,...){
   
   strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation')
   pagetree <- htmlParse(getURL(strurl))
@@ -8,9 +8,9 @@ get_book_notes<-function(bookid,n=100,...){
   titleinfo<-gsub('\n|µÄ±Ê¼Ç| |\\(|\\)','',titleinfo,fixed = F)
   book_title<-gsub('[0-9]','',titleinfo)
   notes_amount<-as.integer(gsub('[^0-9]','',titleinfo))
-  cat('There are',notes_amount,'notes...\n')
+  cat('There is a total of',notes_amount,'notes...\n')
   
-  .get_note<-function(pagetree,...){
+  .get_note<-function(pagetree,verbose=TRUE,...){
     notenode <- getNodeSet(pagetree, '//a[@href]')
     noteurl<-sapply(notenode,function(x) xmlGetAttr(x, "href"))
     notecmt<-unique(noteurl[grep('http://book.douban.com/annotation/',noteurl)])
@@ -21,7 +21,9 @@ get_book_notes<-function(bookid,n=100,...){
     
     nt<-c()
     for(i in 1:m){
-      cat('Getting ',note_url[i],' ...\n')
+      if(verbose==TRUE)
+        cat(' Getting book note from ',note_url[i],' ...\n')
+      
       notetree <- htmlParse(getURL(note_url[i]))
       ##  the title of note
       titlenode <- getNodeSet(notetree, '//title')
@@ -50,7 +52,7 @@ get_book_notes<-function(bookid,n=100,...){
   }
   
   pages=ceiling(min(n,notes_amount)/10)
-  notes_info<-.get_note(pagetree)
+  notes_info<-.get_note(pagetree,verbose=verbose)
   if(pages>1){
     for(pg in 2:pages){
       cat('Getting',(pg-1)*10+1,'--',pg*10,'notes...\n')
@@ -62,7 +64,17 @@ get_book_notes<-function(bookid,n=100,...){
     }
   }
   row.names(notes_info)<-NULL
+  notes_info<-data.frame(title=notes_info[,'titles'],
+                         note=notes_info[,'notes'],
+                         time=notes_info[,'time'],
+                         nickname=notes_info[,'authors'],
+                         rating=as.integer(notes_info[,'rating']),
+                         author_url=notes_info[,'author_url'],
+                         note_url=notes_info[,'notes_url'],
+                         note_comment_url= notes_info[,'notes_comment_url'],
+                         stringsAsFactors=F)
+  
   list(book_title=book_title,
        notes_amount=notes_amount,
-       notes_info=as.data.frame(notes_info,stringsAsFactors=F))
+       notes_info=notes_info)
 }
