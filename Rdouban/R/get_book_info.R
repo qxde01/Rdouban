@@ -5,19 +5,19 @@ get_book_info<-function(bookid,...){
   
   ## author ISBN ...
   booknode <- getNodeSet(pagetree, '//div[@id="info"]')
-  bookinfo<-sapply(booknode, xmlValue)
-  bookinfo<-gsub('\n|  ','',bookinfo)
+  base_info<-gsub('\n|    ','',sapply(booknode, xmlValue))
   
   ## rating
-  votenode <- getNodeSet(pagetree, '//div[@id="interest_sectl"]')
-  voteinfo<-sapply(votenode, xmlValue)
-  voteinfo<-gsub('\n','',voteinfo)
-  voteinfo<-unlist(strsplit(voteinfo,' '))
-  voteinfo<-voteinfo[nchar(voteinfo)>0]
-  voteinfo[2]<-gsub('[^0-9]','',voteinfo[2])
-  voteinfo<-as.numeric(gsub('%','',voteinfo))
-  names(voteinfo)<-c('score','votes','stars5','stars4','stars3','stars2','stars1')
-  voteinfo[3:7]<-voteinfo[3:7]/100
+  score <- sapply(getNodeSet(pagetree, '//strong[@property="v:average"]'), xmlValue)
+  score<-as.numeric(gsub('[\n ]','',score))
+  votes<-as.integer(sapply(getNodeSet(pagetree, '//span[@property="v:votes"]'), xmlValue))
+  rating<-sapply(getNodeSet(pagetree, '//div[@id="interest_sectl"]//div'), xmlValue)
+  rating<-gsub('[\n%]|\\([^\\(\\)]*\\)','',rating)
+  rating<-unlist(strsplit(rating,' '))
+  rating<-as.numeric(rating[nchar(rating)>0][-1])/100
+  rating<-c(score,votes,rating)
+  names(rating)<-c('score','votes','stars5','stars4','stars3','stars2','stars1')
+  
   ##content introduction,author introduction
   contentnode <- getNodeSet(pagetree, '//div[@class="intro"]')
   contentinfo<-sapply(contentnode, xmlValue)
@@ -35,7 +35,7 @@ get_book_info<-function(bookid,...){
   
   labelinfo<-iconv(labelinfo,from='UTF-8',to='GB18030')
   labelinfo<-gsub("\x810\x842| ",'',labelinfo)
-  labelinfo<-unlist(strsplit(labelinfo,' |\\(|\\)'))
+  labelinfo<-unlist(strsplit(labelinfo,'[ \\(\\)]'))
   labels_name<-labelinfo[seq(1,length(labelinfo),2)]
   labels_freq<-labelinfo[seq(2,length(labelinfo),2)]
   ## reader info
@@ -52,8 +52,8 @@ get_book_info<-function(bookid,...){
   comments_notes_amount<-as.integer(c(comments_amount,notes_amount))
   names(comments_notes_amount)<-c('comments_amount','notes_amount')
   
-  list(book_base_info=bookinfo,
-       votes_info=voteinfo,
+  list(book_base_info=base_info,
+       raing=rating,
        content_intro=content_intro,
        author_intro=author_intro,
        labels_amount=as.integer(labels_amount),

@@ -1,6 +1,5 @@
 
-
-get_book_comments<-function(bookid,n=100,...){
+get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
   strurl=paste0('http://book.douban.com/subject/',bookid,'/reviews')
   pagetree <- htmlParse(getURL(strurl))
   
@@ -13,7 +12,7 @@ get_book_comments<-function(bookid,n=100,...){
   comments_amount<-as.integer(gsub('[^0-9]','',titleinfo[2]))
   cat('There is a tatol of',comments_amount,'comments...\n')
   
-  .get_comment<-function(pagetree,...){
+  .get_comment<-function(pagetree,verbose=TRUE,...){
     ##评论的url及作者的主页url
     cmtnode <- getNodeSet(pagetree, '//a[@title]')
     cmturl<-sapply(cmtnode,function(x) xmlGetAttr(x, "href"))
@@ -23,7 +22,8 @@ get_book_comments<-function(bookid,n=100,...){
     m=length(commenturl)
     cmt<-c()
     for(i in 1:m){
-      cat(' Getting ',commenturl[i],' ...\n')
+      if(verbose==TRUE)
+        cat(' Getting book reviews from  ',commenturl[i],' ...\n')
       cmttree <- htmlParse(getURL(commenturl[i]))
       ## the title of comment
       titlenode <- getNodeSet(cmttree, '//title')
@@ -58,9 +58,9 @@ get_book_comments<-function(bookid,n=100,...){
     row.names(cmt)<-NULL
     cmt
   }
-
+  
   pages=ceiling(min(n,comments_amount)/25)
-  comment_info<-.get_comment(pagetree)
+  comment_info<-.get_comment(pagetree,verbose=verbose)
   
   if(pages>1){
     for(pg in 2:pages){
@@ -73,9 +73,20 @@ get_book_comments<-function(bookid,n=100,...){
     }
   }
   row.names(comment_info)<-NULL
+  comment_info<-data.frame(title=comment_info[,'titles'],
+                           comment=comment_info[,'comments'],
+                           time=comment_info[,'time'],
+                           nickname=comment_info[,'authors'],
+                           rating=as.integer(comment_info[,'rating']),
+                           useful=as.integer(comment_info[,'useful']),
+                           unuseful=as.integer(comment_info[,'unuseful']),
+                           author_url=comment_info[,'authors_url'],
+                           comment_url=comment_info[,'comments_url'],
+                           stringsAsFactors=F)
+  
+  
   list(book_title=book_title,
        comments_amount=comments_amount,
-       comment_info=as.data.frame(comment_info,stringsAsFactors=F))
+       comment_info=comment_info)
 }
-
 

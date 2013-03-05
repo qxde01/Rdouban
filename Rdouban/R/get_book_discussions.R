@@ -17,7 +17,7 @@ get_book_discussions<-function(bookid,n=100,verbose=TRUE){
     m=length(disc_urls)
     disc<-c()
     for(i in 1:m){
-      if(verbose==TRUE) cat(' Getting',disc_urls[i],'...\n')
+      if(verbose==TRUE) cat(' Getting book discussion from ',disc_urls[i],'...\n')
       
       pagetree <- htmlParse(getURL(disc_urls[i]))
       time<-sapply(getNodeSet(pagetree, '//table[@class="wr"]//span[@class="mn"]'),xmlValue)
