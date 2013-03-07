@@ -7,7 +7,7 @@ get_movie_info<-function(movieid,...){
   #genre <-sapply(getNodeSet(pagetree,'//div[@id="info"]//span[@property="v:genre"]'),xmlValue)
   #runtime<-sapply(getNodeSet(pagetree,'//div[@id="info"]//span[@property="v:runtime"]'),xmlValue)
   baseinfo<-sapply(getNodeSet(pagetree,'//div[@id="info"]'), xmlValue)
-  baseinfo<-gsub('\n|  ','',baseinfo)
+  baseinfo<-gsub('\n|       ','',baseinfo)
   ##评分信息
   votenode <- getNodeSet(pagetree, '//div[@id="interest_sectl"]')
   voteinfo<-sapply(votenode, xmlValue)
@@ -48,18 +48,19 @@ get_movie_info<-function(movieid,...){
   if(length(short_comments)==0)short_comments<-NA
   if(length(long_comments)==0)long_comments<-NA
   ##观众
-  audience<-sapply(getNodeSet(pagetree, '//div[@id]//p[@class="pl"]'), xmlValue)
-  audience<-as.integer(gsub('[^0-9]','',audience)[3:4])
-  names(audience)<-c('collections','wishes')
+  audience<-sapply(getNodeSet(pagetree, '//div[@id]//p[@class="pl"]//a'), xmlValue)
+  audience<-audience[-grep('\\(',audience)]
+  audience<-as.integer(gsub('[^0-9]','',audience))
+  names(audience)<-c('doings','collections','wishes')
   ##讨论话题
   discussion<-sapply(getNodeSet(pagetree, '//h2[@style]'), xmlValue)
   discussion<-gsub('[^0-9]','',discussion)
   if(length(discussion)==0)discussion<-NA
   
   comments_amount<-as.integer(c(short_comments,long_comments,discussion))
-  names(comments_amount)<-c('short_comments','long_comments','discussion')
+  names(comments_amount)<-c('short_amount','long_amount','discussion_amoun')
   list(movie_base_info=baseinfo,
-       votes_info=voteinfo,
+       raing=voteinfo,
        movie_intro=introinfo,
        labels_amount=labels_amount,
        labels=data.frame(labels_name=labels_name,labels_freq=labels_freq,stringsAsFactors=F),

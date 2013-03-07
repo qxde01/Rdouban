@@ -1,7 +1,5 @@
 ##http://music.douban.com/subject/3843530/
 ##musicid=3843530
-#library(XML)
-#library(RCurl)
 get_music_info<-function(musicid,...){
   strurl=paste0('http://music.douban.com/subject/',musicid,'/')
   pagetree <- htmlParse(getURL(strurl))
