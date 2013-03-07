@@ -6,12 +6,13 @@
 }
 \description{获取豆瓣电影和电视剧的长篇影评.
 }
-\usage{get_movie_reviews(movieid,n=100,...)
+\usage{get_movie_reviews(movieid,n=100,verbose=True,...)
 }
 
 \arguments{
   \item{movieid}{豆瓣电影和电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
   \item{n}{获取长篇影评的数量,默认n=100.}
+    \item{verbose}{当\code{verbose=True}时,显示函数的执行过程信息,\code{verbose=False}时不显示,默认为\code{True}.}
 }
 
 \value{
@@ -24,9 +25,9 @@
   \code{nickname}作者昵称,
   \code{rating}评分信息,
   \code{useful}影评被赞为有用的次数,
-  \code{useful}影评被赞为无用的次数,
-  \code{reviews_url}影评主页,
-  \code{authors_url}作者主页.}  
+  \code{useful}影评被批评为无用的次数,
+  \code{review_url}影评主页,
+  \code{author_url}作者主页.}  
 }
 \author{
 qxde01<\email{qxde01@@gmail.com}>

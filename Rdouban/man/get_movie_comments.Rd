@@ -7,21 +7,22 @@
 
 \description{获取豆瓣电影和电视剧的短评.}
 
-\usage{get_movie_comments(movieid,n=100)}
+\usage{get_movie_comments(movieid,n=100,...)}
 
 \arguments{
   \item{movieid}{豆瓣电影和电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
   \item{n}{获取短评的数量,默认n=100.}
+    \item{verbose}{当\code{verbose=TRUE}时,显示函数的执行过程信息,\code{verbose=FALSE}时不显示,默认为\code{TRUE}.}
 }
 
 \value{
-\item{title}{电影的名称}  
+\item{movie_title}{电影的名称}  
 \item{comments_amount}{电影短评的总数量}
 \item{short_comments}{短评信息,一个data.frame,共5列:
-  \code{comments}短评内容,
-  \code{comments_time}短评发表时间,
+  \code{comment}短评内容,
+  \code{time}短评发表时间,
   \code{useful}短评被赞为有用的次数,
-  \code{authors}作者昵称,
+  \code{nickname}作者昵称,
   \code{authors_url}作者主页.}  
 }
 
