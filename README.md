@@ -4,7 +4,7 @@ Rdouban
 获取豆瓣网评论数据的R接口
 
 主要函数
-douban_user_statuses  获取豆瓣用户的评论、日记等信息
+douban_user_statuses  获取豆瓣用户的评论、日记等信息\n
 get_book_comments	获取豆瓣图书的评论文章
 get_book_discussions	获取豆瓣图书的话题讨论内容
 get_book_info	获取豆瓣图书基本信息
