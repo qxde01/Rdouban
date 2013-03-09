@@ -2,28 +2,29 @@
 \name{get_movie_info}
 \alias{get_movie_info}
 
-\title{»ñÈ¡¶¹°êÓ°ÊÓµÄ»ù±¾ĞÅÏ¢}
-\description{»ñÈ¡¶¹°êÓ°ÊÓ¾çµÄ»ù±¾ĞÅÏ¢,°üÀ¨µçÓ°Ãû³Æ¡¢µ¼Ñİ¡¢ÑİÔ±¡¢¶¹°êÆÀ·ÖµÈĞÅÏ¢.
+\title{è·å–è±†ç“£å½±è§†çš„åŸºæœ¬ä¿¡æ¯}
+\description{è·å–è±†ç“£å½±è§†å‰§çš„åŸºæœ¬ä¿¡æ¯,åŒ…æ‹¬ç”µå½±åç§°ã€å¯¼æ¼”ã€æ¼”å‘˜ã€è±†ç“£è¯„åˆ†ç­‰ä¿¡æ¯.
 }
 \usage{
 get_movie_info(movieid,...)
 }
 \arguments{
-  \item{movieid}{¶¹°êµçÓ°ºÍµçÊÓ¾çµÄID,ÓÉÊı×Ö×é³ÉµÄ×Ö·û´®,¿ÉÍ¨¹ıÃ¿²¿µçÓ°»òµçÊÓ¾çµÄ¶¹°êÖ÷Ò³²éÑ¯.}
+  \item{movieid}{è±†ç“£ç”µå½±å’Œç”µè§†å‰§çš„ID,ç”±æ•°å­—ç»„æˆçš„å­—ç¬¦ä¸²,å¯é€šè¿‡æ¯éƒ¨ç”µå½±æˆ–ç”µè§†å‰§çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢.}
 }
-\value{Ò»¸öÁĞ±í(list), °üÀ¨:
-  \item{movie_base_info}{Ò»¸ö×Ö·û´®,¶¹°êÓ°ÊÓ¾çµÄ»ù±¾ĞÅÏ¢,°üÀ¨µçÓ°Ãû³Æ¡¢µ¼Ñİ¡¢ÑİÔ±}
-  \item{rating}{ÓÃ»§ÆÀ·ÖĞÅÏ¢,\code{score}Îª×Ü·Ö,\code{votes}Ö¸²ÎÓëµÄÆÀ·ÖÈËÊı,\code{starsx}Ö¸¶ÔÓ¦ÆÀ·ÖÓÃ»§ÊıËùÕ¼µÄ±ÈÀı}
-  \item{movie_intro}{µçÓ°»òµçÊÓ¾ç¼ò½é}
-  \item{labels_amount}{ÓÃ»§³£ÓÃ±êÇ©ÊıÁ¿}
-  \item{labels}{Ò»¸ödata.frame,\code{label_name}±êÇ©Ãû³Æ¼°¶ÔÓ¦µÄÊ¹ÓÃÆµÂÊ\code{label_freq}}
-  \item{long_comment_votes}{·¢±í³¤Ó°ÆÀµÄÓÃ»§ÆÀ·ÖÇé¿ö}
-  \item{comments_amount}{·Ö±ğÎª¶ÌÓ°ÆÀÊıÁ¿\code{short_amount},³¤Ó°ÆÀÊıÁ¿\code{long_amount},ÌÖÂÛ»°ÌâÊıÁ¿\code{discussion_amount}}
-  \item{audience}{¹ÛÖÚĞÅÏ¢,\code{doings}Ö¸ÕıÔÚ¹Û¿´µÄÓÃ»§ÊıÁ¿,\code{collections}Ö¸ÒÑ¹Û¿´µÄÓÃ»§ÊıÁ¿,\code{wishes}Ö¸Ïë¿´µÄÓÃ»§ÊıÁ¿}
+\value{ä¸€ä¸ªåˆ—è¡¨(list), åŒ…æ‹¬:
+  \item{movie_title}{ç”µå½±åç§°}
+  \item{movie_base_info}{ä¸€ä¸ªå­—ç¬¦ä¸²,è±†ç“£å½±è§†å‰§çš„åŸºæœ¬ä¿¡æ¯,åŒ…æ‹¬ç”µå½±åç§°ã€å¯¼æ¼”ã€æ¼”å‘˜}
+  \item{rating}{ç”¨æˆ·è¯„åˆ†ä¿¡æ¯,\code{score}ä¸ºæ€»åˆ†,\code{votes}æŒ‡å‚ä¸çš„è¯„åˆ†äººæ•°,\code{starsx}æŒ‡å¯¹åº”è¯„åˆ†ç”¨æˆ·æ•°æ‰€å çš„æ¯”ä¾‹}
+  \item{movie_intro}{ç”µå½±æˆ–ç”µè§†å‰§ç®€ä»‹}
+  \item{labels_amount}{ç”¨æˆ·å¸¸ç”¨æ ‡ç­¾æ•°é‡}
+  \item{labels}{ä¸€ä¸ªdata.frame,\code{label_name}æ ‡ç­¾åç§°åŠå¯¹åº”çš„ä½¿ç”¨é¢‘ç‡\code{label_freq}}
+  \item{long_comment_votes}{å‘è¡¨é•¿å½±è¯„çš„ç”¨æˆ·è¯„åˆ†æƒ…å†µ}
+  \item{comments_amount}{åˆ†åˆ«ä¸ºçŸ­å½±è¯„æ•°é‡\code{short_amount},é•¿å½±è¯„æ•°é‡\code{long_amount},è®¨è®ºè¯é¢˜æ•°é‡\code{discussion_amount}}
+  \item{audience}{è§‚ä¼—ä¿¡æ¯,\code{doings}æŒ‡æ­£åœ¨è§‚çœ‹çš„ç”¨æˆ·æ•°é‡,\code{collections}æŒ‡å·²è§‚çœ‹çš„ç”¨æˆ·æ•°é‡,\code{wishes}æŒ‡æƒ³çœ‹çš„ç”¨æˆ·æ•°é‡}
 }
 \author{<\email{qxde01@@gmail.com}>
 }
-\note{\code{movieid}±ØĞëÊÇ¶¹°êµçÓ°»òµçÊÓ¾çÓĞĞ§id,±ÈÈç\link{http://movie.douban.com/subject/5308265/}µÄID=5308265.
+\note{\code{movieid}å¿…é¡»æ˜¯è±†ç“£ç”µå½±æˆ–ç”µè§†å‰§æœ‰æ•ˆid,æ¯”å¦‚\link{http://movie.douban.com/subject/5308265/}çš„ID=5308265.
 }
 
 \examples{
