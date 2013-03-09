@@ -1,29 +1,34 @@
 get_movie_info<-function(movieid,...){
   strurl=paste0('http://movie.douban.com/subject/',movieid,'/')
   pagetree<-htmlParse(getURL(strurl))
-  ##基本信息:导演、演员等
+  ##鍩烘湰淇℃伅:瀵兼紨銆佹紨鍛樼瓑
   #director <-sapply(getNodeSet(pagetree,'//div[@id="info"]//a[@rel="v:directedBy"]'),xmlValue)
   #stars <-sapply(getNodeSet(pagetree,'//div[@id="info"]//a[@rel="v:starring"]'),xmlValue)
   #genre <-sapply(getNodeSet(pagetree,'//div[@id="info"]//span[@property="v:genre"]'),xmlValue)
   #runtime<-sapply(getNodeSet(pagetree,'//div[@id="info"]//span[@property="v:runtime"]'),xmlValue)
+  movie_title<-sapply(getNodeSet(pagetree,'//head//title'), xmlValue)
+  movie_title<-gsub('\\(璞嗙摚\\)','',movie_title)
   baseinfo<-sapply(getNodeSet(pagetree,'//div[@id="info"]'), xmlValue)
   baseinfo<-gsub('\n|       ','',baseinfo)
-  ##评分信息
+  ##璇勫垎淇℃伅
   votenode <- getNodeSet(pagetree, '//div[@id="interest_sectl"]')
   voteinfo<-sapply(votenode, xmlValue)
   voteinfo<-unlist(strsplit(gsub('\n','',voteinfo),' '))
   voteinfo<-voteinfo[nchar(voteinfo)>0]
   voteinfo[2]<-gsub('[^0-9]','',voteinfo[2])
   voteinfo<-as.numeric(gsub('%','',voteinfo))
-  names(voteinfo)<-c('score','votes','stars5','stars4','stars3','stars2','stars1')
-  voteinfo[3:7]<-voteinfo[3:7]/100
+  if(length(voteinfo)==7){
+    names(voteinfo)<-c('score','votes','stars5','stars4','stars3','stars2','stars1')
+    voteinfo[3:7]<-voteinfo[3:7]/100
+  }
+
   ##the introduction of movie
   intronode <- getNodeSet(pagetree, '//span[@class="all hidden"]')
   if(length(intronode)==0)
     intronode <- getNodeSet(pagetree, '//span[@property="v:summary"]')
   introinfo<-sapply(intronode, xmlValue)
   
-  ## 常用标签 
+  ## 甯哥敤鏍囩 
   labels_amount <- sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//h2'), xmlValue)
   labels_amount<-as.integer(gsub('[^0-9]','',labels_amount))
   labelinfo<-sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//div'), xmlValue)
@@ -32,7 +37,7 @@ get_movie_info<-function(movieid,...){
   labelinfo<-unlist(strsplit(labelinfo,' |\\(|\\)'))
   labels_name<-labelinfo[seq(1,length(labelinfo),2)]
   labels_freq<-labelinfo[seq(2,length(labelinfo),2)]
-  ## 长影评的评分人数
+  ## 闀垮奖璇勭殑璇勫垎浜烘暟
   long_vote<-sapply(getNodeSet(pagetree, '//div[@class="vs-content"]//a'), xmlValue)
   if(length(long_vote>0)){
     long_vote<-long_vote[grep('[0-9]',long_vote)]
@@ -42,25 +47,27 @@ get_movie_info<-function(movieid,...){
     names(long_vote)<-c('stars5','stars4','stars3','stars2','stars1')
   }
   else long_vote<-NA
-  #长评和短评的数量
+  #闀胯瘎鍜岀煭璇勭殑鏁伴噺
   short_comments<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//a [@href="comments"]'), xmlValue))
   long_comments<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//span[@property="v:count"]'), xmlValue))
   if(length(short_comments)==0)short_comments<-NA
   if(length(long_comments)==0)long_comments<-NA
-  ##观众
+  ##瑙備紬
   audience<-sapply(getNodeSet(pagetree, '//div[@id]//p[@class="pl"]//a'), xmlValue)
   audience<-audience[-grep('\\(',audience)]
   audience<-as.integer(gsub('[^0-9]','',audience))
-  names(audience)<-c('doings','collections','wishes')
-  ##讨论话题
+  if(length(audience)==3)
+    names(audience)<-c('doings','collections','wishes')
+  ##璁ㄨ璇濋
   discussion<-sapply(getNodeSet(pagetree, '//h2[@style]'), xmlValue)
   discussion<-gsub('[^0-9]','',discussion)
   if(length(discussion)==0)discussion<-NA
   
   comments_amount<-as.integer(c(short_comments,long_comments,discussion))
   names(comments_amount)<-c('short_amount','long_amount','discussion_amoun')
-  list(movie_base_info=baseinfo,
-       raing=voteinfo,
+  list(movie_title=movie_title,
+      movie_base_info=baseinfo,
+       rating=voteinfo,
        movie_intro=introinfo,
        labels_amount=labels_amount,
        labels=data.frame(labels_name=labels_name,labels_freq=labels_freq,stringsAsFactors=F),
