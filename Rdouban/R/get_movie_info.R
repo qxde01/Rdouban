@@ -39,14 +39,14 @@ get_movie_info<-function(movieid,...){
   labels_freq<-labelinfo[seq(2,length(labelinfo),2)]
   ## 长影评的评分人数
   long_vote<-sapply(getNodeSet(pagetree, '//div[@class="vs-content"]//a'), xmlValue)
-  if(length(long_vote>0)){
+  if(length(long_vote)==5){
     long_vote<-long_vote[grep('[0-9]',long_vote)]
     long_vote<-unlist(strsplit(long_vote,'\\('))
     long_vote<-long_vote[grep('\\)',long_vote)]
     long_vote<-as.integer(gsub('[^0-9]','',long_vote))
     names(long_vote)<-c('stars5','stars4','stars3','stars2','stars1')
   }
-  else long_vote<-NA
+  #else long_vote<-NA
   #长评和短评的数量
   short_comments<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//a [@href="comments"]'), xmlValue))
   long_comments<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//span[@property="v:count"]'), xmlValue))
