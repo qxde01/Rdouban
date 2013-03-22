@@ -1,15 +1,57 @@
 
-douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE,...){
+douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE,verbose=TRUE,...){
 
-  ## get book labels
-  .get_label<-function(nickname,what){
+  ## get book labels and book list
+  .get_label<-function(nickname,what,getList=TRUE,verbose=TRUE){
     strurl=paste0('http://book.douban.com/people/',nickname,'/',what)
     pagetree <- htmlParse(getURL(strurl))
     label_name<-sapply(getNodeSet(pagetree, '//ul[@class="tag-list mb10"]//a'),xmlValue)
     label_freq<-sapply(getNodeSet(pagetree, '//ul[@class="tag-list mb10"]//span'),xmlValue)
     book_labels<-data.frame(label_name=label_name,
                                label_freq=as.integer(label_freq),stringsAsFactors=F)
-    book_labels
+    ##book list
+    .get_list<-function(pagetree){
+      book_tilte<-sapply( getNodeSet(pagetree, '//li[@class="subject-item"]//a[@title]'),xmlValue)
+      book_tilte<-gsub('\n|  ','',book_tilte)
+      read_date<-sapply(getNodeSet(pagetree, 
+                                   '//li[@class="subject-item"]//span[@class="date"]'),xmlValue)
+      read_date<-gsub('[\n 读过想在]','',read_date)
+      
+      book_info<-sapply(getNodeSet(pagetree, 
+                                   '//li[@class="subject-item"]//div[@class="pub"]'),xmlValue)
+      book_info<-gsub('[\n ]','',book_info)
+      data.frame(book_tilte=book_tilte,
+                 read_date=read_date,
+                 book_info=book_info,
+                 stringsAsFactors=F)
+    }
+    
+    
+    if(getList==TRUE){
+      booklist<-.get_list(pagetree)
+      num<-sapply(getNodeSet(pagetree, '//head//title'),xmlValue)
+      num<-as.integer(substr(num,unlist(gregexpr('\\(',num))[-1]+1,unlist(gregexpr('\\)',num))[-1]-1))
+      pages<-ceiling(num/15)
+      
+      if(pages>1){
+        for(pg in 2:pages){
+          if(verbose==TRUE)
+            cat(' Getting book list abort ',what,'from page=',pg,'\n')
+          strurl=paste0('http://book.douban.com/people/',nickname,'/',what,'?start=',15*(pg-1),
+                        '&sort=time&rating=all&filter=all&mode=grid')
+          pagetree <- htmlParse(getURL(strurl))
+          booklist0<-.get_list(pagetree)
+          booklist<-rbind(booklist0,booklist)
+        }
+
+      }
+    }
+    else booklist<-NA
+
+    
+    list(book_list=booklist,
+         book_labels=book_labels)
+        
   }
   
   #########################################################
@@ -99,6 +141,7 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE
         title<-sapply(getNodeSet(pagetree,'//div[@id="content"]//h1'), xmlValue)
         time<-sapply(getNodeSet(pagetree,'//span[@property="v:dtreviewed"]'), xmlValue)
         rating<-sapply(getNodeSet(pagetree,'//span[@property="v:rating"]'), xmlValue)
+        if(rating=="None")rating=NA
         review<-sapply(getNodeSet(pagetree,'//span[@property="v:description"]'), xmlValue)
         if(length(review)==0) 
           review<-sapply(getNodeSet(pagetree,'//div[@property="v:description"]'), xmlValue)
@@ -125,6 +168,7 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE
         time<-sapply(getNodeSet(pagetree, '//span[@property="v:dtreviewed"]'),xmlValue)
         #nickname<-sapply(getNodeSet(pagetree, '//span[@property="v:reviewer"]'),xmlValue)
         rating<-sapply(getNodeSet(pagetree, '//span[@property="v:rating"]'),xmlValue)
+        if(rating=="None")rating=NA
         review<-sapply(getNodeSet(pagetree, '//span[@property="v:description"]'),xmlValue)
         if(length(review)==0) 
           review<-sapply(getNodeSet(pagetree,'//div[@property="v:description"]'), xmlValue)
@@ -138,10 +182,15 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE
     }
    
     row.names(rev)<-NULL
-    rev<-data.frame(target_title=rev[,'target_title'],title=rev[,'title'],time=rev[,'time'],
-                    review=rev[,'review'],rating=as.integer(rev[,'rating']),
-                    useful=as.integer(rev[,'useful']),unuseful=as.integer(rev[,'unuseful']),
-                    url=rev[,'url'],type=rev[,'type'],
+    rev<-data.frame(target_title=rev[,'target_title'],
+                    title=rev[,'title'],
+                    time=rev[,'time'],
+                    review=rev[,'review'],
+                    rating=as.integer(rev[,'rating']),
+                    useful=as.integer(rev[,'useful']),
+                    unuseful=as.integer(rev[,'unuseful']),
+                    url=rev[,'url'],
+                    type=rev[,'type'],
                     stringsAsFactors=F)
     rev
   }
@@ -171,9 +220,18 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE
   names(music)<-c('do','wish','collect')
   
   ## book labels
-  book_do_labels<-.get_label(nickname=nickname,what='do')
-  book_wish_labels<-.get_label(nickname=nickname,what='wish')
-  book_collect_labels<-.get_label(nickname=nickname,what='collect')
+
+  do_labels<-.get_label(nickname=nickname,what='do',getList=getList,verbose=verbose)
+  book_do_labels<-do_labels$book_labels
+  book_do_list<-do_labels$book_list
+    
+  wish_labels<-.get_label(nickname=nickname,what='wish',getList=getList,verbose=verbose)
+  book_wish_labels<-wish_labels$book_labels
+  book_wish_list<-wish_labels$book_list
+  
+  collect_labels<-.get_label(nickname=nickname,what='collect',getList=getList,verbose=verbose)
+  book_collect_labels<-collect_labels$book_labels
+  book_collect_list<-collect_labels$book_list
   ####get notes and reviews
   
   notenode<-sapply(getNodeSet(pagetree, '//div[@id="note"]//h2'),xmlValue)
@@ -196,12 +254,14 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,verbose=TRUE
        movie=movie,
        music=music,
        book_do_labels=book_do_labels,
+       book_do_list=book_do_list,
        book_wish_labels=book_wish_labels,
+       book_wish_list=book_wish_list,
        book_collect_labels=book_collect_labels,
-       book_collect_labels,
+       book_collect_list=book_collect_list,
        notes=notes,
        reviews=reviews)
   
 }
 
-#x2<-douban_user_statuses(nickname,verbose=TRUE,getNote=T)
+#x2<-douban_user_statuses(nickname='qxde01',getNote=T,getList=TRUE,verbose=TRUE)
