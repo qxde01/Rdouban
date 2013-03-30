@@ -8,11 +8,18 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE
     label_name<-sapply(getNodeSet(pagetree, '//ul[@class="tag-list mb10"]//a'),xmlValue)
     label_freq<-sapply(getNodeSet(pagetree, '//ul[@class="tag-list mb10"]//span'),xmlValue)
     book_labels<-data.frame(label_name=label_name,
-                               label_freq=as.integer(label_freq),stringsAsFactors=F)
+                            label_freq=as.integer(label_freq),
+                            stringsAsFactors=F)
     ##book list
     .get_list<-function(pagetree){
-      book_tilte<-sapply( getNodeSet(pagetree, '//li[@class="subject-item"]//a[@title]'),xmlValue)
+      urlnode<-getNodeSet(pagetree, '//li[@class="subject-item"]//a[@title]')
+      book_url<-sapply(urlnode,function(x) xmlGetAttr(x, "href"))
+      book_tilte<-sapply(urlnode,xmlValue)
       book_tilte<-gsub('\n|  ','',book_tilte)
+      
+      imgnode<-getNodeSet(pagetree, '//li[@class="subject-item"]//img[@src]')
+      img_url<-sapply(imgnode,function(x) xmlGetAttr(x, "src"))
+      
       read_date<-sapply(getNodeSet(pagetree, 
                                    '//li[@class="subject-item"]//span[@class="date"]'),xmlValue)
       read_date<-gsub('[\n 读过想在]','',read_date)
@@ -20,9 +27,45 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE
       book_info<-sapply(getNodeSet(pagetree, 
                                    '//li[@class="subject-item"]//div[@class="pub"]'),xmlValue)
       book_info<-gsub('[\n ]','',book_info)
+      
+      nlen=length(book_info)
+      book_tag<-sapply(getNodeSet(pagetree, 
+                                   '//li[@class="subject-item"]//span[@class="tags"]'),xmlValue)
+      book_tag<-gsub('标签: ','',book_tag)
+      
+      book_comment<-sapply(getNodeSet(pagetree, 
+                                  '//li[@class="subject-item"]//p[@class="comment"]'),xmlValue)
+      book_comment<-gsub('\n|  ','',book_comment)
+      book_rating<-getNodeSet(pagetree, c('//span[@class="rating1-t"]',
+                                       '//span[@class="rating2-t"]',
+                                       '//span[@class="rating3-t"]',
+                                       '//span[@class="rating4-t"]',
+                                       '//span[@class="rating5-t"]'))
+      
+      book_rating<-sapply(book_rating,function(x) xmlGetAttr(x, "class"))
+      book_rating<-as.integer(gsub('[^0-9]','',book_rating))
+      
+      if(length(book_tag)<nlen){
+        book_tag<-c(book_tag,rep(NA,nlen-length(book_tag)))
+        warning('有部分书籍该用户设定没有标签,用NA替代,这将造成书签和书籍名称不对应!')
+        }
+      if(length(book_comment)<nlen){
+        book_comment<-c(book_comment,rep(NA,nlen-length(book_comment)))
+        warning('有部分书籍该用户没有发表短评,用NA替代,这将造成短评和书籍名称不对应!')
+      }
+      if(length(book_rating)<nlen){
+        book_rating<-c(book_rating,rep(NA,nlen-length(book_rating)))
+        warning('有部分书籍该用户没有评分,用NA替代,这将造成评分和书籍名称不对应!')      
+      }
+      
       data.frame(book_tilte=book_tilte,
                  read_date=read_date,
                  book_info=book_info,
+                 book_tag=book_tag,
+                 book_comment=book_comment,
+                 book_rating=book_rating,
+                 book_url=book_url,
+                 img_url=img_url,
                  stringsAsFactors=F)
     }
     
@@ -30,7 +73,9 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE
     if(getList==TRUE){
       booklist<-.get_list(pagetree)
       num<-sapply(getNodeSet(pagetree, '//head//title'),xmlValue)
-      num<-as.integer(substr(num,unlist(gregexpr('\\(',num))[-1]+1,unlist(gregexpr('\\)',num))[-1]-1))
+      num<-gsub('[\n ]','',num)
+      num<-as.integer(unlist(strsplit(num,'\\(|\\)'))[-1])
+      #num<-as.integer(substr(num,unlist(gregexpr('\\(',num))[-1]+1,unlist(gregexpr('\\)',num))[-1]-1))
       pages<-ceiling(num/15)
       
       if(pages>1){
@@ -254,14 +299,14 @@ douban_user_statuses<-function(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE
        movie=movie,
        music=music,
        book_do_labels=book_do_labels,
-       book_do_list=book_do_list,
+       book_do_df=book_do_list,
        book_wish_labels=book_wish_labels,
-       book_wish_list=book_wish_list,
+       book_wish_df=book_wish_list,
        book_collect_labels=book_collect_labels,
-       book_collect_list=book_collect_list,
+       book_collect_df=book_collect_list,
        notes=notes,
        reviews=reviews)
   
 }
 
-#x2<-douban_user_statuses(nickname='qxde01',getNote=T,getList=TRUE,verbose=TRUE)
+#qxde<-douban_user_statuses(nickname='qxde01',getNote=T,getList=TRUE,verbose=TRUE)
