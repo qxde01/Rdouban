@@ -30,8 +30,14 @@ get_movie_info<-function(movieid,...){
   
   ## 常用标签 
   labels_amount <- sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//h2'), xmlValue)
-  labels_amount<-as.integer(gsub('[^0-9]','',labels_amount))
+  if(length(labels_amount)==0) labels_amount<-NA
+  
+  #  labels_amount <- sapply(getNodeSet(pagetree, '//div[@class="tags-body"]'), xmlValue)
+  #labels_amount<-as.integer(gsub('[^0-9]','',labels_amount))
   labelinfo<-sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//div'), xmlValue)
+  if(length(labelinfo)==0)
+    labelinfo<-sapply(getNodeSet(pagetree, '//div[@class="tags-body"]//a'), xmlValue)
+  
   labelinfo<-iconv(labelinfo,from='UTF-8',to='GB18030')
   labelinfo<-gsub("\x810\x842| ",'',labelinfo)
   labelinfo<-unlist(strsplit(labelinfo,' |\\(|\\)'))
