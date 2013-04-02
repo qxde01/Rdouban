@@ -1,45 +1,36 @@
 \encoding{UTF-8}
 \name{get_music_comments}
 \alias{get_music_comments}
-
-\title{»ñÈ¡¶¹°êÒôÀÖÆÀÂÛĞÅÏ¢.}
-\description{»ñÈ¡¶¹°êÒôÀÖÆÀÂÛĞÅÏ¢.}
+\title{è·å–è±†ç“£éŸ³ä¹è¯„è®ºä¿¡æ¯.}
+\description{è·å–è±†ç“£éŸ³ä¹è¯„è®ºä¿¡æ¯.}
 \usage{get_music_comments(musicid,n=100,verbose=TRUE,...)}
-
-\arguments{Ò»¸ölist,°üº¬£º
-\item{musicid}{¶¹°êÒôÀÖID}
-\item{n}{»ñÈ¡ÆÀÂÛµÄÆªÊı,Ä¬ÈÏ100}
-\item{verbose}{Èô\code{verbose=TRUEÔòÏÔÊ¾¹ı³ÌĞÅÏ¢£¬·ñÔò²»ÏÔÊ¾£¬Ä¬ÈÏ\code{TRUE}}}
+\arguments{ä¸€ä¸ªlist,åŒ…å«ï¼š
+\item{musicid}{è±†ç“£éŸ³ä¹ID}
+\item{n}{è·å–è¯„è®ºçš„ç¯‡æ•°,é»˜è®¤100}
+\item{verbose}{è‹¥\code{verbose=TRUEåˆ™æ˜¾ç¤ºè¿‡ç¨‹ä¿¡æ¯ï¼Œå¦åˆ™ä¸æ˜¾ç¤ºï¼Œé»˜è®¤\code{TRUE}}}
 }
- 
 \value{
-  \item{music_title}{ÒôÀÖ×¨¼­Ãû³Æ}
-  \item{comments_amount}{²ÎÓëÆÀ·ÖµÄÈËÊı}
-  \item{rating}{ÆÀ·ÖĞÅÏ¢,\code{votes_amount}ÆÀÂÛÓÃ»§ÖĞ²ÎÓëÆÀÂÛµÄÈËÊı,\code{starsx}·Ö±ğ¶ÔÓ¦¸÷¼¶ÆÀ·ÖµÄÈËÊı}
-  \item{comments}{Ò»¸ödata.frame£¬¹²9ÁĞ£º
-    \code{title}ÆÀÂÛ±êÌâ,
-    \code{time}ÆÀÂÛ·¢±íÊ±¼ä,
-    \code{nickname}×÷ÕßêÇ³Æ,
-    \code{comment}ÆÀÂÛÄÚÈİ,
-    \code{rating}×÷ÕßÆÀ·Ö,
-    \code{useful}¸ÃÆÀÂÛ±»ÔŞÎªÓĞÓÃµÄ´ÎÊı,
-    \code{unuseful}¸ÃÆÀÂÛ±»ÆÀÎªÎŞÓÃµÄ´ÎÊı,
-    \code{author_url}×÷ÕßÖ÷Ò³ÍøÖ·,
-    \code{comment_url}¸ÃÆÀÂÛÖ÷Ò³ÍøÖ·}
+  \item{music_title}{éŸ³ä¹ä¸“è¾‘åç§°}
+  \item{comments_amount}{å‚ä¸è¯„åˆ†çš„äººæ•°}
+  \item{rating}{è¯„åˆ†ä¿¡æ¯,\code{votes_amount}è¯„è®ºç”¨æˆ·ä¸­å‚ä¸è¯„è®ºçš„äººæ•°,\code{starsx}åˆ†åˆ«å¯¹åº”å„çº§è¯„åˆ†çš„äººæ•°}
+  \item{comments}{ä¸€ä¸ªdata.frameï¼Œå…±9åˆ—ï¼š
+    \code{title}è¯„è®ºæ ‡é¢˜,
+    \code{time}è¯„è®ºå‘è¡¨æ—¶é—´,
+    \code{nickname}ä½œè€…æ˜µç§°,
+    \code{comment}è¯„è®ºå†…å®¹,
+    \code{rating}ä½œè€…è¯„åˆ†,
+    \code{useful}è¯¥è¯„è®ºè¢«èµä¸ºæœ‰ç”¨çš„æ¬¡æ•°,
+    \code{unuseful}è¯¥è¯„è®ºè¢«è¯„ä¸ºæ— ç”¨çš„æ¬¡æ•°,
+    \code{author_url}ä½œè€…ä¸»é¡µç½‘å€,
+    \code{comment_url}è¯¥è¯„è®ºä¸»é¡µç½‘å€}
 }
-
 \author{qxde01<\email{qxde01@@gmail.com}>
 }
-
-
-\note{ÈôÊµ¼ÊÓ°ÆÀÊıĞ¡ÓÚn,Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı,ÈôÊµ¼ÊÊı´óÓÚn,Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ
+\note{è‹¥å®é™…å½±è¯„æ•°å°äºn,åˆ™è·å–çš„æ˜¯å®é™…æ•°,è‹¥å®é™…æ•°å¤§äºn,åˆ™è·å–åˆ°çš„æ•°é‡æ˜¯
 \code{ceiling(n/25)*25}.}
-
-
 \examples{
  ## http://music.douban.com/subject/3843530/reviews
  \dontrun{get_music_comments(musicid=3843530,n=50,verbose=T)}
 }
-
 \keyword{music}
 \keyword{comment}

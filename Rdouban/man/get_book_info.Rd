@@ -1,26 +1,21 @@
 \encoding{UTF-8}
 \name{get_book_info}
 \alias{get_book_info}
-\title{»ñÈ¡¶¹°êÍ¼Êé»ù±¾ĞÅÏ¢}
-\description{ »ñÈ¡¶¹°êÍ¼Êé»ù±¾ĞÅÏ¢,°üÀ¨×÷Õß¡¢¼ò½é¡¢¶¹°êÆÀ·ÖµÈ.}
-
+\title{è·å–è±†ç“£å›¾ä¹¦åŸºæœ¬ä¿¡æ¯}
+\description{ è·å–è±†ç“£å›¾ä¹¦åŸºæœ¬ä¿¡æ¯,åŒ…æ‹¬ä½œè€…ã€ç®€ä»‹ã€è±†ç“£è¯„åˆ†ç­‰.}
 \usage{get_book_info(bookid,...)
 }
 \arguments{
-  \item{bookid}{¶¹°êÊé¼®µÄidºÅ,Ò»´®Êı×Ö,Èç20326626,¿ÉÍ¨¹ıÍ¼ÊéµÄ¶¹°êÖ÷Ò³²éÑ¯}}
-
-\value{Ò»¸öÁĞ±ílist,°üÀ¨:
-  \item{book_base_info}{Êé¼®µÄ»ù±¾ĞÅÏ¢,Èç×÷Õß¡¢³ö°æÉçµÈ} 
-  \item{rating}{³¤¶ÈÎª7µÄÏòÁ¿,ÓÃ»§ÆÀ·ÖĞÅÏ¢,\code{score}Îª×Ü·Ö,\code{votes}Ö¸²ÎÓëµÄÆÀ·ÖÈËÊı,\code{starsx}Ö¸¶ÔÓ¦ÆÀ·ÖÓÃ»§µÄËùÕ¼µÄ±ÈÀı}
- \item{content_intro}{Êé¼®ÄÚÈİ¼ò½é}
- \item{author_intro}{×÷Õß¼ò½é}
-\item{label_amount}{ÓÃ»§³£ÓÃ±êÇ©ÊıÁ¿}
-\item{labels}{Ò»¸öÁ½ÁĞdata.frame,\code{label_name}±êÇ©Ãû³Æ¼°¶ÔÓ¦µÄÊ¹ÓÃÆµÂÊ\code{label_freq}}
-\item{comments_notes_amount}{³¤¶ÈÎª2µÄÏòÁ¿,ÆäÖĞ\code{comments_amount}ÆÀÂÛÊıÁ¿,\code{notes_amount}Îª±Ê¼ÇÊıÁ¿}\item{reader_info}{³¤¶ÈÎª3µÄÏòÁ¿,\code{doings}Ö¸ÕıÔÚÔÄ¶ÁµÄÓÃ»§ÊıÁ¿,\code{collections}Ö¸ÒÑ¶ÁµÄÓÃ»§ÊıÁ¿,\code{wishes}Ö¸Ïë¶ÁµÄÓÃ»§ÊıÁ¿}}
-
-
-\note{\code{bookid}±ØĞëÊÇ¶¹°êÍ¼ÊéÓĞĞ§µÄid.}
-
+  \item{bookid}{è±†ç“£ä¹¦ç±çš„idå·,ä¸€ä¸²æ•°å­—,å¦‚20326626,å¯é€šè¿‡å›¾ä¹¦çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢}}
+\value{ä¸€ä¸ªåˆ—è¡¨list,åŒ…æ‹¬:
+  \item{book_base_info}{ä¹¦ç±çš„åŸºæœ¬ä¿¡æ¯,å¦‚ä½œè€…ã€å‡ºç‰ˆç¤¾ç­‰} 
+  \item{rating}{é•¿åº¦ä¸º7çš„å‘é‡,ç”¨æˆ·è¯„åˆ†ä¿¡æ¯,\code{score}ä¸ºæ€»åˆ†,\code{votes}æŒ‡å‚ä¸çš„è¯„åˆ†äººæ•°,\code{starsx}æŒ‡å¯¹åº”è¯„åˆ†ç”¨æˆ·çš„æ‰€å çš„æ¯”ä¾‹}
+ \item{content_intro}{ä¹¦ç±å†…å®¹ç®€ä»‹}
+ \item{author_intro}{ä½œè€…ç®€ä»‹}
+\item{label_amount}{ç”¨æˆ·å¸¸ç”¨æ ‡ç­¾æ•°é‡}
+\item{labels}{ä¸€ä¸ªä¸¤åˆ—data.frame,\code{label_name}æ ‡ç­¾åç§°åŠå¯¹åº”çš„ä½¿ç”¨é¢‘ç‡\code{label_freq}}
+\item{comments_notes_amount}{é•¿åº¦ä¸º2çš„å‘é‡,å…¶ä¸­\code{comments_amount}è¯„è®ºæ•°é‡,\code{notes_amount}ä¸ºç¬”è®°æ•°é‡}\item{reader_info}{é•¿åº¦ä¸º3çš„å‘é‡,\code{doings}æŒ‡æ­£åœ¨é˜…è¯»çš„ç”¨æˆ·æ•°é‡,\code{collections}æŒ‡å·²è¯»çš„ç”¨æˆ·æ•°é‡,\code{wishes}æŒ‡æƒ³è¯»çš„ç”¨æˆ·æ•°é‡}}
+\note{\code{bookid}å¿…é¡»æ˜¯è±†ç“£å›¾ä¹¦æœ‰æ•ˆçš„id.}
 \author{
    <\email{qxde01@@gmail.com}>
 }

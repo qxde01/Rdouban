@@ -1,44 +1,34 @@
 \encoding{UTF-8}
 \name{get_movie_comments}
 \alias{get_movie_comments}
-
 \title{
-»ñÈ¡¶¹°êµçÓ°µÄ¶ÌÆÀ}
-
-\description{»ñÈ¡¶¹°êµçÓ°ºÍµçÊÓ¾çµÄ¶ÌÆÀ.}
-
+è·å–è±†ç“£ç”µå½±çš„çŸ­è¯„}
+\description{è·å–è±†ç“£ç”µå½±å’Œç”µè§†å‰§çš„çŸ­è¯„.}
 \usage{get_movie_comments(movieid,n=100,verbose=TRUE,...)}
-
 \arguments{
-  \item{movieid}{¶¹°êµçÓ°ºÍµçÊÓ¾çµÄID,ÓÉÊı×Ö×é³ÉµÄ×Ö·û´®,¿ÉÍ¨¹ıÃ¿²¿µçÓ°»òµçÊÓ¾çµÄ¶¹°êÖ÷Ò³²éÑ¯.}
-  \item{n}{»ñÈ¡¶ÌÆÀµÄÊıÁ¿,Ä¬ÈÏn=100.}
-    \item{verbose}{µ±\code{verbose=TRUE}Ê±,ÏÔÊ¾º¯ÊıµÄÖ´ĞĞ¹ı³ÌĞÅÏ¢,\code{verbose=FALSE}Ê±²»ÏÔÊ¾,Ä¬ÈÏÎª\code{TRUE}.}
+  \item{movieid}{è±†ç“£ç”µå½±å’Œç”µè§†å‰§çš„ID,ç”±æ•°å­—ç»„æˆçš„å­—ç¬¦ä¸²,å¯é€šè¿‡æ¯éƒ¨ç”µå½±æˆ–ç”µè§†å‰§çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢.}
+  \item{n}{è·å–çŸ­è¯„çš„æ•°é‡,é»˜è®¤n=100.}
+    \item{verbose}{å½“\code{verbose=TRUE}æ—¶,æ˜¾ç¤ºå‡½æ•°çš„æ‰§è¡Œè¿‡ç¨‹ä¿¡æ¯,\code{verbose=FALSE}æ—¶ä¸æ˜¾ç¤º,é»˜è®¤ä¸º\code{TRUE}.}
 }
-
 \value{
-\item{movie_title}{µçÓ°µÄÃû³Æ}  
-\item{comments_amount}{µçÓ°¶ÌÆÀµÄ×ÜÊıÁ¿}
-\item{short_comments}{¶ÌÆÀĞÅÏ¢,Ò»¸ödata.frame,¹²5ÁĞ:
-  \code{comment}¶ÌÆÀÄÚÈİ,
-  \code{time}¶ÌÆÀ·¢±íÊ±¼ä,
-  \code{useful}¶ÌÆÀ±»ÔŞÎªÓĞÓÃµÄ´ÎÊı,
-  \code{nickname}×÷ÕßêÇ³Æ,
-  \code{authors_url}×÷ÕßÖ÷Ò³.}  
+\item{movie_title}{ç”µå½±çš„åç§°}  
+\item{comments_amount}{ç”µå½±çŸ­è¯„çš„æ€»æ•°é‡}
+\item{short_comments}{çŸ­è¯„ä¿¡æ¯,ä¸€ä¸ªdata.frame,å…±5åˆ—:
+  \code{comment}çŸ­è¯„å†…å®¹,
+  \code{time}çŸ­è¯„å‘è¡¨æ—¶é—´,
+  \code{useful}çŸ­è¯„è¢«èµä¸ºæœ‰ç”¨çš„æ¬¡æ•°,
+  \code{nickname}ä½œè€…æ˜µç§°,
+  \code{authors_url}ä½œè€…ä¸»é¡µ.}  
 }
-
-\note{ÈôÊµ¼Ê¶ÌÆÀÊıĞ¡ÓÚn,Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı,ÈôÊµ¼ÊÊı´óÓÚn,Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/20)*20}.}
-
+\note{è‹¥å®é™…çŸ­è¯„æ•°å°äºn,åˆ™è·å–çš„æ˜¯å®é™…æ•°,è‹¥å®é™…æ•°å¤§äºn,åˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/20)*20}.}
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-
 \seealso{
  \code{\link{get_movie_reviews}}
 }
-
 \examples{
 ## http://movie.douban.com/subject/5308265/comments
 \dontrun{get_movie_comments(movieid=5308265,n=70)}
 }
-
 \keyword{comment}

@@ -1,7 +1,6 @@
 \encoding{UTF-8}
 \name{douban_user_statuses}
 \alias{douban_user_statuses}
-
 \title{
 获取豆瓣用户的评论、日记等信息
 }
@@ -11,7 +10,6 @@
 \usage{
 douban_user_statuses(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE,verbose=TRUE,...)
 }
-
 \arguments{
   \item{nickname}{豆瓣用户的昵称}
   \item{getNote}{如果为\code{TRUE},将获取用户的日记,否则不获取,默认获取}
@@ -35,19 +33,15 @@ douban_user_statuses(nickname,getNote=TRUE,getReview=TRUE,getList=TRUE,verbose=T
   \item{notes}{一个data.frame,用户发表的日记信息,包括：\code{title}日记标题,\code{time}日记发表时间,\code{note}日记内容,\code{rec_num}获得推荐的次数,\code{fac_num}获得喜欢的次数,\code{url}日记主页网址}
   \item{reviews}{一个data.frame,用户发表的评论信息,包括:\code{target_title}所评论的书籍或电影的名称,\code{title}评论文章标题,\code{time}评论文章发表时间,\code{review}评论文章内容,\code{rating}评分信息,\code{useful}获取的赞的次数,\code{unuseful}被批评为无用的次数,\code{url}评论文章主页网址,\code{type=book}为对书籍的评论,\code{type=movie}为对电影的评论}
 }
-
 \author{<\email{qxde01@@gmail.com}>
 }
 \note{
 BUG：其中书籍标签\code{book_tag},书籍短评\code{book_comment},书籍评分\code{book_rating},结果可能与书籍名称不一致,因为用户可能没有设定这些信息，程序获取是按照每页15项批量获取，空白被省略，暂时以NA在末尾补全，使长度一致。
 }
-
 \seealso{
-
 }
 \examples{
 \dontrun{douban_user_statuses(nickname='qxde01',getList=TRUE,getNote=F,verbose=TRUE)}
 }
-
 \keyword{douban}
 \keyword{comment}

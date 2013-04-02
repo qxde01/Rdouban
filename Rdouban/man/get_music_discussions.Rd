@@ -1,39 +1,31 @@
-
 \encoding{UTF-8}
 \name{get_music_discussions}
 \alias{get_music_discussions}
-\title{»ñÈ¡¶¹°êÒôÀÖ×¨¼­µÄ»°ÌâÌÖÂÛÄÚÈİ
+\title{è·å–è±†ç“£éŸ³ä¹ä¸“è¾‘çš„è¯é¢˜è®¨è®ºå†…å®¹
 }
-\description{»ñÈ¡¶¹°êÒôÀÖ×¨¼­µÄ»°ÌâÌÖÂÛÄÚÈİ.
+\description{è·å–è±†ç“£éŸ³ä¹ä¸“è¾‘çš„è¯é¢˜è®¨è®ºå†…å®¹.
 }
 \usage{
 get_music_discussions(musicid,n=100,verbose=TRUE,...)
 }
-
 \arguments{
-  \item{musicid}{¶¹°êÒôÀÖ×¨¼­µÄID,ÓÉÊı×Ö×é³ÉµÄ×Ö·û´®,¿ÉÍ¨¹ıÒôÀÖ×¨¼­µÄ¶¹°êÖ÷Ò³²éÑ¯.}
-  \item{n}{»ñÈ¡»°ÌâµÄÊıÁ¿,Ä¬ÈÏn=100.}
-  \item{verbose}{µ±\code{verbose=TRUE}Ê±,ÏÔÊ¾º¯ÊıµÄÖ´ĞĞ¹ı³ÌĞÅÏ¢,\code{verbose=FALSE}Ê±²»ÏÔÊ¾,Ä¬ÈÏÎª\code{TRUE}.}
+  \item{musicid}{è±†ç“£éŸ³ä¹ä¸“è¾‘çš„ID,ç”±æ•°å­—ç»„æˆçš„å­—ç¬¦ä¸²,å¯é€šè¿‡éŸ³ä¹ä¸“è¾‘çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢.}
+  \item{n}{è·å–è¯é¢˜çš„æ•°é‡,é»˜è®¤n=100.}
+  \item{verbose}{å½“\code{verbose=TRUE}æ—¶,æ˜¾ç¤ºå‡½æ•°çš„æ‰§è¡Œè¿‡ç¨‹ä¿¡æ¯,\code{verbose=FALSE}æ—¶ä¸æ˜¾ç¤º,é»˜è®¤ä¸º\code{TRUE}.}
 }
-
-\value{Ò»¸ödata.frame,¹²7ÁĞ:
-  \item{title }{»°Ìâ±êÌâ}
-  \item{dicussion }{»°ÌâÄÚÈİ}
-  \item{nickname }{·¢±í»°ÌâµÄ×÷ÕßêÇ³Æ}
-  \item{time }{»°Ìâ·¢±íµÄÊ±¼ä}
-  \item{useful }{±»ÔŞÎªÓĞÓÃµÄ´ÎÊı}
-  \item{unuseful}{±»ÅúÆÀÎªÎŞÓÃµÄ´ÎÊı}
-  \item{discussion_url }{»°ÌâÍøÖ·}
-  
+\value{ä¸€ä¸ªdata.frame,å…±7åˆ—:
+  \item{title }{è¯é¢˜æ ‡é¢˜}
+  \item{dicussion }{è¯é¢˜å†…å®¹}
+  \item{nickname }{å‘è¡¨è¯é¢˜çš„ä½œè€…æ˜µç§°}
+  \item{time }{è¯é¢˜å‘è¡¨çš„æ—¶é—´}
+  \item{useful }{è¢«èµä¸ºæœ‰ç”¨çš„æ¬¡æ•°}
+  \item{unuseful}{è¢«æ‰¹è¯„ä¸ºæ— ç”¨çš„æ¬¡æ•°}
+  \item{discussion_url }{è¯é¢˜ç½‘å€}
 }
-
-\note{ÈôÊµ¼Ê»°ÌâÊıĞ¡ÓÚn,Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı,ÈôÊµ¼ÊÊı´óÓÚn,Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/20)*20}.}
-
+\note{è‹¥å®é™…è¯é¢˜æ•°å°äºn,åˆ™è·å–çš„æ˜¯å®é™…æ•°,è‹¥å®é™…æ•°å¤§äºn,åˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/20)*20}.}
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-
-
 \seealso{
 \code{\link{get_music_comments,get_music_reviews}}
 }
@@ -41,5 +33,4 @@ qxde01<\email{qxde01@@gmail.com}>
 ## http://music.douban.com/subject/3843530/discussion/
 \dontrun{get_music_discussions(musicid=3843530,n=100)}
 }
-
 \keyword{discussion}

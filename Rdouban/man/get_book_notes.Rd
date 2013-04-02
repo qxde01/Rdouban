@@ -1,31 +1,28 @@
 \encoding{UTF-8}
 \name{get_book_notes}
 \alias{get_book_notes}
-
-\title{»ñÈ¡¶¹°êÍ¼ÊéµÄ¶ÁÊé±Ê¼Ç}
-\description{»ñÈ¡¶¹°êÍ¼ÊéµÄ¶ÁÊé±Ê¼Ç.}
+\title{è·å–è±†ç“£å›¾ä¹¦çš„è¯»ä¹¦ç¬”è®°}
+\description{è·å–è±†ç“£å›¾ä¹¦çš„è¯»ä¹¦ç¬”è®°.}
 \usage{get_book_notes(bookid,n=100,verbose=TRUE,)}
 \arguments{
-  \item{bookid}{¶¹°êÊé¼®µÄidºÅ,Ò»´®Êı×Ö,Èç'20326626'}
-  \item{n}{»ñÈ¡¶ÁÊé±Ê¼ÇµÄÆªÊı,Ä¬ÈÏn=100}
-  \item{verbose}{µ±\code{verbose=TRUE}Ê±,ÏÔÊ¾º¯ÊıµÄÖ´ĞĞ¹ı³ÌĞÅÏ¢,\code{verbose=FALSE}Ê±²»ÏÔÊ¾,Ä¬ÈÏÎª\code{TRUE}.}
+  \item{bookid}{è±†ç“£ä¹¦ç±çš„idå·,ä¸€ä¸²æ•°å­—,å¦‚'20326626'}
+  \item{n}{è·å–è¯»ä¹¦ç¬”è®°çš„ç¯‡æ•°,é»˜è®¤n=100}
+  \item{verbose}{å½“\code{verbose=TRUE}æ—¶,æ˜¾ç¤ºå‡½æ•°çš„æ‰§è¡Œè¿‡ç¨‹ä¿¡æ¯,\code{verbose=FALSE}æ—¶ä¸æ˜¾ç¤º,é»˜è®¤ä¸º\code{TRUE}.}
 }
-
-\value{ Ò»¸öÁĞ±í(list), °üÀ¨:
-  \item{book_title}{Êé¼®Ãû³Æ}
-  \item{notes_amount}{±Ê¼ÇÎÄÕÂ×ÜÊı}
-  \item{notes_info}{Ò»¸ödata.frame,°üº¬8ÁĞ:
-    \code{title}ÆÀÂÛÎÄÕÂ±êÌâ,
-    \code{note}¶ÁÊé±Ê¼ÇÄÚÈİ,
-    \code{time}¶ÁÊé±Ê¼Ç·¢±íÊ±¼ä,
-    \code{nickname}×÷ÕßêÇ³Æ,
-    \code{rating}×÷ÕßÆÀ·Ö,
-    \code{author_url}×÷ÕßÖ÷Ò³,
-    \code{note_url}¸Ã±Ê¼ÇµÄÖ÷Ò³,
-    \code{note_comment_url}¶Ô¸Ã±Ê¼ÇµÄÆÀÂÛÖ÷Ò³}
+\value{ ä¸€ä¸ªåˆ—è¡¨(list), åŒ…æ‹¬:
+  \item{book_title}{ä¹¦ç±åç§°}
+  \item{notes_amount}{ç¬”è®°æ–‡ç« æ€»æ•°}
+  \item{notes_info}{ä¸€ä¸ªdata.frame,åŒ…å«8åˆ—:
+    \code{title}è¯„è®ºæ–‡ç« æ ‡é¢˜,
+    \code{note}è¯»ä¹¦ç¬”è®°å†…å®¹,
+    \code{time}è¯»ä¹¦ç¬”è®°å‘è¡¨æ—¶é—´,
+    \code{nickname}ä½œè€…æ˜µç§°,
+    \code{rating}ä½œè€…è¯„åˆ†,
+    \code{author_url}ä½œè€…ä¸»é¡µ,
+    \code{note_url}è¯¥ç¬”è®°çš„ä¸»é¡µ,
+    \code{note_comment_url}å¯¹è¯¥ç¬”è®°çš„è¯„è®ºä¸»é¡µ}
 }
-\note{ÈôÊµ¼Ê¶ÌÆÀÊıĞ¡ÓÚn£¬Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı£¬ÈôÊµ¼ÊÊı£¬Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/10)*10}.}
- 
+\note{è‹¥å®é™…çŸ­è¯„æ•°å°äºnï¼Œåˆ™è·å–çš„æ˜¯å®é™…æ•°ï¼Œè‹¥å®é™…æ•°ï¼Œåˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/10)*10}.} 
 \author{
   <\email{qxde01@@gmail.com}>
 }
@@ -36,6 +33,5 @@
 ## http://book.douban.com/subject/1291204/annotation
 \dontrun{get_book_notes(bookid='1291204',n=50)}
 }
-
 \keyword{note}
 \keyword{douban}

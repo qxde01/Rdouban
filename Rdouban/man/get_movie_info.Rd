@@ -1,7 +1,6 @@
 \encoding{UTF-8}
 \name{get_movie_info}
 \alias{get_movie_info}
-
 \title{获取豆瓣影视的基本信息}
 \description{获取豆瓣影视剧的基本信息,包括电影名称、导演、演员、豆瓣评分等信息.
 }
@@ -26,10 +25,8 @@ get_movie_info(movieid,...)
 }
 \note{\code{movieid}必须是豆瓣电影或电视剧有效id,比如\link{http://movie.douban.com/subject/5308265/}的ID=5308265.
 }
-
 \examples{
 ## http://movie.douban.com/subject/10527209/
 \dontrun{get_movie_info(movieid='5308265')}
 }
-
 \keyword{movie}

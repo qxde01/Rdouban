@@ -1,37 +1,32 @@
 \encoding{UTF-8}
 \name{get_book_comments}
 \alias{get_book_comments}
-\title{»ñÈ¡¶¹°êÍ¼ÊéµÄÆÀÂÛÎÄÕÂ}
-\description{»ñÈ¡¶¹°êÍ¼ÊéµÄÆÀÂÛÎÄÕÂ.}
+\title{è·å–è±†ç“£å›¾ä¹¦çš„è¯„è®ºæ–‡ç« }
+\description{è·å–è±†ç“£å›¾ä¹¦çš„è¯„è®ºæ–‡ç« .}
 \usage{get_book_comments(bookid,n=100,verbose=TRUE,...)
 }
-
 \arguments{
-  \item{bookid}{ ¶¹°êÊé¼®µÄidºÅ,Ò»´®Êı×Ö,Èç20326626}
-  \item{n}{»ñÈ¡ÆÀÂÛµÄÊıÁ¿,Ä¬ÈÏn=100}
-  \item{verbose}{Èô\code{verbose=TRUEÔòÏÔÊ¾ÏêÏ¸¹ı³ÌĞÅÏ¢£¬·ñÔò²»ÏÔÊ¾£¬Ä¬ÈÏ\code{TRUE}}}
+  \item{bookid}{ è±†ç“£ä¹¦ç±çš„idå·,ä¸€ä¸²æ•°å­—,å¦‚20326626}
+  \item{n}{è·å–è¯„è®ºçš„æ•°é‡,é»˜è®¤n=100}
+  \item{verbose}{è‹¥\code{verbose=TRUEåˆ™æ˜¾ç¤ºè¯¦ç»†è¿‡ç¨‹ä¿¡æ¯ï¼Œå¦åˆ™ä¸æ˜¾ç¤ºï¼Œé»˜è®¤\code{TRUE}}}
 }
-
-\value{Ò»¸öÁĞ±ílist, °üÀ¨:
-  \item{book_title}{Êé¼®Ãû³Æ} 
-  \item{comments_amount}{ÆÀÂÛÎÄÕÂ×ÜÊı}
-  \item{comment_info}{Ò»¸ödata.frame,°üº¬9ÁĞ:
-    \code{title}ÆÀÂÛÎÄÕÂÃû³Æ,
-    \code{comment}ÆÀÂÛÎÄÕÂÄÚÈİ,
-    \code{time}ÆÀÂÛ·¢±íÊ±¼ä,
-    \code{nickname}×÷ÕßêÇ³Æ, 
-    \code{rating}×÷ÕßÆÀ·Ö,
-    \code{useful}¸ÃÆÀÂÛ±»ÔŞÎªÓĞÓÃµÄÊıÁ¿,
-    \code{unuseful}¸ÃÆÀÂÛ±»ÅúÆÀÎªÎŞÓÃµÄÊıÁ¿,
-    \code{author_url}×÷ÕßÖ÷Ò³, 
-    \code{comment_url}¸ÃÆÀÂÛÎÄÕÂµÄÖ÷Ò³}
+\value{ä¸€ä¸ªåˆ—è¡¨list, åŒ…æ‹¬:
+  \item{book_title}{ä¹¦ç±åç§°} 
+  \item{comments_amount}{è¯„è®ºæ–‡ç« æ€»æ•°}
+  \item{comment_info}{ä¸€ä¸ªdata.frame,åŒ…å«9åˆ—:
+    \code{title}è¯„è®ºæ–‡ç« åç§°,
+    \code{comment}è¯„è®ºæ–‡ç« å†…å®¹,
+    \code{time}è¯„è®ºå‘è¡¨æ—¶é—´,
+    \code{nickname}ä½œè€…æ˜µç§°, 
+    \code{rating}ä½œè€…è¯„åˆ†,
+    \code{useful}è¯¥è¯„è®ºè¢«èµä¸ºæœ‰ç”¨çš„æ•°é‡,
+    \code{unuseful}è¯¥è¯„è®ºè¢«æ‰¹è¯„ä¸ºæ— ç”¨çš„æ•°é‡,
+    \code{author_url}ä½œè€…ä¸»é¡µ, 
+    \code{comment_url}è¯¥è¯„è®ºæ–‡ç« çš„ä¸»é¡µ}
 }
-
-\note{ÈôÊµ¼Ê¶ÌÆÀÊıĞ¡ÓÚn£¬Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı£¬ÈôÊµ¼ÊÊı£¬Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/20)*20}.}
-
+\note{è‹¥å®é™…çŸ­è¯„æ•°å°äºnï¼Œåˆ™è·å–çš„æ˜¯å®é™…æ•°ï¼Œè‹¥å®é™…æ•°ï¼Œåˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/20)*20}.}
 \author{qxde01<\email{qxde01@@gmail.com}>
 }
-
 \seealso{
  \code{\link{get_book_notes}}
 }

@@ -1,38 +1,31 @@
 \encoding{UTF-8}
 \name{get_movie_discussions}
 \alias{get_movie_discussions}
-\title{»ñÈ¡¹ØÓÚÄ³¸ö¶¹°êµçÓ°µÄ»°ÌâÌÖÂÛÄÚÈİ
+\title{è·å–å…³äºæŸä¸ªè±†ç“£ç”µå½±çš„è¯é¢˜è®¨è®ºå†…å®¹
 }
-\description{»ñÈ¡¹ØÓÚÄ³¸ö¶¹°êµçÓ°µÄ»°ÌâÌÖÂÛÄÚÈİ.
+\description{è·å–å…³äºæŸä¸ªè±†ç“£ç”µå½±çš„è¯é¢˜è®¨è®ºå†…å®¹.
 }
 \usage{
 get_movie_discussions(movieid,n=100,verbose=TRUE,...)
 }
-
 \arguments{
-  \item{movieid}{¶¹°êµçÓ°»òµçÊÓ¾çµÄID,ÓÉÊı×Ö×é³ÉµÄ×Ö·û´®,¿ÉÍ¨¹ıÃ¿²¿µçÓ°»òµçÊÓ¾çµÄ¶¹°êÖ÷Ò³²éÑ¯.}
-  \item{n}{»ñÈ¡»°ÌâµÄÊıÁ¿,Ä¬ÈÏn=100.}
-  \item{verbose}{µ±\code{verbose=True}Ê±,ÏÔÊ¾º¯ÊıµÄÖ´ĞĞ¹ı³ÌĞÅÏ¢,\code{verbose=False}Ê±²»ÏÔÊ¾,Ä¬ÈÏÎª\code{True}.}
+  \item{movieid}{è±†ç“£ç”µå½±æˆ–ç”µè§†å‰§çš„ID,ç”±æ•°å­—ç»„æˆçš„å­—ç¬¦ä¸²,å¯é€šè¿‡æ¯éƒ¨ç”µå½±æˆ–ç”µè§†å‰§çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢.}
+  \item{n}{è·å–è¯é¢˜çš„æ•°é‡,é»˜è®¤n=100.}
+  \item{verbose}{å½“\code{verbose=True}æ—¶,æ˜¾ç¤ºå‡½æ•°çš„æ‰§è¡Œè¿‡ç¨‹ä¿¡æ¯,\code{verbose=False}æ—¶ä¸æ˜¾ç¤º,é»˜è®¤ä¸º\code{True}.}
 }
-
-\value{Ò»¸ödata.frame,¹²7ÁĞ:
-  \item{title }{»°Ìâ±êÌâ}
-  \item{dicussion }{»°ÌâÄÚÈİ}
-  \item{nickname }{·¢±í»°ÌâµÄ×÷ÕßêÇ³Æ}
-  \item{time }{»°Ìâ·¢±íµÄÊ±¼ä}
-  \item{useful }{±»ÔŞÎªÓĞÓÃµÄ´ÎÊı}
-  \item{unuseful}{±»ÔŞÎªÎŞÓÃµÄ´ÎÊı}
-  \item{discussion_url }{»°ÌâÍøÖ·}
-  
+\value{ä¸€ä¸ªdata.frame,å…±7åˆ—:
+  \item{title }{è¯é¢˜æ ‡é¢˜}
+  \item{dicussion }{è¯é¢˜å†…å®¹}
+  \item{nickname }{å‘è¡¨è¯é¢˜çš„ä½œè€…æ˜µç§°}
+  \item{time }{è¯é¢˜å‘è¡¨çš„æ—¶é—´}
+  \item{useful }{è¢«èµä¸ºæœ‰ç”¨çš„æ¬¡æ•°}
+  \item{unuseful}{è¢«èµä¸ºæ— ç”¨çš„æ¬¡æ•°}
+  \item{discussion_url }{è¯é¢˜ç½‘å€} 
 }
-
-\note{ÈôÊµ¼Ê»°ÌâÊıĞ¡ÓÚn,Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı,ÈôÊµ¼ÊÊı´óÓÚn,Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/20)*20}.}
-
+\note{è‹¥å®é™…è¯é¢˜æ•°å°äºn,åˆ™è·å–çš„æ˜¯å®é™…æ•°,è‹¥å®é™…æ•°å¤§äºn,åˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/20)*20}.}
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-
-
 \seealso{
 \code{\link{get_movie_comments,get_movie_reviews}}
 }
@@ -40,5 +33,4 @@ qxde01<\email{qxde01@@gmail.com}>
 ## http://movie.douban.com/subject/5308265/discussion/
 \dontrun{get_movie_discussions(movieid=5308265,n=100)}
 }
-
 \keyword{discussion}

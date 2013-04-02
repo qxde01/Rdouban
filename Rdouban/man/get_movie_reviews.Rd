@@ -1,39 +1,35 @@
 \encoding{UTF-8}
 \name{get_movie_reviews}
 \alias{get_movie_reviews}
-
-\title{»ñÈ¡¶¹°êµçÓ°µÄ³¤ÆªÓ°ÆÀ
+\title{è·å–è±†ç“£ç”µå½±çš„é•¿ç¯‡å½±è¯„
 }
-\description{»ñÈ¡¶¹°êµçÓ°ºÍµçÊÓ¾çµÄ³¤ÆªÓ°ÆÀ.
+\description{è·å–è±†ç“£ç”µå½±å’Œç”µè§†å‰§çš„é•¿ç¯‡å½±è¯„.
 }
 \usage{get_movie_reviews(movieid,n=100,verbose=True,...)
 }
-
 \arguments{
-  \item{movieid}{¶¹°êµçÓ°ºÍµçÊÓ¾çµÄID,ÓÉÊı×Ö×é³ÉµÄ×Ö·û´®,¿ÉÍ¨¹ıÃ¿²¿µçÓ°»òµçÊÓ¾çµÄ¶¹°êÖ÷Ò³²éÑ¯.}
-  \item{n}{»ñÈ¡³¤ÆªÓ°ÆÀµÄÊıÁ¿,Ä¬ÈÏn=100.}
-    \item{verbose}{µ±\code{verbose=True}Ê±,ÏÔÊ¾º¯ÊıµÄÖ´ĞĞ¹ı³ÌĞÅÏ¢,\code{verbose=False}Ê±²»ÏÔÊ¾,Ä¬ÈÏÎª\code{True}.}
+  \item{movieid}{è±†ç“£ç”µå½±å’Œç”µè§†å‰§çš„ID,ç”±æ•°å­—ç»„æˆçš„å­—ç¬¦ä¸²,å¯é€šè¿‡æ¯éƒ¨ç”µå½±æˆ–ç”µè§†å‰§çš„è±†ç“£ä¸»é¡µæŸ¥è¯¢.}
+  \item{n}{è·å–é•¿ç¯‡å½±è¯„çš„æ•°é‡,é»˜è®¤n=100.}
+    \item{verbose}{å½“\code{verbose=True}æ—¶,æ˜¾ç¤ºå‡½æ•°çš„æ‰§è¡Œè¿‡ç¨‹ä¿¡æ¯,\code{verbose=False}æ—¶ä¸æ˜¾ç¤º,é»˜è®¤ä¸º\code{True}.}
 }
-
 \value{
-\item{movie_title}{µçÓ°µÄÃû³Æ}  
-\item{reviews_amount}{µçÓ°Ó°ÆÀµÄ×ÜÊıÁ¿}
-\item{reviews_info}{Ó°ÆÀĞÅÏ¢,Ò»¸ödata.frame,¹²9ÁĞ:
-  \code{title}Ó°ÆÀ±êÌâ,
-  \code{review}Ó°ÆÀÄÚÈİ,
-  \code{time}Ó°ÆÀ·¢±íÊ±¼ä,
-  \code{nickname}×÷ÕßêÇ³Æ,
-  \code{rating}ÆÀ·ÖĞÅÏ¢,
-  \code{useful}Ó°ÆÀ±»ÔŞÎªÓĞÓÃµÄ´ÎÊı,
-  \code{useful}Ó°ÆÀ±»ÅúÆÀÎªÎŞÓÃµÄ´ÎÊı,
-  \code{review_url}Ó°ÆÀÖ÷Ò³,
-  \code{author_url}×÷ÕßÖ÷Ò³.}  
+\item{movie_title}{ç”µå½±çš„åç§°}  
+\item{reviews_amount}{ç”µå½±å½±è¯„çš„æ€»æ•°é‡}
+\item{reviews_info}{å½±è¯„ä¿¡æ¯,ä¸€ä¸ªdata.frame,å…±9åˆ—:
+  \code{title}å½±è¯„æ ‡é¢˜,
+  \code{review}å½±è¯„å†…å®¹,
+  \code{time}å½±è¯„å‘è¡¨æ—¶é—´,
+  \code{nickname}ä½œè€…æ˜µç§°,
+  \code{rating}è¯„åˆ†ä¿¡æ¯,
+  \code{useful}å½±è¯„è¢«èµä¸ºæœ‰ç”¨çš„æ¬¡æ•°,
+  \code{useful}å½±è¯„è¢«æ‰¹è¯„ä¸ºæ— ç”¨çš„æ¬¡æ•°,
+  \code{review_url}å½±è¯„ä¸»é¡µ,
+  \code{author_url}ä½œè€…ä¸»é¡µ.}  
 }
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-\note{ÈôÊµ¼ÊÓ°ÆÀÊıĞ¡ÓÚn,Ôò»ñÈ¡µÄÊÇÊµ¼ÊÊı,ÈôÊµ¼ÊÊı´óÓÚn,Ôò»ñÈ¡µ½µÄÊıÁ¿ÊÇ\code{ceiling(n/20)*20}.}
-
+\note{è‹¥å®é™…å½±è¯„æ•°å°äºn,åˆ™è·å–çš„æ˜¯å®é™…æ•°,è‹¥å®é™…æ•°å¤§äºn,åˆ™è·å–åˆ°çš„æ•°é‡æ˜¯\code{ceiling(n/20)*20}.}
 \seealso{
  \code{\link{get_movie_comments}}
 }
@@ -41,6 +37,5 @@ qxde01<\email{qxde01@@gmail.com}>
 ## http://movie.douban.com/subject/5308265/reviews
 \dontrun{get_movie_reviews(movieid=5308265,n=70)}
 }
-
 \keyword{review}
 \keyword{comment}
