@@ -5,7 +5,7 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
   
   titlenode <- getNodeSet(pagetree, '//title')
   titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的评论| ',' ',titleinfo,fixed = F)
+  titleinfo<-gsub('\n|鐨勮瘎璁簗 ',' ',titleinfo,fixed = F)
   titleinfo<-unlist(strsplit(titleinfo,' '))
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
@@ -13,7 +13,7 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
   cat('There is a tatol of',comments_amount,'comments...\n')
   
   .get_comment<-function(pagetree,verbose=TRUE,...){
-    ##评论的url及作者的主页url
+    ##璇勮鐨剈rl鍙婁綔鑰呯殑涓婚〉url
     cmtnode <- getNodeSet(pagetree, '//a[@title]')
     cmturl<-sapply(cmtnode,function(x) xmlGetAttr(x, "href"))
     
@@ -29,13 +29,13 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
       titlenode <- getNodeSet(cmttree, '//title')
       title<-sapply(titlenode, xmlValue)
       title<-gsub('[\n ]|\\([^\\(\\)]*\\)','',title)
-      ## 评论作者的昵称
+      ## 璇勮浣滆�呯殑鏄电О
       authornode <- getNodeSet(cmttree, '//span[@property="v:reviewer"]')
       author<-sapply(authornode, xmlValue)
       ## rating of author
       ratingnode <- getNodeSet(cmttree, '//span[@property="v:rating"]')
       rating<-sapply(ratingnode, xmlValue)
-      ##评论发表时间
+      ##璇勮鍙戣〃鏃堕棿
       timenode <- getNodeSet(cmttree, '//span[@property="v:dtreviewed"]')
       time<-sapply(timenode, xmlValue)
       ## a judge by ther douban users :amount of usful and unuseful
@@ -46,7 +46,7 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
       unusefulnode <- getNodeSet(cmttree, '//span[@class="unuseful"]')
       unusefulinfo<-sapply(unusefulnode, xmlValue)
       unuseful<-as.integer(gsub('[^0-9]','',unusefulinfo))
-      ##评论内容
+      ##璇勮鍐呭
       commentnode <- getNodeSet(cmttree, '//span[@property="v:description"]')
       comment<-sapply(commentnode, xmlValue)
       

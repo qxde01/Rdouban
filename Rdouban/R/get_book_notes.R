@@ -5,7 +5,7 @@ get_book_notes<-function(bookid,n=100,verbose=TRUE,...){
   pagetree <- htmlParse(getURL(strurl))
   titlenode <- getNodeSet(pagetree, '//title')
   titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的笔记| |\\(|\\)','',titleinfo,fixed = F)
+  titleinfo<-gsub('\n|鐨勭瑪璁皘 |\\(|\\)','',titleinfo,fixed = F)
   book_title<-gsub('[0-9]','',titleinfo)
   notes_amount<-as.integer(gsub('[^0-9]','',titleinfo))
   cat('There is a total of',notes_amount,'notes...\n')
@@ -38,7 +38,7 @@ get_book_notes<-function(bookid,n=100,verbose=TRUE,...){
       ratingnode <- getNodeSet(notetree, '//div[@class="mod profile clearfix"]//span[@class]')
       rating<-sapply(ratingnode,function(x) xmlGetAttr(x, "class"))[2]
       rating<-gsub('[^0-9]','',rating)
-      ##笔记内容
+      ##content
       contentnode <- getNodeSet(notetree, '//pre[@id="link-report"]')
       note_content<-sapply(contentnode, xmlValue)
       

@@ -5,11 +5,11 @@ get_movie_reviews<-function(movieid,n=100,verbose=TRUE,...){
   pagetree <- htmlParse(getURL(strurl))
   
   title0<- sapply(getNodeSet(pagetree, '//head//title'),xmlValue)
-  title<-gsub('[0-9 \n\\(\\)]|µÄÓ°ÆÀ|µÄÆÀÂÛ','',title0)
+  title<-gsub('[0-9 \n\\(\\)]|çš„å½±è¯„|çš„è¯„è®º','',title0)
   reviews_amount<-as.integer(gsub('[^0-9]','',title0))
   
   rating<-sapply(getNodeSet(pagetree, '//div[@class="rating_list clearfix"]//span'),xmlValue)[-1]
-  rating<-as.integer(gsub('[0-5]ÐÇ|[ -]','',rating))
+  rating<-as.integer(gsub('[0-5]æ˜Ÿ|[ -]','',rating))
   names(rating)<-c('stars5','stars4','stars3','stars2','stars1')
   
   cat('There is a total of',reviews_amount,'reviews...\n')

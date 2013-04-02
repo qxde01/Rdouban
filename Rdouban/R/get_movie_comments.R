@@ -3,7 +3,7 @@ get_movie_comments<-function(movieid,n=100,verbose=TRUE,...){
   
   strurl=paste0('http://movie.douban.com/subject/',movieid,'/comments')
   pagetree <- htmlParse(getURL(strurl))
-  movie_title<- gsub('¶ÌÆÀ','',sapply(getNodeSet(pagetree, '//title'),xmlValue))
+  movie_title<- gsub('çŸ­è¯„','',sapply(getNodeSet(pagetree, '//title'),xmlValue))
   comments_amount<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//div[@id="content"]//span[@class="fleft"]'),xmlValue)[1])
   comments_amount<-as.integer(comments_amount)
   cat('There is a total of ',comments_amount,'short comments...\n')

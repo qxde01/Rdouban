@@ -22,7 +22,7 @@ get_book_info<-function(bookid,...){
   contentnode <- getNodeSet(pagetree, '//div[@class="intro"]')
   contentinfo<-sapply(contentnode, xmlValue)
   if(length(contentinfo)>2)
-    contentinfo<-contentinfo[-grep('...\\(展开全部\\)',contentinfo)]
+    contentinfo<-contentinfo[-grep('...\\(灞曞紑鍏ㄩ儴\\)',contentinfo)]
   contentinfo<-gsub('\n| ','',contentinfo)
   clen=length(contentinfo)
   content_intro<-contentinfo[1]
@@ -42,7 +42,7 @@ get_book_info<-function(bookid,...){
   readnode <- getNodeSet(pagetree, '//div[@class="indent"]//p[@class="pl"]//a')
   readerinfo<-as.integer(gsub('[^0-9]','',sapply(readnode, xmlValue)))
   names(readerinfo)<-c('doings','collections','wishes')
-  ##书评、笔记的数量
+  ##
   comments_amount<-sapply(getNodeSet(pagetree, '//div[@id="reviews"]//h2'), xmlValue)
   comments_amount<-gsub('[^0-9]','',comments_amount)
   notes_amount<-sapply(getNodeSet(pagetree, '//div[@class="hd"]'), xmlValue)
