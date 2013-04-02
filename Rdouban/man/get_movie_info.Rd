@@ -26,7 +26,7 @@ get_movie_info(movieid,...)
 \note{\code{movieid}必须是豆瓣电影或电视剧有效id,比如\link{http://movie.douban.com/subject/5308265/}的ID=5308265.
 }
 \examples{
-## http://movie.douban.com/subject/10527209/
+## http://movie.douban.com/subject/5308265/
 \dontrun{get_movie_info(movieid='5308265')}
 }
 \keyword{movie}
