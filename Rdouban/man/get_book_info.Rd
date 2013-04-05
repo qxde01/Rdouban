@@ -8,7 +8,8 @@
 \arguments{
   \item{bookid}{豆瓣书籍的id号,一串数字,如20326626,可通过图书的豆瓣主页查询}}
 \value{一个列表list,包括:
-  \item{book_base_info}{书籍的基本信息,如作者、出版社等} 
+  \item{book_title}{书名}
+  \item{base_info}{书籍的基本信息,如作者、出版社等} 
   \item{rating}{长度为7的向量,用户评分信息,\code{score}为总分,\code{votes}指参与的评分人数,\code{starsx}指对应评分用户的所占的比例}
  \item{content_intro}{书籍内容简介}
  \item{author_intro}{作者简介}
