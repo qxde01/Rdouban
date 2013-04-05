@@ -4,8 +4,9 @@ get_music_info<-function(musicid,...){
   strurl=paste0('http://music.douban.com/subject/',musicid,'/')
   pagetree <- htmlParse(getURL(strurl))
   title<-gsub('[\n ]|\\(豆瓣|\\)','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
-  base_info<-gsub('[\n]','',sapply(getNodeSet(pagetree, '//div[@id="info"]'),xmlValue))
-  base_info<-gsub('\x810\x842|   ',' ',iconv(base_info,from='UTF-8',to='GB18030'))
+  base_info<-gsub('[\n]|   ','',sapply(getNodeSet(pagetree, '//div[@id="info"]'),xmlValue))
+  #base_info<-gsub('\x810\x842|   ',' ',iconv(base_info,from='UTF-8',to='GB18030'))
+  #base_info<-iconv(base_info,from='GB18030',to='UTF-8')
   
   track<-gsub('[\n ]','',sapply(getNodeSet(pagetree, '//table[@class="olts"]//tr//td'),xmlValue))
   track<-track[nchar(track)>0][c(-1,-2)]
@@ -16,17 +17,22 @@ get_music_info<-function(musicid,...){
   
   
   labels<-gsub('[\n ]','',sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]'),xmlValue))
-  labels<-iconv(labels,from='UTF-8',to='GB18030')
-  labels<-gsub('\x810\x842','',labels)
-  labels<-gsub('··','',unlist(strsplit(labels,'\\(|\\)'))[-1])
+ 
+  #labels0<-iconv(labels_name,from='UTF-8',to='latin1')
+  #labels0<-gsub('\x810\x842','',labels0)
+  #labels0<-iconv(labels0,from='GB18030',to='UTF-8')
+  
+  labels<-gsub(' ','',unlist(strsplit(labels,'\\(|\\)'))[-1])
+  
   labels_amount<-as.integer(gsub('[^0-9]','',labels[1]))
   labels_name<-labels[-1][seq(1,length(labels[-1]),2)]
+  labels_name<-gsub('·','',labels_name)[-length(labels_name)]
   labels_freq<-as.integer(labels[-1][seq(2,length(labels[-1]),2)])
   
   rating<-gsub('[\n ]','',sapply(getNodeSet(pagetree, '//div[@id="interest_sectl"]'),xmlValue))
   
-  rating<-gsub('\\([^\\(\\)]*\\)|%',' ',rating)
-  rating<-unlist(strsplit(rating,' '))
+  rating<-gsub('人评价',' ',rating)
+  rating<-unlist(strsplit(rating,'\\(|\\)|%'))
   rating<-as.numeric(rating)
   rating[3:7]<-rating[3:7]/100
   names(rating)<-c('score','votes_amount','stars5','stars4','stars3','stars2','stars1')

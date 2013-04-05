@@ -33,8 +33,9 @@ get_book_info<-function(bookid,...){
     getNodeSet(pagetree, '//div[@id="db-tags-section"]//h2'),xmlValue))
   labelinfo<-sapply(getNodeSet(pagetree, '//div[@id="db-tags-section"]//div'), xmlValue)
   
-  labelinfo<-iconv(labelinfo,from='UTF-8',to='GB18030')
+  labelinfo<-iconv(labelinfo,from='UTF-8',to='')
   labelinfo<-gsub("\x810\x842| ",'',labelinfo)
+  labelinfo<-iconv(labelinfo,from='GB18030',to='UTF-8')
   labelinfo<-unlist(strsplit(labelinfo,'[ \\(\\)]'))
   labels_name<-labelinfo[seq(1,length(labelinfo),2)]
   labels_freq<-labelinfo[seq(2,length(labelinfo),2)]
