@@ -15,7 +15,7 @@ get_movie_reviews<-function(movieid,n=100,verbose=TRUE,...){
   cat('There is a total of',reviews_amount,'reviews...\n')
   
   .get_review<-function(pagetree,verbose=TRUE,...){
-    urlsnode<-getNodeSet(pagetree, '//div[@class="ctsh"]//a')
+    urlsnode<-getNodeSet(pagetree, '//div[@class="review"]//a')
     urls<-unique(sapply(urlsnode,function(x) xmlGetAttr(x, "href")))
     review_url<-urls[grep('/review/',urls)]
     author_url<-urls[grep('/people/',urls)]
