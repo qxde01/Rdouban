@@ -13,9 +13,15 @@ get_movie_comments<-function(movieid,n=100,verbose=TRUE,...){
   .get_comment<-function(pagetree,verbose=TRUE,...){
     comments<-gsub('\n| ','',sapply(getNodeSet(pagetree, '//div[@class="comment"]//p'),xmlValue))
     time<-sapply(getNodeSet(pagetree, '//div[@class="comment"]//span[@class="fleft ml8"]'),xmlValue)
-    
+    if(length(time)==0){
+      time<-sapply(getNodeSet(pagetree, '//div//span[@class=""]'),xmlValue)
+      time<-gsub("[\n ]","",time)
+    }
     useful<-sapply(getNodeSet(pagetree,'//div[@class="comment"]//span[@class="votes pr5"]'),xmlValue)
     authornode<-getNodeSet(pagetree, '//div[@class="comment"]//span[@class="fleft"]//a')
+    if(length(authornode)==0){
+      authornode<-getNodeSet(pagetree, '//span[@class="comment-info"]//a')
+    }
     authors<-sapply(authornode,xmlValue)
     authors_url<-sapply(authornode,function(x) xmlGetAttr(x, "href"))
     
@@ -32,9 +38,14 @@ get_movie_comments<-function(movieid,n=100,verbose=TRUE,...){
       if(verbose==TRUE)cat(' Getting short comments from ',(pg-1)*20+1,'--',pg*20,'...\n')
       
       strurl=paste0('http://movie.douban.com/subject/',movieid,'/comments?start=',(pg-1)*20+1,'&limit=20&sort=new_score')
-      pagetree <- htmlParse(getURL(strurl))
-      short_comments0<-.get_comment(pagetree,verbose=verbose)
-      short_comments<-rbind(short_comments,short_comments0)
+      pagetree <-tryCatch(htmlParse(getURL(strurl)),error = function(e){NULL})
+      if(!is.null(pagetree)){
+        short_comments0<-.get_comment(pagetree,verbose=verbose)
+        if(length(short_comments0)>0){   ## 网络不稳定
+          short_comments<-rbind(short_comments,short_comments0)
+        }
+        
+      }
     }
   }
   short_comments<-data.frame(comment=short_comments[,'comments'],
