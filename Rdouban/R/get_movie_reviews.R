@@ -34,10 +34,13 @@ get_movie_reviews<-function(movieid,n=100,verbose=TRUE,...){
       nickname<-sapply(getNodeSet(reviewtree, '//span[@property="v:reviewer"]'),xmlValue)
       rating<-sapply(getNodeSet(reviewtree, '//span[@property="v:rating"]'),xmlValue)
       review<-sapply(getNodeSet(reviewtree, '//span[@property="v:description"]'),xmlValue)
-      if(length(review)==0)
+      if(length(review)==0){
         review<-sapply(getNodeSet(reviewtree, '//div[@property="v:description"]'),xmlValue)
+      }
       useful<-sapply(getNodeSet(reviewtree, '//span[@class="useful"]//em'),xmlValue)
       unuseful<-sapply(getNodeSet(reviewtree, '//span[@class="unuseful"]//em'),xmlValue)
+      
+
       if(length(useful)==0|length(unuseful)==0){
         x0<-sapply(getNodeSet(reviewtree, '//div[@class="main-panel-useful"]//em'),xmlValue)
         useful=x0[1]
@@ -46,7 +49,9 @@ get_movie_reviews<-function(movieid,n=100,verbose=TRUE,...){
       
       rev0<-c(title,review,time,nickname,rating,
               useful,unuseful,review_url[i],author_url[i])
-      rev<-rbind(rev,rev0)
+      if(length(rev0)==9){
+        rev<-rbind(rev,rev0)
+      }
     }  
     row.names(rev)<-NULL
     rev
@@ -58,9 +63,14 @@ get_movie_reviews<-function(movieid,n=100,verbose=TRUE,...){
       cat('Getting',(pg-1)*20+1,'--',pg*20,'reviews...\n')
       strurl=paste0('http://movie.douban.com/subject/',movieid,
                     '/reviews?start=',(pg-1)*20,'&filter=&limit=20')
-      pagetree <- htmlParse(getURL(strurl))
-      reviews_info0<-.get_review(pagetree,verbose=verbose)
-      reviews_info<-rbind(reviews_info,reviews_info0)
+      pagetree <-tryCatch(htmlParse(getURL(strurl)),error = function(e){NULL})
+      if(!is.null(pagetree)){
+        reviews_info0<-tryCatch(.get_review(pagetree,verbose=verbose),
+                                error = function(e){NULL})
+        if(length(reviews_info0)>0){
+          reviews_info<-rbind(reviews_info,reviews_info0)
+        }     
+      }
     }
   }
   row.names(reviews_info)<-NULL
