@@ -5,12 +5,12 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
   
   titlenode <- getNodeSet(pagetree, '//title')
   titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的评论| ',' ',titleinfo,fixed = F)
+  titleinfo<-gsub("\n|的评论| ",' ',titleinfo,fixed = F)
   titleinfo<-unlist(strsplit(titleinfo,' '))
   titleinfo<-titleinfo[nchar(titleinfo)>0]
   book_title<-titleinfo[1]
   comments_amount<-as.integer(gsub('[^0-9]','',titleinfo[2]))
-  cat('There is a tatol of',comments_amount,'comments...\n')
+  cat('There is a total of',comments_amount,'comments ...\n')
   
   .get_comment<-function(pagetree,verbose=TRUE,...){
     ##评论的url及作者的主页url
@@ -60,18 +60,20 @@ get_book_comments<-function(bookid,n=100,verbose=TRUE,...){
   }
   
   pages=ceiling(min(n,comments_amount)/25)
-  comment_info<-.get_comment(pagetree,verbose=verbose)
-  
+  comment_info<-tryCatch(.get_comment(pagetree,verbose=verbose),error = function(e){NULL})
   if(pages>1){
     for(pg in 2:pages){
       cat(' Getting',(pg-1)*25+1,'--',pg*25,'comments...\n')
       strurl=paste0('http://book.douban.com/subject/',bookid,'/reviews?score=&start=',(pg-1)*25)
-      pagetree <- htmlParse(getURL(strurl))
+      pagetree <- tryCatch(htmlParse(getURL(strurl)),error = function(e){NULL})
       #pagetree <- htmlParse(strurl)
-      comment_info0<-.get_comment(pagetree)
-      comment_info<-rbind(comment_info,comment_info0)   
+      comment_info0<-tryCatch(.get_comment(pagetree),error = function(e){NULL})
+      if(!is.null(comment_info0)){
+        comment_info<-rbind(comment_info,comment_info0) 
+      }   
     }
   }
+  comment_info<-as.data.frame(comment_info)
   row.names(comment_info)<-NULL
   comment_info<-data.frame(title=comment_info[,'titles'],
                            comment=comment_info[,'comments'],
