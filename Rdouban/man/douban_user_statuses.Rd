@@ -2,7 +2,7 @@
 \name{douban_user_statuses}
 \alias{douban_user_statuses}
 \title{
-获取豆瓣用户的评论、日记等信息
+获取豆瓣用户的评论、日记等信息 
 }
 \description{
 获取豆瓣用户的评论、日记、读书标签等信息.

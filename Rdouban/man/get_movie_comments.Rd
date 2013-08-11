@@ -1,6 +1,6 @@
 \encoding{UTF-8}
 \name{get_movie_comments}
-\alias{get_movie_comments}
+\alias{get_movie_comments} 
 \title{
 获取豆瓣电影的短评}
 \description{获取豆瓣电影和电视剧的短评.}

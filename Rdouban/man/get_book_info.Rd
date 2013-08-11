@@ -1,6 +1,6 @@
 \encoding{UTF-8}
 \name{get_book_info}
-\alias{get_book_info}
+\alias{get_book_info} 
 \title{获取豆瓣图书基本信息}
 \description{ 获取豆瓣图书基本信息,包括作者、简介、豆瓣评分等.}
 \usage{get_book_info(bookid,...)

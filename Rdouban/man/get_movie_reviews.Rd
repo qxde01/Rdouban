@@ -1,6 +1,6 @@
 \encoding{UTF-8}
 \name{get_movie_reviews}
-\alias{get_movie_reviews}
+\alias{get_movie_reviews} 
 \title{获取豆瓣电影的长篇影评
 }
 \description{获取豆瓣电影和电视剧的长篇影评.
