@@ -1,8 +1,7 @@
 Rdouban
 =======
 ##获取豆瓣网评论数据的R接口
-
-> 非官方接口
+> ####非官方接口
 * douban_user_statuses  获取豆瓣用户的评论、日记等信息
 * get_book_comments	获取豆瓣图书的评论文章
 * get_book_discussions	获取豆瓣图书的话题讨论内容
@@ -16,5 +15,8 @@ Rdouban
 * get_music_discussions	获取豆瓣音乐专辑的话题讨论内容
 * get_music_info	获取豆瓣音乐的专辑信息
 
-> 官方API
-* api.book.info  豆瓣图书信息API
+> ####下面的函数是上述部分函数的重写，部分采用了官方API
+* get.book.info  豆瓣图书信息API V2
+* get.book.review  豆瓣图书评论信息,部分采用API V1
+* get.movie.info  豆瓣电影信息API V2
+* get.music.info  豆瓣音乐信息API V2
