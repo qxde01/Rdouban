@@ -20,3 +20,5 @@ Rdouban
 * get.book.review  豆瓣图书评论信息,部分采用API V1
 * get.movie.info  豆瓣电影信息API V2
 * get.music.info  豆瓣音乐信息API V2
+* get.movie.review  豆瓣电影长篇评论,通过移动网页m.douban.com
+* get.movie.comment  豆瓣电影短评,通过移动网页m.douban.com
