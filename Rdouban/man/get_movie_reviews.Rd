@@ -5,37 +5,36 @@
 }
 \description{获取豆瓣电影和电视剧的长篇影评.
 }
-\usage{get_movie_reviews(movieid,n=100,verbose=True,...)
+\usage{get_movie_reviews(movieid,results=100,fresh=10,verbose=TRUE,...)
 }
 \arguments{
-  \item{movieid}{豆瓣电影和电视剧的ID,由数字组成的字符串,可通过每部电影或电视剧的豆瓣主页查询.}
-  \item{n}{获取长篇影评的数量,默认n=100.}
-    \item{verbose}{当\code{verbose=True}时,显示函数的执行过程信息,\code{verbose=False}时不显示,默认为\code{True}.}
+  \item{movieid}{豆瓣电影的id号}
+  \item{results}{获取评论的数量,默认100}
+  \item{fresh}{页面异常时最大刷新次数,默认10}
+  \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
+
 }
-\value{
-\item{movie_title}{电影的名称}  
-\item{reviews_amount}{电影影评的总数量}
-\item{reviews_info}{影评信息,一个data.frame,共9列:
-  \code{title}影评标题,
-  \code{review}影评内容,
-  \code{time}影评发表时间,
-  \code{nickname}作者昵称,
-  \code{rating}评分信息,
-  \code{useful}影评被赞为有用的次数,
-  \code{useful}影评被批评为无用的次数,
-  \code{review_url}影评主页,
-  \code{author_url}作者主页.}  
+\value{一个data.frame，各列为：
+ \item{review_uri }{影评主页URL}
+ \item{title }{评论文章名称}
+  \item{published }{文章发表时间}
+ \item{author}{文章作者昵称}
+ \item{author_uri }{作者豆瓣URI}
+ \item{review }{评论文章详细内容}
+ \item{rating }{作者对电影的评分}
+  \item{useful}{被评为useful的次数}
+  \item{unuseful}{被评为unuseful的次数}  
 }
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-\note{若实际影评数小于n,则获取的是实际数,若实际数大于n,则获取到的数量是\code{ceiling(n/20)*20}.}
+\note{每页获取影评URL的个数为20,如果results不是20的倍数，则获取的实际影评数量是\code{ceiling(results/20)*20}.}
 \seealso{
  \code{\link{get_movie_comments}}
 }
 \examples{
 ## http://movie.douban.com/subject/5308265/reviews
-\dontrun{get_movie_reviews(movieid=5308265,n=70)}
+\dontrun{x<-get_movie_reviews(movieid=5308265,results=50)}
 }
 \keyword{review}
 \keyword{comment}
