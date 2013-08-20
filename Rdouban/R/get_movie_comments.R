@@ -1,63 +1,68 @@
 
-get_movie_comments<-function(movieid,n=100,verbose=TRUE,...){
+get_movie_comments<-function(movieid,results=100,fresh=10,verbose=TRUE,...){
   
-  strurl=paste0('http://movie.douban.com/subject/',movieid,'/comments')
-  pagetree <- htmlParse(getURL(strurl))
-  movie_title<- gsub('短评','',sapply(getNodeSet(pagetree, '//title'),xmlValue))
-  comments_amount<-gsub('[^0-9]','',sapply(getNodeSet(pagetree, '//div[@id="content"]//span[@class="fleft"]'),xmlValue)[1])
-  comments_amount<-as.integer(comments_amount)
-  cat('There is a total of ',comments_amount,'short comments...\n')
+  u=paste0('http://movie.douban.com/subject/',movieid,'/comments')
+  p<- .refreshURL(u,fresh,verbose)
   
-  pages=ceiling(min(comments_amount,n)/20)
+  total<-sapply(getNodeSet(p, '//body//span[@class="total"]'),xmlValue)
+  total<-as.integer(gsub("[^0-9]","",total))
+  cat('------------There is a total of ',total,' short comments.--------\n')
   
-  .get_comment<-function(pagetree,verbose=TRUE,...){
-    comments<-gsub('\n| ','',sapply(getNodeSet(pagetree, '//div[@class="comment"]//p'),xmlValue))
-    time<-sapply(getNodeSet(pagetree, '//div[@class="comment"]//span[@class="fleft ml8"]'),xmlValue)
-    if(length(time)==0){
-      time<-sapply(getNodeSet(pagetree, '//div//span[@class=""]'),xmlValue)
-      time<-gsub("[\n ]","",time)
+  results<-min(total,results)
+  pages<-ceiling(results/20)
+  out<-data.frame(matrix(nrow=pages*20,ncol=6),stringsAsFactors=F)
+  colnames(out)<-c("author","author_uri","published" ,"comment" ,"votes", "rating")
+  kind=1
+  for(pg in 1:pages){
+    if(verbose==TRUE){
+      cat(' Getting short comments from ',(pg-1)*20+1,'--',pg*20,'...\n')
     }
-    useful<-sapply(getNodeSet(pagetree,'//div[@class="comment"]//span[@class="votes pr5"]'),xmlValue)
-    authornode<-getNodeSet(pagetree, '//div[@class="comment"]//span[@class="fleft"]//a')
-    if(length(authornode)==0){
-      authornode<-getNodeSet(pagetree, '//span[@class="comment-info"]//a')
-    }
-    authors<-sapply(authornode,xmlValue)
-    authors_url<-sapply(authornode,function(x) xmlGetAttr(x, "href"))
-    
-    #voteinfo<-getNodeSet(pagetree, '//div[@class="comment"]//h3//span[@title]')
-    #voteinfo<-sapply(voteinfo,function(x) xmlGetAttr(x, "class"))
-    #rating<-gsub('allstar| rating|0','',voteinfo[grep('rating',voteinfo)])
-    cbind(comments,time,useful,authors,authors_url)
-  }
-  
-  short_comments<-.get_comment(pagetree,verbose=verbose)
-  
-  if(pages>1){
-    for(pg in 2:pages){
-      if(verbose==TRUE)cat(' Getting short comments from ',(pg-1)*20+1,'--',pg*20,'...\n')
-      
-      strurl=paste0('http://movie.douban.com/subject/',movieid,'/comments?start=',(pg-1)*20+1,'&limit=20&sort=new_score')
-      pagetree <-tryCatch(htmlParse(getURL(strurl)),error = function(e){NULL})
-      if(!is.null(pagetree)){
-        short_comments0<-.get_comment(pagetree,verbose=verbose)
-        if(length(short_comments0)>0){   ## 网络不稳定
-          short_comments<-rbind(short_comments,short_comments0)
+    u=paste0('http://movie.douban.com/subject/',movieid,'/comments?start=',(pg-1)*20+1,'&limit=20&sort=new_score')
+    p<- .refreshURL(u,fresh,verbose)
+    ## 短评内容
+    comment<-gsub('\n| ','',sapply(getNodeSet(p, '//div[@class="comment"]//p'),xmlValue))
+    ## 评论时间
+    publised<-sapply(getNodeSet(p, '//div[@class="comment"]//span[@class=""]'),xmlValue)
+    publised<-gsub("[\n ]","",publised)
+    ##作者及其URI
+    n1<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//a')
+    author<-sapply(n1,xmlValue)
+    author_uri<-sapply(n1,function(x) xmlGetAttr(x, "href"))
+    ##有用的票数
+    votes<-sapply(getNodeSet(p, '//div[@class="comment"]//span[@class="comment-vote"]//span'),xmlValue)
+    #votes<-gsub("[^0-9]","",votes)
+    ##评分
+    ##### 调整没有评分的项
+    .adj.rating<-function(x){
+      m<-nchar(x);n=length(x)
+      i=1
+      while(n<40){
+        if(m[i]+m[i+1]==0){
+          x<-c(x[1:i],NA,x[(i+1):n])
+          m<-nchar(x); n=length(x) 
+          i=i+1
         }
-        
+        i=i+1
       }
+      x
     }
+    n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//span')
+    rating0<-gsub("[a-z0 ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
+    if(length(rating0)!=length(comment)){
+      rating0<-.adj.rating(rating0)
+    }
+    rating<-rating0[nchar(rating0)>0]
+    out0<-cbind(author=author,author_uri=author_uri,
+               publised=publised,comment=comment,
+               votes=votes,rating=rating)  
+   nr=nrow(out0)
+    out[kind:(kind+nr-1),]<-out0
+    kind<-kind+nr
   }
-  short_comments<-data.frame(comment=short_comments[,'comments'],
-                             time=short_comments[,'time'],
-                             useful=as.integer(short_comments[,'useful']),
-                             nickname=short_comments[,'authors'],
-                             author_url=short_comments[,'authors_url'],
-                             stringsAsFactors=F)
-  
-  list(movie_title=movie_title,
-       comments_amount=comments_amount,
-       short_comments=short_comments)
+  out<-out[!is.na(out[,1]),]
+  return(out)
 }
+  
+
 #http://movie.douban.com/subject/5308265/comments
-#x=get_movie_comments(movieid=5308265,n=100)
+#x=get_movie_comments(movieid=5308265,results=100)
