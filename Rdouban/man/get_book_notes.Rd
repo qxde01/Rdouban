@@ -3,35 +3,36 @@
 \alias{get_book_notes}
 \title{获取豆瓣图书的读书笔记}
 \description{获取豆瓣图书的读书笔记.}
-\usage{get_book_notes(bookid,n=100,verbose=TRUE,)}
+\usage{get_book_notes(bookid,results=100,fresh=10,count=10,verbose=TRUE,...)}
 \arguments{
-  \item{bookid}{豆瓣书籍的id号,一串数字,如'20326626'}
-  \item{n}{获取读书笔记的篇数,默认n=100}
-  \item{verbose}{当\code{verbose=TRUE}时,显示函数的执行过程信息,\code{verbose=FALSE}时不显示,默认为\code{TRUE}.}
+  \item{bookid}{ 豆瓣书籍的id号,一串数字,如2567698}
+  \item{results}{获取评论的数量,默认100}
+  \item{fresh}{页面异常时最大刷新次数,默认10}
+  \item{count}{每页note_uri数量,默认10，最大10}
+  \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
 }
-\value{ 一个列表(list), 包括:
-  \item{book_title}{书籍名称}
-  \item{notes_amount}{笔记文章总数}
-  \item{notes_info}{一个data.frame,包含8列:
-    \code{title}评论文章标题,
-    \code{note}读书笔记内容,
-    \code{time}读书笔记发表时间,
-    \code{nickname}作者昵称,
-    \code{rating}作者评分,
-    \code{author_url}作者主页,
-    \code{note_url}该笔记的主页,
-    \code{note_comment_url}对该笔记的评论主页}
+\value{一个data.frame，各列为：
+ \item{note_uri }{笔记主页URL}
+ \item{title }{笔记标题}
+  \item{published }{笔记发表时间}
+ \item{author}{作者昵称}
+ \item{author_uri }{作者豆瓣URI}
+ \item{note }{笔记详细内容}
+ \item{rating }{作者对书籍的评分}
+  \item{readers}{被阅读的次数}
+  \item{collectors}{被收藏的次数}
+
 }
-\note{若实际短评数小于n，则获取的是实际数，若实际数，则获取到的数量是\code{ceiling(n/10)*10}.} 
+\note{若results不是count的倍数，则获取到的数量是\code{ceiling(results/count)*count}.}
 \author{
   <\email{qxde01@@gmail.com}>
 }
 
-\seealso{\code{\link{get_book_comments}}
+\seealso{\code{\link{get_book_reviews}}
 }
 \examples{
 ## http://book.douban.com/subject/1291204/annotation
-\dontrun{get_book_notes(bookid='1291204',n=50)}
+\dontrun{out<-get_book_notes(bookid='1291204',results=50)}
 }
 \keyword{note}
 \keyword{douban}
