@@ -5,12 +5,13 @@
 }
 \description{获取豆瓣电影和电视剧的长篇影评.
 }
-\usage{get_movie_reviews(movieid,results=100,fresh=10,verbose=TRUE,...)
+\usage{get_movie_reviews(movieid,results=100,fresh=10,count=10,verbose=TRUE,...)
 }
 \arguments{
   \item{movieid}{豆瓣电影的id号}
   \item{results}{获取评论的数量,默认100}
   \item{fresh}{页面异常时最大刷新次数,默认10}
+  \item{count}{每页review_uri数量,默认10，最大20}
   \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
 
 }
@@ -28,7 +29,7 @@
 \author{
 qxde01<\email{qxde01@@gmail.com}>
 }
-\note{每页获取影评URL的个数为20,如果results不是20的倍数，则获取的实际影评数量是\code{ceiling(results/20)*20}.}
+\note{一个值得注意的情况是不同页之间可能有相同的review_uri,最后获得评论数目可能和results的值不同。}
 \seealso{
  \code{\link{get_movie_comments}}
 }
