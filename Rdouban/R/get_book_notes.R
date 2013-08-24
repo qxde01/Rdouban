@@ -1,80 +1,69 @@
-
-get_book_notes<-function(bookid,n=100,verbose=TRUE,...){
+## get some infomation of a note by note url
+.get_book_note0<-function(u,fresh,verbose,...){
+  p<-.refreshURL(u,fresh, verbose)
+  title<-gsub('[\n ]','',sapply(getNodeSet(p, '//title'), xmlValue))
+  n1<-getNodeSet(p, '//div[@class="article"]//div[@class="info"]//a')
+  author<-sapply(n1,xmlValue)[1]
+  author_uri<-sapply(n1,function(x) xmlGetAttr(x, "href"))[1]
+  published<-sapply(getNodeSet(p, '//span[@class="pubtime"]'), xmlValue)
+  note<-sapply(getNodeSet(p, '//pre[@id="link-report"]'), xmlValue)
   
-  strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation')
-  pagetree <- htmlParse(getURL(strurl))
-  titlenode <- getNodeSet(pagetree, '//title')
-  titleinfo<-sapply(titlenode, xmlValue)
-  titleinfo<-gsub('\n|的笔记| |\\(|\\)','',titleinfo,fixed = F)
-  book_title<-gsub('[0-9]','',titleinfo)
-  notes_amount<-as.integer(gsub('[^0-9]','',titleinfo))
-  cat('There is a total of',notes_amount,'notes...\n')
+  rating<-sapply(getNodeSet(p, '//div[@class="mod profile clearfix"]//span[@class]'),
+                 function(x) xmlGetAttr(x, "class"))[2]
+  rating<-gsub('[^0-9]','',rating)
   
-  .get_note<-function(pagetree,verbose=TRUE,...){
-    notenode <- getNodeSet(pagetree, '//a[@href]')
-    noteurl<-sapply(notenode,function(x) xmlGetAttr(x, "href"))
-    notecmt<-unique(noteurl[grep('http://book.douban.com/annotation/',noteurl)])
-    note_url<-notecmt[-grep('#',notecmt)]
-    note_comment_url<-notecmt[grep('#',notecmt)]
-    authorurl<-unique(noteurl[grep('/people/',noteurl)])
-    m=length(note_url)
-    
-    nt<-c()
-    for(i in 1:m){
-      if(verbose==TRUE)
-        cat(' Getting book note from ',note_url[i],' ...\n')
-      
-      notetree <- htmlParse(getURL(note_url[i]))
-      ##  the title of note
-      titlenode <- getNodeSet(notetree, '//title')
-      note_title<-gsub('\n| ','',sapply(titlenode, xmlValue))
-      ## the time of note realsed
-      timenode <- getNodeSet(notetree, '//span[@class="pubtime"]')
-      note_time<-sapply(timenode, xmlValue)
-      ## the nickname of author
-      authornode <- getNodeSet(notetree, '//h6//a')[1]
-      author<-sapply(authornode, xmlValue)
-      ##the rating of author
-      ratingnode <- getNodeSet(notetree, '//div[@class="mod profile clearfix"]//span[@class]')
-      rating<-sapply(ratingnode,function(x) xmlGetAttr(x, "class"))[2]
-      rating<-gsub('[^0-9]','',rating)
-      ##content
-      contentnode <- getNodeSet(notetree, '//pre[@id="link-report"]')
-      note_content<-sapply(contentnode, xmlValue)
-      
-      nt0<-c(titles=note_title,notes=note_content,time=note_time,
-             authors=author,rating=rating,author_url=authorurl[i],
-             notes_url=note_url[i],notes_comment_url=note_comment_url[i])
-      nt<-rbind(nt,nt0)
-    }
-    row.names(nt)<-NULL
-    nt
+  v2<-sapply(getNodeSet(p, '//p[@class="pl info"]//span'), xmlValue)
+  v2<-gsub("[^0-9]","",v2)
+  readers<-v2[1]
+  collectors<-v2[2]
+  
+  out<-c(note_uri=u,title=title,published=published,author=author,
+         author_uri=author_uri,note=note,rating=rating,
+         readers=readers,collectors=collectors)
+  return(out)
+}
+###############################################################
+get_book_notes<-function(bookid,results=100,fresh=10,count=10,verbose=TRUE,...){
+  u=paste0('http://book.douban.com/subject/',bookid,'/annotation')
+  p<-.refreshURL(u,fresh, verbose)
+  total<-sapply(getNodeSet(p, '//title'), xmlValue)
+  total<-gsub("^([^)(]*)","",total)
+  total<-as.integer(gsub("[^0-9]","",total))
+  cat('\n------------There is a total of',total,'notes.------------\n\n')
+  pages<-ceiling(min(total,results)/count)
+  out <- data.frame(matrix(nrow = pages * count, ncol = 9), stringsAsFactors = F)
+  colnames(out) <- c("note_uri", "title", "published", "author", "author_uri", "note", 
+                     "rating", "readers", "collectors")
+  ## output dataFrame nrow index
+  k = 1
+  for(pg in 1:pages){
+    #cat('Getting',(pg-1)*10+1,'--',pg*10,'notes...\n')
+    u=paste0('http://book.douban.com/subject/',bookid,
+             '/annotation?sort=rank&start=',(pg-1)*count)
+    cat("Getting note URLs from page",pg,": ",u,"...\n")
+    p<-.refreshURL(u,fresh, verbose)
+    href<-sapply(getNodeSet(p, '//div[@class="nlst"]//a[@href]'),
+           function(x) xmlGetAttr(x, "href"))
+    href<-unique(href[grep("/annotation/",href)])
+    href <- href[!href %in% out$note_uri]
+    n=length(href)
+    if(n>0){
+      for(i in 1:n){
+        u0<-href[i]
+        if(verbose==TRUE){
+          cat("   Getting ", k, " book note from URL: ", u0, " ...\n")
+        }
+        out0<-.get_book_note0(u=u0,fresh,verbose)
+        if(length(out0)==9){
+          out[k,]<-out0
+          k=k+1
+        }
+        else{
+          cat("  !!!! Getting  failed at URL: ", u0, " \n")
+        }
+      }
+    } 
   }
-  
-  pages=ceiling(min(n,notes_amount)/10)
-  notes_info<-.get_note(pagetree,verbose=verbose)
-  if(pages>1){
-    for(pg in 2:pages){
-      cat('Getting',(pg-1)*10+1,'--',pg*10,'notes...\n')
-      strurl=paste0('http://book.douban.com/subject/',bookid,'/annotation?sort=rank&start=',(pg-1)*10)
-      pagetree <- htmlParse(getURL(strurl))
-      
-      notes_info0<-.get_note(pagetree)
-      notes_info<-rbind(notes_info,notes_info0)   
-    }
-  }
-  row.names(notes_info)<-NULL
-  notes_info<-data.frame(title=notes_info[,'titles'],
-                         note=notes_info[,'notes'],
-                         time=notes_info[,'time'],
-                         nickname=notes_info[,'authors'],
-                         rating=as.integer(notes_info[,'rating']),
-                         author_url=notes_info[,'author_url'],
-                         note_url=notes_info[,'notes_url'],
-                         note_comment_url= notes_info[,'notes_comment_url'],
-                         stringsAsFactors=F)
-  
-  list(book_title=book_title,
-       notes_amount=notes_amount,
-       notes_info=notes_info)
+  out <- out[!is.na(out[, 1]), ]
+  return(out)
 }
