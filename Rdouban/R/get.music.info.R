@@ -1,6 +1,7 @@
 get.music.info<-function(musicid){
   u=paste0("https://api.douban.com/v2/music/",musicid)
-  p=getURL(u,ssl.verifypeer = FALSE)
+  #p=getURL(u,ssl.verifypeer = FALSE)
+  p<-.refreshURL(u,ssl.verifypeer = FALSE)
   reslist <- fromJSON(p)
   title<-reslist[["title"]]
   author<-unlist(reslist[["author"]]);names(author)<-NULL

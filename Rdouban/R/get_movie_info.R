@@ -50,7 +50,6 @@ get_movie_info<-function(movieid,...){
   image<-sapply(getNodeSet(p, '//div[@class="indent"]//div[@id="mainpic"]//img'),
                 function(x) xmlGetAttr(x, "src"))
 
-  
   list(title=title,author=author,
        rating=rating,
        summary=summary,
@@ -59,6 +58,5 @@ get_movie_info<-function(movieid,...){
        reviews_total=reviews_total,
        comments_total=comments_total,
        audience=audience,attribute=attribute)
-  
 }
 ## get_movie_info(movieid=10527209)

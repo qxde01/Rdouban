@@ -2,9 +2,9 @@
 ## @u:url
 ## @fresh:refresh number
 
-.refreshURL <- function(u, fresh = 10, verbose = TRUE) {
+.refreshURL <- function(u, fresh = 15, ssl.verifypeer = TRUE,verbose = TRUE) {
   # p<-tryCatch(htmlParse(getURL(u)),error = function(e){NULL})
-  p <- tryCatch(getURL(u), error = function(e) {
+  p <- tryCatch(getURL(u,ssl.verifypeer=ssl.verifypeer), error = function(e) {
     print(e)
     return("NULL")
   })
@@ -12,9 +12,9 @@
   k = 1
   while (n < 500) {
     if (verbose == TRUE) {
-      cat("%%%%%% 第 ", k, " 次重新请求URL:", u, ".....\n")
+      cat("%%%%% 第 ", k, " 次重新请求URL:", u, ".....\n")
     }
-    p <- tryCatch(getURL(u), error = function(e) {
+    p <- tryCatch(getURL(u,ssl.verifypeer=ssl.verifypeer), error = function(e) {
       print(e)
       return("NULL")
     })
@@ -29,14 +29,19 @@
   }
   if (verbose == TRUE) {
     if (!is.null(p) & k > 1) {
-      cat("****** 第 ", k - 1, " 次请求成功！\n")
+      cat("***** 第 ", k - 1, " 次请求成功！\n")
     }
   }
-  p <- tryCatch(htmlParse(p), error = function(e) {
-    print(e)
-    return(NULL)
-  })
-  return(p)
+  if(ssl.verifypeer==FALSE){
+    return(p)
+  }
+  else{
+    p <- tryCatch(htmlParse(p), error = function(e) {
+      print(e)
+      return(NULL)
+    })
+    return(p)
+  }
 }
 ###################################
 ## @u:url
@@ -49,7 +54,7 @@
   k=1
   while(is.null(p)){
     if(verbose==TRUE){
-      cat("%%%%%% 第 ",k," 次重新请求URL:",u,".....\n")
+      cat("%%%%% 第 ",k," 次重新请求URL:",u,".....\n")
     }
     p<-tryCatch(htmlParse(postForm(u)),error = function(e){print(e);return(NULL)})
     #saveXML(p,file=paste0(k,gsub("http:|/|\\?","_",u),".html"))
@@ -59,7 +64,7 @@
   }
   if(verbose==TRUE){
     if(!is.null(p) & k>1){
-      cat("****** 第 ",k-1," 次请求成功！\n")
+      cat("***** 第 ",k-1," 次请求成功！\n")
     }
   }
   #saveXML(p,file=paste0(k,gsub("http:|/|\\?","_",u),".html"))

@@ -13,18 +13,19 @@
   \item{musicid}{豆瓣音乐专辑ID号 }
 }
 \value{
-  \item{title}{音乐专辑名称 }
-  \item{base_info}{ 专辑基本信息，包括歌手、出版社、发行时间等 }
-  \item{track}{ 专辑所包括的歌曲名称}
-  \item{music_intro}{专辑简介 }
-  \item{labels_amount}{ 听众所用标签总数 }
-  \item{labels }{常见标签，一个包含2列的data.frame:标签名称\code{labels_name}及对应的标签频率\code{labels_freq}}
-  \item{rating}{评分信息,\code{score}为总评分,\code{votes_amount}为评分听众总数,\code{starx}为对应的评分听众所占总评分的比例 }
-  \item{audience}{听众信息,
-   \code{comments_amount}为发表评论的听众数,
-   \code{doings}指正在听的听众数量,\
-   code{collections}指已听过的听众数量,
+  \item{title}{音乐专辑名称}
+  \item{author }{作者}
+  \item{rating}{评分信息,\code{average}为总评分,\code{votes}为评分听众总数,\code{starx}为对应的评分听众所占总评分的比例 }
+  \item{summary }{内容简介}
+  \item{tags }{一个data.frame,常用标签，两列分别是标签名称和标签频数}
+  \item{songs}{专辑所包括的歌曲名称}
+  \item{href}{音乐专辑主页网址}
+  \item{image }{封面图片网址}
+  \item{listeners}{听众信息,
+   \code{doings}正在听的听众数量,\code{collections}已听过的听众数量,
    \code{wishes}指想听的用户数量}
+  \item{comments_total}{发表评论的听众数}
+  \item{attribute }{专辑的其他信息,比如出版公司、出版时间等}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -34,7 +35,7 @@
 }
 \examples{
 ## http://music.douban.com/subject/3843530/
-\dontrun{get_music_info(musicid='3843530')}
+\dontrun{music<-get_music_info(musicid='3843530')}
 }
 \keyword{music}
 \keyword{douban}

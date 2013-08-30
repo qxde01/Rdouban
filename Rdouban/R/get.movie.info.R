@@ -1,6 +1,7 @@
 get.movie.info<-function(movieid){
   u=paste0("https://api.douban.com/v2/movie/",movieid)
-  p=getURL(u,ssl.verifypeer = FALSE)
+  #p=getURL(u,ssl.verifypeer = FALSE)
+  p<-.refreshURL(u,ssl.verifypeer = FALSE)
   reslist <- fromJSON(p)
   title<-reslist[["title"]]
   author<-unlist(reslist[["author"]]);names(author)<-NULL
