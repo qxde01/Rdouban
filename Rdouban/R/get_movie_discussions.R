@@ -1,64 +1,65 @@
 #http://movie.douban.com/subject/5308265/discussion/
-##x<-get_movie_discussions(movieid=5308265,n=40,verbose=F)
-get_movie_discussions<-function(movieid,n=100,verbose=TRUE,...){
-  strurl=paste0('http://movie.douban.com/subject/',movieid,'/discussion/')
-  pagetree <- htmlParse(getURL(strurl))
-  discussions_amount<-gsub('[^0-9]','',
-                           sapply(getNodeSet(pagetree, '//span[@class="count"]'),xmlValue))
-  if (length(discussions_amount)==0)
-    stop('There is no discussions about this movie(or TV).')
-  cat('There is a tatal of ',discussions_amount,'discussions...\n')
-  
-  .get_discussion<-function(pagetree){
-    #title<-gsub('\n','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
-    urlsnode<-getNodeSet(pagetree, '//table[@class="olt"]//td/a')
-    urls<-unique(sapply(urlsnode,function(x) xmlGetAttr(x, "href")))
-    disc_urls<-urls[grep('/discussion/',urls)]
-    m=length(disc_urls)
-    disc<-c()
-    for(i in 1:m){
-      if(verbose==TRUE) cat('Getting',disc_urls[i],'...\n')
-      
-      pagetree <- htmlParse(getURL(disc_urls[i]))
-      time<-sapply(getNodeSet(pagetree, '//table[@class="wr"]//span[@class="mn"]'),xmlValue)
-      nickname<-sapply(getNodeSet(pagetree, '//table[@class="wr"]//span[@class="pl2"]//a'),xmlValue)[1]
-      title<-gsub('\n','',sapply(getNodeSet(pagetree, '//head//title'),xmlValue))
-      useful<-sapply(getNodeSet(pagetree, '//span[@class="useful"]//em'),xmlValue)
-      unuseful<-sapply(getNodeSet(pagetree, '//span[@class="unuseful"]//em'),xmlValue)
-      dicussion<-sapply(getNodeSet(pagetree, '//div[@class="article"]//table[@class="wr"]//div')[1],xmlValue)
-      dicussion<-gsub('[\n ]','', dicussion)
-      
-      disc0<- c(title=title,dicussion=dicussion,
-                time=time,nickname=nickname,
-                useful=useful,unuseful=unuseful,discussion_url=disc_urls[i])
-      disc<-rbind(disc,disc0)
+##x<-get_movie_discussions(movieid=5308265,results = 100)
+.get_movie_discussion0<-function(u,fresh,verbose){
+  p<-.refreshURL(u,fresh, verbose)
+  title<-gsub('[\n ]','',sapply(getNodeSet(p, '//head//title'),xmlValue))
+  published<-sapply(getNodeSet(p, '//div[@class="article"]//span[@class="mn"]'),xmlValue)
+  published<-gsub("\n|  ","", published)
+  n1<-getNodeSet(p, '//div[@class="article"]//span[@class="pl2"]//a')
+  author<-gsub("[\n ]","",sapply(n1,xmlValue)[1])
+  author_uri<-sapply(n1,function(x) xmlGetAttr(x, "href"))[1]
+  dicussion<-sapply(getNodeSet(p, '//div[@class="article"]//span[@class=""]')[1],xmlValue)
+  useful<-sapply(getNodeSet(p, '//span[@class="useful"]//em'),xmlValue)
+  unuseful<-sapply(getNodeSet(p, '//span[@class="unuseful"]//em'),xmlValue)
+  out<-c(dicussion_uri=u,title=title,published=published,author=author,
+         author_uri=author_uri,dicussion=dicussion,useful=useful,unuseful=unuseful)
+  return(out)
+}
+#################################################
+get_movie_discussions<-function(movieid,results = 100, fresh = 10,count=20, verbose = TRUE,...){
+  u = paste0("http://movie.douban.com/subject/", movieid, "/discussion/")
+  p <- .refreshURL(u, fresh, verbose)
+  total<-gsub('[^0-9]','',sapply(getNodeSet(p, '//span[@class="count"]'),xmlValue))
+  if (length(total)==0)
+    stop('There is no discussions about this movie.')
+  cat('-----There is a tatal of ',total,' movie discussions.-----\n')
+  pages<-ceiling(min(results,as.integer(total))/count)
+  out <- data.frame(matrix(nrow = pages * count, ncol = 8), stringsAsFactors = F)
+  colnames(out) <- c("dicussion_uri", "title", "published", "author", "author_uri", 
+                     "dicussion", "useful", "unuseful")
+  k=1
+  if(pages>0){
+    for(pg in 1:pages){
+      u=paste0('http://movie.douban.com/subject/',movieid,
+                    '/discussion/?start=',(pg-1)*count,'&sort=vote/')
+      if(verbose==TRUE) {
+        #cat('Getting',(pg-1)*20+1,'--',pg*20,'discussions...\n')
+        cat("Getting movie discussion URLS from page=",pg,": ",u,"...\n")
+      }
+      p <- .refreshURL(u, fresh, verbose)
+      n1<-getNodeSet(p ,'//table[@class="olt"]//td/a')
+      href<-unique(sapply(n1,function(x) xmlGetAttr(x, "href")))
+      href<-href[grep('/discussion/',href)]
+      href <- href[!href %in% out$dicussion_uri]
+      n=length(href)
+      if(n>0){
+        for(i in 1:n){
+          u0<-href[i]
+          if(verbose==TRUE){
+            cat("   Getting ", k, " movie discussion from URL: ", u0, " ...\n")
+          }
+          out0<-.get_movie_discussion0(u=u0,fresh,verbose)
+          if(length(out0)==8){
+            out[k,]<-out0
+            k=k+1
+          }
+          else{
+            cat("  !!!! Getting  failed at URL: ", u0, " \n")
+          }       
+        }
+      }
     }
-    row.names(disc)<-NULL
-    disc
   }
-  
-  discussions_info<-.get_discussion(pagetree)
-  pages<-ceiling(min(n,as.integer(discussions_amount))/20)
-  
-  if(pages>1){
-    for(pg in 2:pages){
-      if(verbose==TRUE) {cat('Getting',(pg-1)*20+1,'--',pg*20,'discussions...\n')}
-      
-      strurl=paste0('http://movie.douban.com/subject/',movieid,
-                    '/discussion/?start=',(pg-1)*20,'&sort=vote/')
-      pagetree <- htmlParse(getURL(strurl))
-      discussions_info0<-.get_discussion(pagetree)
-      discussions_info<-rbind(discussions_info,discussions_info0)
-    }
-  }
-  row.names(discussions_info)<-NULL
-  discussions_info<-data.frame(title=discussions_info[,'title'],
-                               dicussion=discussions_info[,'dicussion'],
-                               nickname=discussions_info[,'nickname'],
-                               time=discussions_info[,'time'],
-                               useful=as.integer(discussions_info[,'useful']),
-                               unuseful=as.integer(discussions_info[,'unuseful']),
-                               discussion_url=discussions_info[,'discussion_url'],
-                               stringsAsFactors =F)
- discussions_info
+  out <- out[!is.na(out[, 1]), ]
+  return(out)
 }
