@@ -1,5 +1,5 @@
 ##movieid=5308265
-## x=get_movie_reviews(movieid=5308265,results=50)
+## m=get_movie_reviews(movieid=5308265,results=50)
 ########################################################
 ### 获取每篇评论的信息
 .get_movie_review0 <- function(u, fresh = 10, verbose = TRUE, ...) {
@@ -19,7 +19,7 @@
   if (length(review) == 0) {
     review <- sapply(getNodeSet(p, "//div[@property=\"v:description\"]"), xmlValue)
   }
-  review <- gsub("\r", "", review)
+  #review <- gsub("\r", "", review)
   ## 有用 & 没用的次数
   x0 <- sapply(getNodeSet(p, "//div[@class=\"main-panel-useful\"]//em"), xmlValue)
   useful = x0[1]
