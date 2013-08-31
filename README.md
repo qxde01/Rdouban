@@ -23,3 +23,7 @@ Rdouban
 * get.book.review  豆瓣图书评论信息,部分采用API V1
 * get.movie.review  豆瓣电影长篇评论,通过移动网页m.douban.com,会被豆瓣阻止
 * get.movie.comment  豆瓣电影短评,通过移动网页m.douban.com
+
+>#### 安装(linux)
+library("devtools")
+install_github("Rdouban","qxde01")
