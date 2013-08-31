@@ -18,12 +18,6 @@ get.movie.review(movieid,results=100,fresh=20,verbose=TRUE)
   \item{fresh}{页面异常时最大刷新次数,默认20}
   \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{一个data.frame，各列为：
  \item{review_id }{评论文章的豆瓣ID}
  \item{title }{评论文章名称}

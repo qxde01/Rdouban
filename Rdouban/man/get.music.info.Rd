@@ -15,10 +15,7 @@ get.music.info(musicid)
 \arguments{
 \item{musicid}{豆瓣音乐专辑ID号 }
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{title}{音乐专辑名称}
   \item{author }{作者}

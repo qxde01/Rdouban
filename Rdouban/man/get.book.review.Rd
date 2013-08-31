@@ -17,7 +17,7 @@ get.book.review(bookid,results=100,verbose=TRUE)
   \item{results}{获取评论的数量,默认results=100}
   \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
 }
-}
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }

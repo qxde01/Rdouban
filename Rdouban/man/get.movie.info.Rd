@@ -15,10 +15,7 @@ get.movie.info(movieid)
 \arguments{
   \item{movieid}{豆瓣电影的ID,由数字组成,可通过每部电影的豆瓣主页查询.}
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{title}{电影名称}
   \item{author }{作者}

@@ -18,7 +18,7 @@ get.movie.comment(movieid,results=100,fresh=20,verbose=TRUE)
   \item{fresh}{页面异常时最大刷新次数,默认20}
   \item{verbose}{若\code{verbose=TRUE则显示详细过程信息，否则不显示，默认\code{TRUE}}}
 }
-}
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
