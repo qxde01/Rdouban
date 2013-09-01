@@ -180,7 +180,7 @@ user_book_status<-function(userid,verbose=TRUE,front=TRUE){
   tmp<-.user_book_what0(userid,count=15,what="do",verbose)
   do_tags<-tmp$tags
   do_df<-tmp$df
-  cat("--------正在获取正在阅读的书籍信息--------...\n")
+  cat("--------正在获取想要阅读的书籍信息--------...\n")
   tmp<-.user_book_what0(userid,count=15,what="wish",verbose)
   wish_tags<-tmp$tags
   wish_df<-tmp$df
