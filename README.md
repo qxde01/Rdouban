@@ -2,7 +2,7 @@ Rdouban
 =======
 ##获取豆瓣网评论数据的R接口
 > ####非官方接口
-* douban_user_statuses  获取豆瓣用户的评论、日记等信息
+* user_book_status  获取豆瓣用户的评论、日记等信息
 * get_book_info	获取豆瓣图书基本信息
 * get_book_reviews	获取豆瓣图书的评论文章
 * get_book_discussions	获取豆瓣图书的话题讨论内容
@@ -24,6 +24,8 @@ Rdouban
 * get.movie.review  豆瓣电影长篇评论,通过移动网页m.douban.com,会被豆瓣阻止
 * get.movie.comment  豆瓣电影短评,通过移动网页m.douban.com
 
->#### 安装(linux)
+>#### 安装
+```
 library("devtools")
 install_github("Rdouban","qxde01")
+```
