@@ -6,12 +6,13 @@
   user_rating<-b[b %in% c("rating1-t","rating2-t",
                           "rating3-t","rating4-t","rating5-t")]
   user_rating<-gsub("[^0-9]","",user_rating)
-  if(length(user_rating)==0)user_rating<-NA
+  if(length(user_rating)==0){user_rating<-NA}
+
   reading_date<-gsub("[\n 读过想在]","",b[which(b=="date")-1])
   user_tags<-gsub("标签: ","",b[which(b=="tags")-1])
-  if(length(user_tags)==0)user_tags<-NA
+  if(length(user_tags)==0){user_tags<-NA}
   comment<-gsub("[\n ]","",b[which(b=="comment")-1])
-  if(length(comment)==0)comment<-NA
+  if(length(comment)==0){comment<-NA}
   tmp<-get.book.info(bookid)
   title<-tmp$title
   summary<-tmp$summary
@@ -19,7 +20,7 @@
   average_rating<-tmp$rating[3]
   image<-tmp$image["medium"]
   pages<-tmp$attribute$pages
-  price<-tmp$attribute$price
+  price<-gsub("元","",tmp$attribute$price)
   out<-c(bookid,title,author,user_rating,reading_date,user_tags,pub,
          comment,summary,average_rating,image,pages,price)
   names(out)<-NULL
