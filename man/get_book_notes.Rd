@@ -25,7 +25,7 @@
 }
 \note{若results不是count的倍数，则获取到的数量是\code{ceiling(results/count)*count}.}
 \author{
-  <\email{qxde01@@gmail.com}>
+  <\email{qxde01@gmail.com}>
 }
 
 \seealso{\code{\link{get_book_reviews}}

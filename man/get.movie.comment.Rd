@@ -32,16 +32,9 @@ get.movie.comment(movieid,results=100,fresh=20,verbose=TRUE)
 %% ~put references to the literature/web site here ~
 }
 \author{
-qxde01<\email{qxde01@@gmail.com}>
-}
-\note{
-%%  ~~further notes~~
+qxde01<\email{qxde01@gmail.com}>
 }
 
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 ## http://m.douban.com/movie/subject/11627047/comments

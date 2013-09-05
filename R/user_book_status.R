@@ -8,7 +8,7 @@
   user_rating<-gsub("[^0-9]","",user_rating)
   if(length(user_rating)==0){user_rating<-NA}
 
-  reading_date<-gsub("[\n 读过想在]","",b[which(b=="date")-1])
+  reading_date<-gsub("[\n ]|读|过|想|在","",b[which(b=="date")-1])
   user_tags<-gsub("标签: ","",b[which(b=="tags")-1])
   if(length(user_tags)==0){user_tags<-NA}
   comment<-gsub("[\n ]","",b[which(b=="comment")-1])

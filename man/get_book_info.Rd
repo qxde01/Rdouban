@@ -23,7 +23,7 @@
 }
 
 \author{
-   <\email{qxde01@@gmail.com}>
+   <\email{qxde01@gmail.com}>
 }
 \examples{
 ## http://book.douban.com/subject/1291204/

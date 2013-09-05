@@ -34,21 +34,11 @@ get.book.review(bookid,results=100,verbose=TRUE)
  \item{votes }{文章被推荐次数}
  \item{rating }{作者对书籍的评分}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-qxde01<\email{qxde01@@gmail.com}>
-}
-\note{
-%%  ~~further notes~~
+qxde01<\email{qxde01@gmail.com}>
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 ## http://book.douban.com/subject/2567698/reviews

@@ -32,7 +32,7 @@ get.movie.review(movieid,results=100,fresh=20,verbose=TRUE)
 %% ~put references to the literature/web site here ~
 }
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 \note{
 连续获取会被豆瓣阻止,出现 Forbidden 错误.

@@ -11,9 +11,7 @@ get.book.info(bookid)
 \arguments{
 \item{bookid}{豆瓣书籍的id号,一串数字,如20326626,可通过图书的豆瓣主页查询}
 }
-\details{
 
-}
 \value{
   \item{title}{书名}
   \item{author }{作者}
@@ -26,10 +24,9 @@ get.book.info(bookid)
 }
 \references{}
 \author{
-  <\email{qxde01@@gmail.com}>
+  <\email{qxde01@gmail.com}>
 }
-\note{}
-\seealso{}
+
 \examples{
 \dontrun{x<-get.book.info(bookid='2567698')}
 }

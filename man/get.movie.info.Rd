@@ -30,7 +30,7 @@ get.movie.info(movieid)
 %% ~put references to the literature/web site here ~
 }
 \author{
-  <\email{qxde01@@gmail.com}>
+  <\email{qxde01@gmail.com}>
 }
 \note{
 %%  ~~further notes~~

@@ -34,7 +34,7 @@ user_book_status(userid,verbose=TRUE,front=TRUE)
 }
 
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 
 \examples{

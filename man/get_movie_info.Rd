@@ -23,7 +23,7 @@ get_movie_info(movieid,...)
   \item{audience}{观众信息,\code{doings}指正在观看的用户数量,\code{collections}指已观看的用户数量,\code{wishes}指想看的用户数量}
   \item{attribute}{一个字符串,豆瓣影视剧的基本信息,包括电影名称、导演、演员}
 }
-\author{<\email{qxde01@@gmail.com}>
+\author{<\email{qxde01@gmail.com}>
 }
 
 \examples{

@@ -27,7 +27,7 @@ get_music_discussions(musicid,results = 100, fresh = 10,count=20, verbose = TRUE
 }
 
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 
 \examples{

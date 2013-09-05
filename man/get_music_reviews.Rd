@@ -26,7 +26,7 @@ get_music_reviews(musicid,results = 100, fresh = 10,count=25, verbose = TRUE,...
   \item{unuseful}{被评为unuseful的次数}  
 }
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 
 \examples{

@@ -31,7 +31,7 @@
 %% ~put references to the literature/web site here ~
 }
 \author{
-  <\email{qxde01@@gmail.com}>
+  <\email{qxde01@gmail.com}>
 }
 \examples{
 ## http://music.douban.com/subject/3843530/

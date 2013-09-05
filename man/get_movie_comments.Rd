@@ -22,7 +22,7 @@
 }
 \note{每页获取短评个数为20,如果results不是20的倍数，则获取的实际影评数量是\code{ceiling(results/20)*20}.}
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 \seealso{
  \code{\link{get_movie_reviews}}

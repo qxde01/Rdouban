@@ -27,7 +27,7 @@
   \item{unuseful}{被评为unuseful的次数}  
 }
 \author{
-qxde01<\email{qxde01@@gmail.com}>
+qxde01<\email{qxde01@gmail.com}>
 }
 \note{一个值得注意的情况是不同页之间可能有相同的review_uri,最后获得评论数目可能和results的值不同。}
 \seealso{
