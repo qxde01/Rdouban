@@ -45,6 +45,7 @@ statSummary<-function(x,YEAR=NULL,NR_REVIEW=0,NR_NOTE=0){
   text(0.5,0.1,"不积小流,无以成江海",cex=4,col=cols[30], font = 2)
   par(op)
   dev.off()
+  rm(x)
 }
 ####################################
 ##按月统计
@@ -61,6 +62,7 @@ statByMonth<-function(x){
   title(main=list("阅读书籍数量by月",cex=2,col="blue"))
   par(op)
   dev.off()
+  rm(x)
 }
 #####################################
 ## 按页数统计
@@ -78,6 +80,7 @@ statByPage<-function(x){
   title(main=list("阅读书籍页数by月",cex=2,col="blue"))
   par(op)
   dev.off()
+  rm(x)
 }
 
 #############################################
@@ -142,6 +145,7 @@ clusterCloudByTags<-function(x,k=8,max.words=100){
             colors=topo.colors(length(table(df$freq))))
   title(main=list('我的口味',cex=2,col="blue",font = 2))
   dev.off()
+  rm(x,df,diss,tagsDtm)
 }
 #########################################
 #### 将数据转化为关系形式
@@ -180,6 +184,7 @@ graphByTag<-function(x){
        vertex.label.color=col+2)
   title(main=list("书籍与标签之间的关系图",font=2,col="blue"))
   dev.off()
+  rm(x,tag,g)
 }
 
 #######################################
@@ -225,6 +230,7 @@ wordcloudByComment<-function(x,max.words=100,stopwords){
             colors=rainbow(length(table(df$freq))))
   title(main=list('我的评论关键词',cex=2,col="blue",font = 2))
   dev.off()
+  rm(x,df,word)
 }
 #######################################################
 ##阅读统计可视化函数
@@ -289,7 +295,7 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
   tag_graph<-readImage('graphByTag.png');h6<-ncol(tag_graph)
   comment_cloud<-readImage("wordcloudByComment.png");h7<-ncol(comment_cloud)
   im_front<-readImage("front.png")
-  im_front<-resize(im_front,720,900);h8<-ncol(im_front)
+  im_front<-resize(im_front,720,860);h8<-ncol(im_front)
   bigImage<-array(dim=c(720,h1+h2+h3+h4+h5+h6+h7+h8,3))
   ### 添加背景色
   if(back==TRUE){
@@ -329,6 +335,9 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
   bigImage[,(h1+h2+h3+h4+h5+1):(h6+h5+h4+h3+h2+h1),]<-tag_graph
   bigImage[,(h1+h2+h3+h4+h5+h6+1):(h7+h6+h5+h4+h3+h2+h1),]<-comment_cloud
   bigImage[,(h1+h2+h3+h4+h5+h6+h7+1):(h8+h7+h6+h5+h4+h3+h2+h1),]<-im_front
+  rm(stat_base,stat_month,stat_page,tag_cloud,tag_clust,
+     tag_graph,comment_cloud,im_front)
+  gc()
   writeImage(bigImage, files="bigImage.png", quality = 85)
   cat("信息图存放位置：",getwd(),"\n")
   cat("生成的图片为：\n  ",dir(getwd(),"png"),"\n")
