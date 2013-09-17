@@ -36,18 +36,21 @@ get_movie_comments<-function(movieid,results=100,fresh=10,verbose=TRUE,...){
     .adj.rating<-function(x){
       m<-nchar(x);n=length(x)
       i=1
-      while(n<40){
-        if(m[i]+m[i+1]==0){
+      if(nchar(x[i])==0)x<-c(NA,x)
+      while(n<40 & i<20){
+        if(nchar(x[i])==0 & nchar(x[i+1])==0){
           x<-c(x[1:i],NA,x[(i+1):n])
           m<-nchar(x); n=length(x) 
           i=i+1
+          #cat(x,n,"\n",m,"\n")
         }
         i=i+1
+       # cat(i,"...\n")
       }
       x
     }
     n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//span')
-    rating0<-gsub("[a-z0 ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
+    rating0<-gsub("[a-z ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
     if(length(rating0)!=length(comment)){
       rating0<-.adj.rating(rating0)
     }
