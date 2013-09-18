@@ -40,7 +40,7 @@ get_movie_comments<-function(movieid,results=100,fresh=10,verbose=TRUE,...){
       while(n<40 & i<20){
         if(nchar(x[i])==0 & nchar(x[i+1])==0){
           x<-c(x[1:i],NA,x[(i+1):n])
-          m<-nchar(x); n=length(x) 
+          n=length(x) 
           i=i+1
           #cat(x,n,"\n",m,"\n")
         }
@@ -50,7 +50,7 @@ get_movie_comments<-function(movieid,results=100,fresh=10,verbose=TRUE,...){
       x
     }
     n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//span')
-    rating0<-gsub("[a-z ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
+    rating0<-gsub("[0a-z ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
     if(length(rating0)!=length(comment)){
       rating0<-.adj.rating(rating0)
     }
