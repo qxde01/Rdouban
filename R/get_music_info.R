@@ -3,7 +3,9 @@
 get_music_info<-function(musicid,...){
   u=paste0('http://music.douban.com/subject/',musicid,'/')
   p<-.refreshURL(u)
-  title<-gsub('[\n ]|\\(豆瓣|\\)','',sapply(getNodeSet(p, '//head//title'),xmlValue))
+  pa<-'[\n ]|\\(\u8c46\u74e3|\\)' ##[\n ]|\\(豆瓣|\\)
+  Encoding(pa)<-"UTF-8"
+  title<-gsub(pa,'',sapply(getNodeSet(p, '//head//title'),xmlValue))
   attribute<-gsub('[\n]|   ','',sapply(getNodeSet(p, '//div[@id="info"]'),xmlValue))
   author<-sapply(getNodeSet(p, '//div[@id="info"]//span[@class="pl"]//a'),xmlValue)[1]
   ##
@@ -26,7 +28,7 @@ get_music_info<-function(musicid,...){
  # tags$tag_label<-gsub("<U+00A0>","",tags$tag_label)
 
   rating<-gsub('[\n ]','',sapply(getNodeSet(p, '//div[@id="interest_sectl"]'),xmlValue))
-  rating<-gsub("人评价",'',rating)
+  rating<-gsub("\u4eba\u8bc4\u4ef7",'',rating) #\u4eba\u8bc4\u4ef7 人评价
   rating<-as.numeric(unlist(strsplit(rating,'\\(|\\)|%')))
   rating[-c(1,2)]<-rating[-c(1,2)]/100
   if(length(rating)==7)

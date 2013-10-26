@@ -7,9 +7,11 @@
                           "rating3-t","rating4-t","rating5-t")]
   user_rating<-gsub("[^0-9]","",user_rating)
   if(length(user_rating)==0){user_rating<-NA}
-
-  reading_date<-gsub("[\n ]|读|过|想|在","",b[which(b=="date")-1])
-  user_tags<-gsub("标签: ","",b[which(b=="tags")-1])
+  pa<-"[\n ]|\u8bfb|\u8fc7|\u60f3|\u5728" ##[\n ]|读|过|想|在
+  Encoding(pa)<-"UTF-8"
+  reading_date<-gsub(pa,"",b[which(b=="date")-1])
+  tagg<-"\u6807\u7b7e: " ;Encoding(tagg)<-"UTF-8"  ##标签: 
+  user_tags<-gsub(tagg,"",b[which(b=="tags")-1])
   if(length(user_tags)==0){user_tags<-NA}
   comment<-gsub("[\n ]","",b[which(b=="comment")-1])
   if(length(comment)==0){comment<-NA}
@@ -20,7 +22,7 @@
   average_rating<-tmp$rating[3]
   image<-tmp$image["medium"]
   pages<-tmp$attribute$pages
-  price<-gsub("元","",tmp$attribute$price)
+  price<-gsub("\u5143","",tmp$attribute$price) #元
   out<-c(bookid,title,author,user_rating,reading_date,user_tags,pub,
          comment,summary,average_rating,image,pages,price)
   names(out)<-NULL
@@ -172,21 +174,21 @@
 #display(combine(im),method="raster",all=T)
 #dev.off()
 user_book_status<-function(userid,verbose=TRUE,front=TRUE){
-  cat("--------正在获取已读书籍信息--------...\n")
+  cat("--------Retrieving information about read books.--------\n")
   tmp<-.user_book_what0(userid,count=15,what="collect",verbose)
   collect_tags<-tmp$tags
   collect_df<-tmp$df
-  cat("--------正在获取正在阅读的书籍信息--------...\n")
+  cat("--------Retrieving information about reading books.--------\n")
   tmp<-.user_book_what0(userid,count=15,what="do",verbose)
   do_tags<-tmp$tags
   do_df<-tmp$df
-  cat("--------正在获取想要阅读的书籍信息--------...\n")
+  cat("--------Retrieving information about the books you want to read.--------\n")
   tmp<-.user_book_what0(userid,count=15,what="wish",verbose)
   wish_tags<-tmp$tags
   wish_df<-tmp$df
-  cat("--------正在获取发表的书评--------...\n")
+  cat("--------Retrieving your published book reviews. --------\n")
   reviews<-.user_book.review0(userid,verbose)
-  cat("--------正在获取读书笔记--------...\n")
+  cat("--------Retrieving your reading notes.--------\n")
   notes<-.user_book.annotation0(userid,verbose)
   
   collect_imags<-list()
@@ -196,7 +198,8 @@ user_book_status<-function(userid,verbose=TRUE,front=TRUE){
       biocLite("EBImage")
       require(EBImage)
     }
-    cat("--------正在获取已读书籍的封面图片--------...\n")
+    ##cat("--------正在获取已读书籍的封面图片--------...\n")
+    cat("--------\u6b63\u5728\u83b7\u53d6\u5df2\u8bfb\u4e66\u7c4d\u7684\u5c01\u9762\u56fe\u7247--------...\n")
     images<-collect_df$image
     m<-length(images)
     for(i in 1:m){

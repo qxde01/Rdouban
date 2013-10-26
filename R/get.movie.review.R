@@ -2,10 +2,8 @@
 ##################################################
 ## @u:url
 ## @fresh:refresh number
-.get_review<-function(u,fresh=10,verbose=TRUE){
-  #p<- tryCatch(htmlParse(postForm(u)),error = function(e){NULL})
+.get_movie_review1<-function(u,fresh=10,verbose=TRUE){
   p<- tryCatch(.refreshForm(u,fresh,verbose),error = function(e){NULL})
-  
   if(is.null(p)){
     warning("Getting failed:",u,".\n")
     out<-NULL
@@ -29,7 +27,6 @@
     published<-st[grep("\\d{4}\\-[0-1]",st)]
     ##评分
     rating<-gsub("[^0-9]","",st[grep("\\d{4}\\-[0-1]",st)-1])
-    
     ####本评论的显示页数
     pgs<-sapply(getNodeSet(p, '//body//div[@class="paginator"]//span'), xmlValue)
     pgs<-as.integer(gsub("1/| ","",pgs))
@@ -37,7 +34,8 @@
     rev<-NULL
     ##评论内容
     rev0<-paste(sapply(getNodeSet(p, '//body//div//p'), xmlValue),collapse="")
-    rev[1]<-gsub("\\(转下页\\)","",rev0)
+    pa<-'\\(\u8f6c\u4e0b\u9875\\)' ### \\(转下页\\)
+    rev[1]<-gsub(pa,"",rev0)
     preU<-unlist(strsplit(u,"\\?id="))[1]
     review_id<-gsub("[^0-9]","",preU)
     ##分页读取评论内容
@@ -49,7 +47,7 @@
         
         if(!is.null(p)){
           rev0<-paste(sapply(getNodeSet(p, '//body//div//p'), xmlValue),collapse="")
-          rev[pg]<-gsub("\\(转下页\\)","",rev0)
+          rev[pg]<-gsub(pa,"",rev0)
         }
       }
     }
@@ -112,7 +110,7 @@ get.movie.review<-function(movieid,results=100,fresh=20,verbose=TRUE){
         cat("  Retrieving ",k, "reviews from: ",u0," .....\n")
       }
       ### 无法打开页面返回NULL，通常是网络异常,Forbidden
-      out0<-tryCatch(.get_review(u=u0,fresh,verbose),error = function(e){NULL})
+      out0<-tryCatch(.get_movie_review1(u=u0,fresh,verbose),error = function(e){NULL})
       if(length(out0)<8){
         cat(er," ------Getting failed:",u0,".\n")
         #write(out0,file=paste0(er,".txt"))

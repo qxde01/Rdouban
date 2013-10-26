@@ -31,8 +31,11 @@ get_book_info<-function(bookid,...){
   ##content introduction,author introduction
   contentinfo<-gsub('[\n ]','',sapply(getNodeSet(p, '//div[@class="intro"]'),
                                      xmlValue))
-  if(length(contentinfo)>2)
-    contentinfo<-contentinfo[-grep("...\\(展开全部\\)",contentinfo)]
+  if(length(contentinfo)>2){
+    pa<-"" ##...\\(展开全部\\)
+    contentinfo<-contentinfo[-grep("...\\(\u5c55\u5f00\u5168\u90e8\\)",contentinfo)]
+  }
+    
   #clen=length(contentinfo)
   summary<-contentinfo[1]
   author_intro<-contentinfo[2]
