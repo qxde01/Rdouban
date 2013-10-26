@@ -34,7 +34,7 @@ statSummary<-function(x,YEAR=NULL,NR_REVIEW=0,NR_NOTE=0){
   ##' str6<-paste("发表书评",NR_REVIEW,"篇,读书笔记",NR_NOTE,"篇")
   ###############################################
   str1<-paste(YEAR,"\u5171\u9605\u8bfb\u8fc7",n,
-              "\u672c\u4e66,\u603b\u4ef7\u503c",priceTotal,"￥")
+              "\u672c\u4e66,\u603b\u4ef7\u503c",priceTotal,"\uffe5")
   str2<-paste("\u4e94\u661f\u597d\u4e66",star5num,"\u672c")
   str3<-paste(maxMonth,"\u6708\u6700\u52e4\u5feb\u8bfb\u4e86",maxAmount,"\u672c")
   str4<-paste("\u5e73\u5747",round(averageAmount,digits=2),"\u5929\u8bfb\u4e00\u672c\u4e66")
@@ -143,7 +143,8 @@ clusterCloudByTags<-function(x,k=8,max.words=100){
   }
   tagsDtm<-.df2dtm(df=x,content="user_tags",word.min=1)
   ## tagsDtm<-weightTfIdf(tagsDtm)
-  cat(" #### 根据我的标签对书籍进行层次聚类......\n")
+  ##cat(" #### 根据我的标签对书籍进行层次聚类......\n")
+  cat(" #### \u6839\u636e\u6211\u7684\u6807\u7b7e\u5bf9\u4e66\u7c4d\u8fdb\u884c\u5c42\u6b21\u805a\u7c7b......\n")
   diss<-dissimilarity(tagsDtm,method='cosine')
   hc <- hclust(diss, method = "ward")
   png('hclustByTags.png',width=720,height=540)
@@ -167,7 +168,8 @@ clusterCloudByTags<-function(x,k=8,max.words=100){
   df<-data.frame(word=word,freq=freq)
   df<-df[order(df$freq,decreasing=T),]
   row.names(df)<-NULL
-  cat(" #### 对我的标签绘制wordcloud......\n")
+  ##cat(" #### 对我的标签绘制wordcloud......\n")
+  cat(" #### \u5bf9\u6211\u7684\u6807\u7b7e\u7ed8\u5236wordcloud......\n")
   png('wordcloudByTags.png',width=720,height=720)
   wordcloud(words=df$word,
             freq=df$freq,
@@ -189,7 +191,8 @@ graphByTag<-function(x){
     install.packages("igraph")
     require(igraph)
   }
-  cat(" #### 绘制书籍标签之间的关系图.....\n")
+  ##cat(" #### 绘制书籍标签之间的关系图.....\n")
+  cat(" #### \u7ed8\u5236\u4e66\u7c4d\u6807\u7b7e\u4e4b\u95f4\u7684\u5173\u7cfb\u56fe.....\n")
   .todf<-function(x){
     x<-as.character(x)
     ## 标签:\u6807\u7b7e:
@@ -250,7 +253,8 @@ wordcloudByComment<-function(x,max.words=100,stopwords){
     install.packages("wordcloud")
     require(wordcloud)
   }
-  cat(" #### 对评论数据进行分词......\n")
+  ##cat(" #### 对评论数据进行分词......\n")
+  cat(" #### \u5bf9\u8bc4\u8bba\u6570\u636e\u8fdb\u884c\u5206\u8bcd......\n")
   word<-sapply(x$comment,.f_seg,stopwords)
   names(word)<-NULL
   word<-unlist(strsplit(word," "))
@@ -258,7 +262,8 @@ wordcloudByComment<-function(x,max.words=100,stopwords){
   df<-data.frame(word=names(tmp),freq=tmp[])
   png('wordcloudByComment.png',width=720,height=720)
   #par(bg='gray90')
-  cat(" #### 对评论关键词绘制wordcloud......\n")
+  ##cat(" #### 对评论关键词绘制wordcloud......\n")
+  cat(" #### \u5bf9\u8bc4\u8bba\u5173\u952e\u8bcd\u7ed8\u5236wordcloud......\n")
   wordcloud(words=df$word,
             freq=df$freq,
             min.freq=1,scale=c(5,1.4),
@@ -311,7 +316,8 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
   if((n1-1)^2+floor(n)>n^2){n2=floor(n)}
   require(EBImage)
   cat("\u6b63\u5728\u7ed8\u5236\u7edf\u8ba1\u56fe......\n") ##正在绘制统计图
-  cat(" #### 绘制书籍封面拼图......\n")
+  ##cat(" #### 绘制书籍封面拼图......\n")
+  cat(" #### \u7ed8\u5236\u4e66\u7c4d\u5c01\u9762\u62fc\u56fe......\n")
   front<-combine(x=collect_imags)
   png("front.png",width=64*n1,height=80*n2)
   display(x=front,method="raster",all=T)
