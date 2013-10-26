@@ -1,7 +1,7 @@
 Rdouban
 =======
-##获取豆瓣网评论数据的R接口
-> ####非官方接口
+## 获取豆瓣网评论数据的R接口
+> #### 非官方接口
 * user_book_status  获取豆瓣用户的评论、日记等信息
 * get_book_info	获取豆瓣图书基本信息
 * get_book_reviews	获取豆瓣图书的评论文章
@@ -16,7 +16,7 @@ Rdouban
 * get_music_discussions	获取豆瓣音乐专辑的话题讨论内容
 
 
-> ####下面的函数是上述部分函数的重写，部分采用了官方API
+> #### 下面的函数是上述部分函数的重写，部分采用了官方API
 * get.book.info  豆瓣图书信息API V2
 * get.movie.info  豆瓣电影信息API V2
 * get.music.info  豆瓣音乐信息API V2
@@ -24,8 +24,10 @@ Rdouban
 * get.movie.review  豆瓣电影长篇评论,通过移动网页m.douban.com,会被豆瓣阻止
 * get.movie.comment  豆瓣电影短评,通过移动网页m.douban.com
 
->#### 安装
+>### 安装
 ```
 library("devtools")
 install_github("Rdouban","qxde01")
 ```
+>### windows下安装
+在windows下的中文编码至今没有搞定，**坑爹的windows**，安装编译时会出错，主要是因为帮助用因为编写，在R/etc/Rprofile.site 添加`options(encoding="UTF-8")`,使用RStudio可以编译通过，查看帮助会有乱码，使用浏览器查看有部分是乱码（需要手动修改浏览器编码查看方式）。在Linux下没有任何问题。
