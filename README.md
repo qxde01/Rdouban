@@ -30,11 +30,12 @@ library("devtools")
 install_github("Rdouban","qxde01")
 ```
 >### 例子
-获取作者qxde01的阅读信息，并统计分析和可视化。
+获取作者qxde01的阅读信息，并统计分析和可视化。注意，需要通过`biocLite()`安装`package:EBImage`。
 ```
+library(Rdouban)
 qxde<-user_book_status(userid="qxde01")
 data(stopwords) ## 中文停止词
-## 生成用户qxde01的2013阅读可视化图形
+## 生成用户qxde01的2013年阅读信息可视化图形
 user_book_viz(x=qxde,YEAR="2013",stopwords=stopwords,back=TRUE)
 ``` 
 >### windows下安装
