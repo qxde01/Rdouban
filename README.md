@@ -29,5 +29,13 @@ Rdouban
 library("devtools")
 install_github("Rdouban","qxde01")
 ```
+>### 例子
+获取作者qxde01的阅读信息，并统计分析和可视化。
+```
+qxde<-user_book_status(userid="qxde01")
+data(stopwords) ## 中文停止词
+## 生成用户qxde01的2013阅读可视化图形
+user_book_viz(x=qxde,YEAR="2013",stopwords=stopwords,back=TRUE)
+``` 
 >### windows下安装
-在windows下的中文编码至今没有搞定，**坑爹的windows，坑妈的微软**，安装编译时会出错，主要是因为帮助用中文编写，在R/etc/Rprofile.site 添加`options(encoding="UTF-8")`,使用RStudio可以编译通过，查看帮助会有乱码，使用浏览器查看有部分是乱码（需要手动修改浏览器编码查看方式）。在Linux下没有任何问题。
+在windows下的中文编码至今没有搞定，**坑爹的windows，坑娘的微软**，安装编译时会出错，主要是因为帮助用中文编写，在R/etc/Rprofile.site 添加`options(encoding="UTF-8")`,使用RStudio可以编译通过，查看帮助会有乱码，使用浏览器查看有部分是乱码（需要手动修改浏览器编码查看方式）。在Linux下没有任何问题。

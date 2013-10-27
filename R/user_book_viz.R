@@ -271,8 +271,8 @@ wordcloudByComment<-function(x,max.words=100,stopwords){
             random.order=F,
             ordered.colors=F,
             colors=rainbow(length(table(df$freq))))
-  ## 我的评论关键词
-  title(main=list('\u6211\u7684\u8bc4\u8bba\u5173\u952e\u8bcd',
+  ## 我的评论关键词\u6211\u7684\u8bc4\u8bba\u5173\u952e\u8bcd 
+  title(main=list('\u6211\u7684\u5410\u69fd',
                   cex=2,col="blue",font = 2))
   dev.off()
   rm(x,df,word)
@@ -394,10 +394,17 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
   #bigImage[,(h1+h2+h3+h4+h5+1):(h6+h5+h4+h3+h2+h1),]<-tag_graph
   #bigImage[,(h1+h2+h3+h4+h5+h6+1):(h7+h6+h5+h4+h3+h2+h1),]<-comment_cloud
   #bigImage[,(h1+h2+h3+h4+h5+h6+h7+1):(h8+h7+h6+h5+h4+h3+h2+h1),]<-im_front
-  rm(stat_base,stat_month,stat_page,tag_cloud,tag_clust,
-     tag_graph,comment_cloud,im_front)
+  rm(stat_base,stat_month,stat_page,tag_cloud,tag_clust)
   gc()
   writeImage(bigImage, files="bigImage.png", quality = 85)
+  rm(bigImage)
+  bigImage2<-array(dim=c(720,h_cmt+h_graph+h_front,3))
+  bigImage2<-as.Image(bigImage2);colorMode(bigImage2)<-2
+  bigImage2[,1:h_cmt,]<-comment_cloud
+  bigImage2[,(1+h_cmt):(h_cmt+h_graph),]<-tag_graph
+  bigImage2[,(1+h_cmt+h_graph):(h_cmt+h_graph+h_front),]<-im_front
+  writeImage(bigImage2, files="bigImage2.png", quality = 85)
+  rm(tag_graph,comment_cloud,im_front,bigImage2)
   ## 信息图存放位置：\u4fe1\u606f\u56fe\u5b58\u653e\u4f4d\u7f6e
   cat("\u4fe1\u606f\u56fe\u5b58\u653e\u4f4d\u7f6e:",getwd(),"\n")
   cat("\u751f\u6210\u7684\u56fe\u7247\u4e3a:\n",
