@@ -38,7 +38,7 @@ qxde01<\email{qxde01@gmail.com}>
 }
 
 \examples{
-## http://movie.douban.com/people/qxde01
+## http://book.douban.com/people/qxde01
 \dontrun{qxde<-user_book_status(userid="qxde01")}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

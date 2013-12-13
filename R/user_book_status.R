@@ -191,7 +191,7 @@ user_book_status<-function(userid,verbose=TRUE,front=TRUE){
   cat("--------Retrieving your reading notes.--------\n")
   notes<-.user_book.annotation0(userid,verbose)
   
-  collect_imags<-list()
+  collect_images<-list()
   if(front==TRUE){
     if(!require(EBImage)){
       source("http://bioconductor.org/biocLite.R")
@@ -203,7 +203,7 @@ user_book_status<-function(userid,verbose=TRUE,front=TRUE){
     images<-collect_df$image
     m<-length(images)
     for(i in 1:m){
-     collect_imags[[i]]<-resize(readImage(images[i]),w=60,h=80) 
+     collect_images[[i]]<-resize(readImage(images[i]),w=60,h=80) 
     }
   }
   list(collect_tags=collect_tags,
@@ -214,5 +214,5 @@ user_book_status<-function(userid,verbose=TRUE,front=TRUE){
        wish_df=wish_df,
        reviews=reviews,
        notes=notes,
-       collect_imags=collect_imags)
+       collect_images=collect_images)
 }
