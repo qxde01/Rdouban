@@ -27,6 +27,7 @@ user_note_status(userid,count=10,verbose=TRUE)
   \item{note}{日记内容}
   \item{liked}{被喜欢的次数}
   \item{recommend}{被推荐的次数}
+  \item{url}{日记的网址}
 }
 
 \references{

@@ -298,10 +298,10 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
                          month=month,year=year,stringsAsFactors=F)
   reviews<-x$reviews
   notes<-x$notes
-  collect_imags<-x$collect_imags
+  collect_images<-x$collect_images
   if(!is.null(YEAR)){
     collect_df<-collect_df[year==YEAR,]
-    collect_imags<-collect_imags[year==YEAR]
+    collect_images<-collect_images[year==YEAR]
     r_year<-substr(reviews$published,1,4)
     n_year<-substr(notes$published,1,4)
     reviews<-reviews[r_year==YEAR,]
@@ -311,14 +311,14 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
   NR_REVIEW=nrow(reviews)
   
   ## 拼图大小
-  n<-length(collect_imags)^0.5
+  n<-length(collect_images)^0.5
   n1<-ceiling(n);n2=n1
   if((n1-1)^2+floor(n)>n^2){n2=floor(n)}
   require(EBImage)
   cat("\u6b63\u5728\u7ed8\u5236\u7edf\u8ba1\u56fe......\n") ##正在绘制统计图
   ##cat(" #### 绘制书籍封面拼图......\n")
   cat(" #### \u7ed8\u5236\u4e66\u7c4d\u5c01\u9762\u62fc\u56fe......\n")
-  front<-combine(x=collect_imags)
+  front<-combine(x=collect_images)
   png("front.png",width=64*n1,height=80*n2)
   display(x=front,method="raster",all=T)
   dev.off()

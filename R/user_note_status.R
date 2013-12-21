@@ -13,7 +13,7 @@
   if(length(liked)==0)liked<-NA
   note<-sapply(getNodeSet(p, '//div[@class="note"]'),xmlValue)
   note<-note[nchar(note)>0]
-  out<-c(title,published,note,liked,recommend)
+  out<-c(title,published,note,liked,recommend,u)
   return(out)
 }
 #############################################################
@@ -45,8 +45,8 @@ user_note_status<-function(userid,count=10,verbose=TRUE){
   }
   total<-length(href)
   cat("\n--------There is a total of ",total," notes.--------\n")
-  df<-data.frame(matrix(nrow=total,ncol=5),stringsAsFactors=F)
-  colnames(df)<-c("title","published","note","liked","recommend")
+  df<-data.frame(matrix(nrow=total,ncol=6),stringsAsFactors=F)
+  colnames(df)<-c("title","published","note","liked","recommend",'url')
   if(total>0){
     for(i in 1:total){
       u=href[i]
