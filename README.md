@@ -17,6 +17,7 @@ Rdouban
 * user_book_status 获取用户的读书信息
 * user_book_viz 对用户的读书信息进行统计和可视化
 * user_movie_status 获取用户的影视观看信息
+* user_movie_viz 对用户的观影信息进行统计和可视化
 
 > #### 下面的函数是上述部分函数的重写，部分采用了官方API
 * get.book.info  豆瓣图书信息API V2

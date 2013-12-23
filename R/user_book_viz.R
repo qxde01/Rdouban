@@ -16,8 +16,8 @@ statSummary<-function(x,YEAR=NULL,NR_REVIEW=0,NR_NOTE=0){
   averageAmount<-(length(amount)*30.42)/sum(amount)
   priceTotal<-sum(as.double(x$price),na.rm = T)
   pageAmount<-tapply(as.integer(x$pages),x$month,sum,na.rm = T)
-  maxMonthPage<-names(pageAmount[pageAmount==max(pageAmount)])
-  maxAmountPage<-max(pageAmount)
+  maxMonthPage<-names(pageAmount[pageAmount==max(pageAmount)])[1]
+  maxAmountPage<-max(pageAmount)[1]
   averageAmountPage<-sum(pageAmount)/(length(pageAmount)*30.42)
   ###############################################
   ##' 共阅读过,\u5171\u9605\u8bfb\u8fc7
@@ -60,7 +60,7 @@ statSummary<-function(x,YEAR=NULL,NR_REVIEW=0,NR_NOTE=0){
   text(0.5,0.5,str4,cex=2,col=cols[15])
   text(0.5,0.4,str5,cex=2,col=cols[20])
   if(NR_REVIEW+NR_NOTE>0){
-    text(0.5,0.3,str5,cex=2,col=cols[25])
+    text(0.5,0.3,str6,cex=2,col=cols[25])
   }
   ##不积跬步,无以至千里\u4e0d\u79ef\u8dec\u6b65,\u65e0\u4ee5\u81f3\u5343\u91cc
   ##不积小流,无以成江海 \u4e0d\u79ef\u5c0f\u6d41,\u65e0\u4ee5\u6210\u6c5f\u6d77
@@ -113,16 +113,26 @@ statByPage<-function(x){
 
 #############################################
 ##' 将df转化为DocumentTermMatrix
-.df2dtm<-function(df,content='word',word.min=2){
+.df2dtm<-function(df,content='word',word.min=2,type='book'){
   if(!require(tm)){
     install.packages("tm")
     require(tm)
   }
-  df <- data.frame(contents = as.character(df[,content]), 
-                   id = as.character(df$bookid), 
-                   heading = as.character(df$author),
-                   origin=as.character(df$title),
-                   stringsAsFactors = F)
+  if(type=='book'){
+    df <- data.frame(contents = as.character(df[,content]), 
+                     id = as.character(df$bookid), 
+                     heading = as.character(df$author),
+                     origin=as.character(df$title),
+                     stringsAsFactors = F)
+  }
+  else if(type=='movie'){
+    df <- data.frame(contents = as.character(df[,content]), 
+                     id = as.character(df$movieid), 
+                     heading = as.character(df$author),
+                     origin=as.character(df$title),
+                     stringsAsFactors = F)
+  }
+
   m <- list(Content = "contents", Heading = "heading",
             ID = "origin",Origin="id")
   myReader <- readTabular(mapping = m, language = "Zh_cn")
@@ -248,19 +258,21 @@ graphByTag<-function(x){
 ##' 对评论进行分词，绘制wordcloud
 ##' wordcloudByComment(x=qxde$collect_df)
 ## load("stopwords.rda")
-wordcloudByComment<-function(x,max.words=100,stopwords){
+wordcloudByComment<-function(x,max.words=100,stopwords,filename='wordcloudByComment'){
   if(!require(wordcloud)){
     install.packages("wordcloud")
     require(wordcloud)
   }
   ##cat(" #### 对评论数据进行分词......\n")
   cat(" #### \u5bf9\u8bc4\u8bba\u6570\u636e\u8fdb\u884c\u5206\u8bcd......\n")
+  x<-x[!is.na(x$comment),]
   word<-sapply(x$comment,.f_seg,stopwords)
   names(word)<-NULL
   word<-unlist(strsplit(word," "))
   tmp<-sort(table(word),decreasing=T)
   df<-data.frame(word=names(tmp),freq=tmp[])
-  png('wordcloudByComment.png',width=720,height=720)
+  #gsub(':','-',substr(Sys.time(),12,20))
+  png(paste0(filename,'.png',sep=''),width=720,height=720)
   #par(bg='gray90')
   ##cat(" #### 对评论关键词绘制wordcloud......\n")
   cat(" #### \u5bf9\u8bc4\u8bba\u5173\u952e\u8bcd\u7ed8\u5236wordcloud......\n")
@@ -370,17 +382,17 @@ user_book_viz<-function(x,YEAR="2013",stopwords=stopwords,back=FALSE){
      tag_clust<-0.8*tag_clust+0.2*peach
      writeImage(tag_clust,"tag_clust2.png") 
       
-     bamboo<-readImage(system.file("images", "bamboo.jpg", package="Rdouban"))
-     bamboo<-resize(bamboo,720,h_front)
-     im_front<-im_front*0.8+0.2*bamboo
-     writeImage(im_front,"front2.png")
+     #bamboo<-readImage(system.file("images", "bamboo.jpg", package="Rdouban"))
+     im_front<-resize(im_front,720,h_front)
+     #im_front<-im_front*0.8+0.2*bamboo
+     #writeImage(im_front,"front2.png")
     
     fan<-readImage(system.file("images", "fan.jpg", package="Rdouban"))
     fan<-resize(fan,720,h_graph)
     tag_graph<-0.8*tag_graph+0.2*fan
     writeImage(tag_graph,"graphByTag2.png")
     
-    rm(plum,orchid,peony,peach,bamboo,fan)
+    rm(plum,orchid,peony,peach,fan)
     gc()
   }
   cat("\u5408\u5e76\u4e3a\u5927\u56fe......\n")##合并为大图
