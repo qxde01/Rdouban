@@ -111,7 +111,7 @@ MovieclusterCloudByTags<-function(x,k=10,max.words=100){
   ## 这些书自动归类 \u8fd9\u4e9b\u4e66\u81ea\u52a8\u5f52\u7c7b
   plot(hc,frame.plot=F,ann=T,hang=0.2,col=4,cex=2,
        main=list('\u7535\u5f71\u5f52\u7c7b',
-                 cex=2,col="blue"),ylab='',xlab='',sub='')
+                 cex=1.5,col="blue"),ylab='',xlab='',sub='')
   if(k>1){
     rect.hclust(hc,k, border = rainbow(k))
   }
@@ -203,6 +203,7 @@ actor2df<-function(x){
   }
   x[,2]<-gsub('\u7279\u9080\u987e\u95ee\uff1a|\u5236\u7247\u4eba\uff1a|\u7279\u9080\u987e\u95ee\uff1a','',x[,2])
   x<-x[nchar(x[,2])>0,]
+  x<-x[nchar(x[,1])>0,]
   n=nrow(x)
   df<-c()
   for (i in 1:n){
@@ -224,7 +225,7 @@ actorGraph<-function(x){
   actor<-unique(df[,2])
   col=rep(2,length(V(g)$name))
   col[match(V(g)$name,dirctor)]<-4
-  vcex=col;vcex[vcex==4]=1.3;vcex[vcex==2]=1
+  vcex=col;vcex[vcex==4]=1.2;vcex[vcex==2]=1
   png('actorGraphg.png',width=900,height=900)
   plot(g, layout=layout.fruchterman.reingold, vertex.size=col,
        vertex.label.dist=0, vertex.color=col+1, 
@@ -290,7 +291,7 @@ user_movie_viz<-function(x,YEAR="2013",stopwords=stopwords){
   dev.off()
   ## 评论关键词wordcloud 
   xx<-collect_df[!is.na(collect_df$comment),]
-  if (length(nrow(x))>0){
+  if (length(nrow(xx))>0){
     wordcloudByComment(x=xx,stopwords=stopwords,filename='MoviewordcloudByComment')
   }
   ## 导演和演员的合作关系
