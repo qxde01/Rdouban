@@ -34,6 +34,8 @@ install_github("Rdouban","qxde01")
 ```
 >### 例子
 获取作者qxde01的阅读信息，并统计分析和可视化。注意，需要通过`biocLite()`安装`package:EBImage`。
+两篇相关的博文见 豆瓣阅读统计及可视化[上](http://qxde01.blog.163.com/blog/static/6733574420132915952828/),[下](http://qxde01.blog.163.com/blog/static/673357442013355192638/)。博文与函数`user_book_viz`的具体实现是有差异的。
+
 ```
 library(Rdouban)
 qxde<-user_book_status(userid="qxde01")
