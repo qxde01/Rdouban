@@ -32,29 +32,17 @@ get_movie_comments<-function(movieid,results=100,fresh=10,verbose=TRUE,...){
     votes<-sapply(getNodeSet(p, '//div[@class="comment"]//span[@class="comment-vote"]//span'),xmlValue)
     #votes<-gsub("[^0-9]","",votes)
     ##评分
-    ##### 调整没有评分的项
-    .adj.rating<-function(x){
-      m<-nchar(x);n=length(x)
-      i=1
-      if(nchar(x[i])==0)x<-c(NA,x)
-      while(n<40 & i<20){
-        if(nchar(x[i])==0 & nchar(x[i+1])==0){
-          x<-c(x[1:i],NA,x[(i+1):n])
-          n=length(x) 
-          i=i+1
-          #cat(x,n,"\n",m,"\n")
-        }
-        i=i+1
-       # cat(i,"...\n")
-      }
-      x
+    #n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//span')
+    n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]')
+    mm=length(n2)
+    rating<-c()
+    for(jj in 1:mm){
+      a=xmlSApply(n2[[jj]],xmlAttrs)
+      a=gsub('[a-z]','',a$span[['class']])
+      rating<-c(rating,a)
+      #cat(jj,a,'\n')
     }
-    n2<-getNodeSet(p, '//div[@class="comment"]//span[@class="comment-info"]//span')
-    rating0<-gsub("[0a-z ]","",sapply(n2,function(x) xmlGetAttr(x, "class")))
-    if(length(rating0)!=length(comment)){
-      rating0<-.adj.rating(rating0)
-    }
-    rating<-rating0[nchar(rating0)>0]
+
     out0<-cbind(author=author,author_uri=author_uri,
                publised=publised,comment=comment,
                votes=votes,rating=rating)  
