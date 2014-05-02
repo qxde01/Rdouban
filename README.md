@@ -13,6 +13,7 @@ Rdouban
 * get_music_info	获取豆瓣音乐的专辑信息
 * get_music_reviews	获取豆瓣音乐评论信息.
 * get_music_discussions	获取豆瓣音乐专辑的话题讨论内容
+* user_status 获取用户的说说
 * user_note_status 获取用户的日记
 * user_book_status 获取用户的读书信息
 * user_book_viz 对用户的读书信息进行统计和可视化
