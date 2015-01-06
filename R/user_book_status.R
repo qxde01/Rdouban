@@ -15,7 +15,7 @@
   if(length(user_tags)==0){user_tags<-NA}
   comment<-gsub("[\n ]","",b[which(b=="comment")-1])
   if(length(comment)==0){comment<-NA}
-  tmp<-get.book.info(bookid)
+  tmp<-get_book_info(bookid)
   title<-tmp$title
   summary<-tmp$summary
   author<-paste(tmp$author,collapse=" ")

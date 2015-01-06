@@ -17,7 +17,6 @@ user_movie_status(userid,verbose=TRUE,front=TRUE)
   \item{verbose}{若为\code{TRUE}则显示详细过程信息,否则不显示，默认\code{TRUE}}
   \item{front}{\code{TRUE},则下载电影海报图片,否则不下载}
 }
-}
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }

@@ -6,9 +6,47 @@ get_book_info<-function(bookid,...){
   title<-sapply(getNodeSet(p, '//span[@property="v:itemreviewed"]'), xmlValue)
   ## author ISBN ...
   author<-gsub('[\n ]','',
-                  sapply(getNodeSet(p, '//div[@id="info"]//a'), xmlValue))[1]
-  attribute<-gsub('[\n ]','',
-                  sapply(getNodeSet(p, '//div[@id="info"]'), xmlValue))
+                  sapply(getNodeSet(p, '//div[@id="info"]//span//a'), xmlValue))
+  author<-paste0(author,collapse=' ')
+  att1<-sapply(getNodeSet(p, '//div[@id="info"]//span[@class="pl"]'), xmlValue)
+  att1<-gsub(' ','',att1)
+  att2<-gsub('\n','',sapply(getNodeSet(p, '//div[@id="info"]'), xmlValue))
+  attribute<-list()
+  ind=which(att1=='\u4f5c\u8005')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+ 
+  attribute$author<-a1[2]
+  ind=which(att1=='\u51fa\u7248\u793e:')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+  attribute$publisher<-a1[2]
+  ind=which(att1=='\u51fa\u7248\u5e74:')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+  attribute$pubdate<-a1[2]
+  ind=which(att1=='\u9875\u6570:')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+  attribute$pages<-a1[2]
+  ind=which(att1=='\u5b9a\u4ef7:')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+  attribute$price<-gsub(' ','',a1[2])
+  ind=which(att1=='\u88c5\u5e27:')
+  a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+  attribute$binding<-gsub(' ','',a1[2])
+  
+  ind=which(att1=='\u526f\u6807\u9898:')
+  if(length(ind)>0){
+    a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+    attribute$subtitle<-gsub(' ','',a1[2])
+  }
+  ind=which(att1=='\u8bd1\u8005')
+  if(length(ind)>0){
+    a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+    attribute$translator<-gsub(' |:','',a1[2])
+  }
+  ind=which(att1=='\u539f\u4f5c\u540d:')
+  if(length(ind)>0){
+    a1=unlist(strsplit(att2,paste0(att1[ind],'|',att1[ind+1])))
+    attribute$origin_title<-gsub(':|  ','',a1[2])
+  }
   ## rating
   score<-as.numeric(gsub('[\n ]','',
                          sapply(getNodeSet(p, '//strong[@property="v:average"]'), xmlValue)))
@@ -72,7 +110,7 @@ get_book_info<-function(bookid,...){
   comments_total<-gsub('[^0-9]','',
                        sapply(getNodeSet(p, '//div[@id="reviews"]//h2'), xmlValue))
   notes_total<-gsub('[^0-9]','',sapply(getNodeSet(p, '//div[@class="hd"]'), xmlValue))
-  
+  attribute$author_intro<-author_intro
   list(title=title,
        author=author,
        rating=rating,
